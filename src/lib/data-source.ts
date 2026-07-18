@@ -31,6 +31,8 @@ const ELIGIBILITY: Partial<Record<GameModeId, (f: Fragrance) => boolean>> = {
   "cost-more": (f) => f.price > 0,
   "guess-description": (f) => f.description.length > 0,
   "higher-rating": (f) => f.rating > 0,
+  "perfect-match": (f) =>
+    f.rating > 0 && (f.accords.length >= 2 || allNotes(f).length >= 3),
 };
 
 export interface PoolResult {
@@ -161,6 +163,16 @@ export async function getPoolForMode(
   // Prefer bottles that already have working images so cards aren't empty.
   const preferred =
     withImages.length >= Math.max(count * 2, 40) ? withImages : eligible;
+
+  // Discovery needs a stable, broad catalog — take top by popularity, no random sample,
+  // and skip live image fetches (would stall on hundreds of bottles).
+  if (mode === "perfect-match") {
+    const pool = [...preferred]
+      .sort((a, b) => (b.votes ?? 0) - (a.votes ?? 0))
+      .slice(0, Math.min(count, preferred.length));
+    return { pool, source: "seed" };
+  }
+
   const window = [...preferred]
     .sort((a, b) => (b.votes ?? 0) - (a.votes ?? 0))
     .slice(0, Math.max(count * 8, 400));

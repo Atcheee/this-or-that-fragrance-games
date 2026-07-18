@@ -51,6 +51,14 @@ export const MODES: GameModeMeta[] = [
     howTo: "Fragrances face off two at a time. Pick your preference each round until one favorite remains. No wrong answers here.",
   },
   {
+    id: "perfect-match",
+    kind: "discovery",
+    title: "Find Your Perfect Fragrance",
+    tagline: "Answer a few questions — we'll narrow the catalog to your taste.",
+    howTo:
+      "Choose what you want back (one favorite, a top 10, or your preferred notes & accords), set any limits, then answer short preference questions. No wrong answers.",
+  },
+  {
     id: "name-by-house",
     kind: "naming",
     title: "Name That House's Fragrances",

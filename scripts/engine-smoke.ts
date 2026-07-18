@@ -11,6 +11,13 @@ import {
 } from "../src/lib/engines/multiple-choice";
 import { createBracket } from "../src/lib/engines/bracket";
 import {
+  applyLimits,
+  DEFAULT_ANSWERS,
+  DEFAULT_LIMITS,
+  rankMatches,
+  scoreFragrance,
+} from "../src/lib/engines/discovery";
+import {
   createHouseChallenge,
   createNoteChallenge,
   matchGuess,
@@ -114,6 +121,52 @@ check("bracket size", createBracket(pool, 16).length === 16);
 check(
   "bracket unique entries",
   new Set(createBracket(pool, 32).map((f) => f.id)).size === 32,
+);
+
+const discoveryAnswers = {
+  ...DEFAULT_ANSWERS,
+  likedAccords: ["woody", "fresh"],
+  likedNotes: ["Bergamot", "Vetiver"],
+  climate: "fresh" as const,
+  sweetness: "avoid" as const,
+};
+const discoveryLimits = { ...DEFAULT_LIMITS, ratingFloor: 3.5 as const };
+const discoveryFiltered = applyLimits(pool, discoveryLimits);
+check(
+  "discovery filters leave a usable pool",
+  discoveryFiltered.length >= 100,
+  discoveryFiltered.length,
+);
+const discoveryRanked = rankMatches(pool, discoveryLimits, discoveryAnswers, 10);
+check("discovery top10 length", discoveryRanked.length === 10, discoveryRanked.length);
+check(
+  "discovery scores are sorted desc",
+  discoveryRanked.every(
+    (row, i) => i === 0 || row.score <= discoveryRanked[i - 1]!.score,
+  ),
+);
+check(
+  "discovery score prefers liked signals",
+  scoreFragrance(
+    {
+      ...pool[0]!,
+      accords: ["woody", "fresh"],
+      topNotes: ["Bergamot"],
+      heartNotes: ["Vetiver"],
+      baseNotes: [],
+    },
+    discoveryAnswers,
+  ) >
+    scoreFragrance(
+      {
+        ...pool[0]!,
+        accords: ["sweet", "gourmand"],
+        topNotes: ["Vanilla"],
+        heartNotes: [],
+        baseNotes: ["Tonka Bean"],
+      },
+      discoveryAnswers,
+    ),
 );
 
 const hc = createHouseChallenge(pool);

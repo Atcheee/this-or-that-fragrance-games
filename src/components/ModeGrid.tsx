@@ -11,6 +11,7 @@ const KIND_LABELS: Record<GameKind, string> = {
   "yes-no": "Yes / No",
   "multiple-choice": "Multiple Choice",
   bracket: "Bracket",
+  discovery: "Discovery",
   naming: "Timed",
 };
 
@@ -37,7 +38,7 @@ export function ModeGrid() {
                   Best:{" "}
                   {mode.kind === "naming"
                     ? `${bestValue} named`
-                    : mode.kind === "bracket"
+                    : mode.kind === "bracket" || mode.kind === "discovery"
                       ? "played"
                       : `${bestValue}%`}
                 </span>

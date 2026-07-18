@@ -11,9 +11,12 @@ import { YesNoGame } from "./YesNoGame";
 import { MultipleChoiceGame } from "./MultipleChoiceGame";
 import { BracketGame } from "./BracketGame";
 import { NamingGame } from "./NamingGame";
+import { DiscoveryGame } from "./DiscoveryGame";
 
 const ROUND_CHOICES = [10, 15, 20];
 const DURATION_CHOICES = [60, 90, 120];
+/** Broad catalog window for preference scoring */
+const DISCOVERY_POOL_SIZE = 800;
 
 interface GameControllerProps {
   meta: GameModeMeta;
@@ -36,11 +39,13 @@ export function GameController({ meta }: GameControllerProps) {
       setSource("seed");
     } else {
       const poolCount =
-        meta.kind === "bracket"
-          ? bracketSize
-          : meta.kind === "this-or-that"
-            ? rounds * 2
-            : Math.max(rounds, 16);
+        meta.kind === "discovery"
+          ? DISCOVERY_POOL_SIZE
+          : meta.kind === "bracket"
+            ? bracketSize
+            : meta.kind === "this-or-that"
+              ? rounds * 2
+              : Math.max(rounds, 16);
       const result = await getPoolForMode(meta.id, poolCount, apiKey);
       setPool(result.pool);
       setSource(result.source);
@@ -76,6 +81,11 @@ export function GameController({ meta }: GameControllerProps) {
             onChange={setDuration}
             format={(v) => `${v} seconds`}
           />
+        ) : meta.kind === "discovery" ? (
+          <p className="text-center text-sm text-muted">
+            You&apos;ll pick a goal, set limits, then answer a short preference
+            quiz. Results come from the fragrance catalog — not a scored test.
+          </p>
         ) : (
           <OptionPicker
             label="Rounds"
@@ -90,7 +100,7 @@ export function GameController({ meta }: GameControllerProps) {
           onClick={start}
           className="mx-auto rounded-full bg-accent px-10 py-3 text-lg font-semibold text-white transition-opacity hover:opacity-90 dark:text-black"
         >
-          Start
+          {meta.kind === "discovery" ? "Begin" : "Start"}
         </button>
       </div>
     );
@@ -124,6 +134,9 @@ export function GameController({ meta }: GameControllerProps) {
       )}
       {meta.kind === "bracket" && (
         <BracketGame key={gameKey} {...common} pool={pool} size={bracketSize} />
+      )}
+      {meta.kind === "discovery" && (
+        <DiscoveryGame key={gameKey} {...common} pool={pool} />
       )}
       {meta.kind === "naming" && (
         <NamingGame key={gameKey} {...common} duration={duration} />

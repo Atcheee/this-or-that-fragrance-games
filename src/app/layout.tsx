@@ -37,6 +37,8 @@ export const metadata: Metadata = {
     "fragrance notes",
     "accords",
     "perfume houses",
+    "find your fragrance",
+    "perfume recommendation",
   ],
   authors: [{ name: "This or That" }],
   creator: "This or That",

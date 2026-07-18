@@ -26,6 +26,7 @@ export type GameModeId =
   | "which-house"
   | "guess-description"
   | "find-favorite"
+  | "perfect-match"
   | "name-by-house"
   | "name-by-note";
 
@@ -34,6 +35,7 @@ export type GameKind =
   | "yes-no"
   | "multiple-choice"
   | "bracket"
+  | "discovery"
   | "naming";
 
 export interface GameModeMeta {
