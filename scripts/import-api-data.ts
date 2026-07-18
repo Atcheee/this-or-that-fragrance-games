@@ -260,6 +260,12 @@ function mapFragranceFinderItem(item: unknown): FragranceOut | null {
       ? Number(description.match(/launched in (\d{4})/i)![1])
       : 0);
   const rating = clampRating(num(p["rating"]) ?? num(p["rating_value"]) ?? 0);
+  const fragranticaId =
+    str(p["id"]) ||
+    (str(p["url"]).match(/-(\d+)\.html?$/i)?.[1] ?? "");
+  const imageUrl = fragranticaId
+    ? `https://fimgs.net/mdimg/perfume/375x500.${fragranticaId}.jpg`
+    : "";
 
   return {
     id: `ff-${norm(house)}-${norm(name)}`,
@@ -273,6 +279,7 @@ function mapFragranceFinderItem(item: unknown): FragranceOut | null {
     baseNotes: base,
     accords,
     description,
+    ...(imageUrl ? { imageUrl } : {}),
   };
 }
 

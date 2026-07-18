@@ -26,16 +26,25 @@ const STATE_CLASSES: Record<CardState, string> = {
   dimmed: "border-border bg-card opacity-50",
 };
 
-/** Best-effort Fragella CDN slug when the catalog has no stored image. */
-function guessedBottleUrl(house: string, name: string): string {
-  const slug = `${house} ${name}`
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return `https://cdn.fragella.com/images/${slug}.jpg`;
+/**
+ * Build bottle URL candidates. Prefer Fraganty transparent cutouts; fall back
+ * to the opaque JPEG when nobg isn't processed yet (404).
+ */
+function bottleCandidates(url: string | undefined): string[] {
+  if (!url) return [];
+  if (url.includes("cdn.fragella.com")) return [];
+
+  const fragantyId =
+    url.match(/img\.fraganty\.ai\/perfume(?:-nobg)?\/(\d+)\./i)?.[1] ?? null;
+
+  if (fragantyId) {
+    return [
+      `https://img.fraganty.ai/perfume-nobg/${fragantyId}.webp`,
+      `https://img.fraganty.ai/perfume/${fragantyId}.jpg`,
+    ];
+  }
+
+  return [url];
 }
 
 export function FragranceCard({
@@ -53,12 +62,20 @@ export function FragranceCard({
   const cardRef = useRef<HTMLElement | null>(null);
   // Hide bottles when identity/house is concealed — distinctive bottles spoil the quiz.
   const revealBottle = !hideIdentity && !hideHouse;
-  const bottleSrc = revealBottle
-    ? fragrance.imageUrl ||
-      guessedBottleUrl(fragrance.house, fragrance.name)
-    : null;
-  const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  const imageFailed = Boolean(bottleSrc && failedSrc === bottleSrc);
+  const candidates = revealBottle
+    ? bottleCandidates(fragrance.imageUrl)
+    : [];
+  const [candidateIndex, setCandidateIndex] = useState(0);
+  const bottleSrc = candidates[candidateIndex] ?? null;
+  const imageFailed = candidates.length > 0 && candidateIndex >= candidates.length;
+
+  // Reset fallback chain when the fragrance (or its image) changes
+  const candidateKey = `${fragrance.id}:${fragrance.imageUrl ?? ""}`;
+  const [seenKey, setSeenKey] = useState(candidateKey);
+  if (seenKey !== candidateKey) {
+    setSeenKey(candidateKey);
+    setCandidateIndex(0);
+  }
 
   // useGSAP cleans up tweens on unmount / dependency change
   useGSAP(
@@ -84,14 +101,14 @@ export function FragranceCard({
     <>
       {showBottle ? (
         <div className="mb-3 flex h-36 w-full items-end justify-center sm:h-44">
-          {/* Native img: reliable onError for missing CDN bottles */}
+          {/* Native img: onError walks transparent → opaque fallbacks */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             key={bottleSrc!}
             src={bottleSrc!}
             alt=""
             className="max-h-full w-auto max-w-[70%] object-contain drop-shadow-md"
-            onError={() => setFailedSrc(bottleSrc)}
+            onError={() => setCandidateIndex((i) => i + 1)}
             loading="lazy"
             decoding="async"
           />
