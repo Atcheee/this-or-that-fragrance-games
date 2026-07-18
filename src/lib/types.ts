@@ -14,6 +14,8 @@ export interface Fragrance {
   description: string;
   /** Community vote count (popularity signal), when known */
   votes?: number;
+  /** Bottle image URL when known (Fragella / Fraganty CDN) */
+  imageUrl?: string;
 }
 
 export type GameModeId =

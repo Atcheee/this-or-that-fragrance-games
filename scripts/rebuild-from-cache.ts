@@ -24,6 +24,7 @@ interface FragranceOut {
   accords: string[];
   description: string;
   votes?: number;
+  imageUrl?: string;
 }
 
 const catalog = (
@@ -91,6 +92,10 @@ for (const file of readdirSync(CACHE_DIR).filter((f) =>
       existing.accords = mapped.accords;
       changed = true;
     }
+    if (!existing.imageUrl && mapped.imageUrl) {
+      existing.imageUrl = mapped.imageUrl;
+      changed = true;
+    }
     if (changed) enriched++;
   }
 }
@@ -128,6 +133,9 @@ function mapFragellaItem(item: unknown): FragranceOut | null {
     return null;
   }
 
+  const imageUrl =
+    str(p["Image URL Transparent"]) || str(p["Image URL"]);
+
   return {
     id: `fragella-${norm(house)}-${norm(name)}`,
     name,
@@ -147,6 +155,7 @@ function mapFragellaItem(item: unknown): FragranceOut | null {
       base.length > 0 ? base : general.slice(Math.ceil((2 * general.length) / 3)),
     accords: (p["Main Accords"] as string[]).map((a) => String(a).toLowerCase()),
     description: str(p["Description"]) || str(p["description"]),
+    ...(imageUrl ? { imageUrl } : {}),
   };
 }
 

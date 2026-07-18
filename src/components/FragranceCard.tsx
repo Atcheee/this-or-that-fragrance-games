@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import type { Fragrance } from "@/lib/types";
 import { animateCorrect, animateWrong, useGSAP } from "@/lib/animations";
 
@@ -26,6 +26,18 @@ const STATE_CLASSES: Record<CardState, string> = {
   dimmed: "border-border bg-card opacity-50",
 };
 
+/** Best-effort Fragella CDN slug when the catalog has no stored image. */
+function guessedBottleUrl(house: string, name: string): string {
+  const slug = `${house} ${name}`
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `https://cdn.fragella.com/images/${slug}.jpg`;
+}
+
 export function FragranceCard({
   fragrance,
   onClick,
@@ -39,6 +51,14 @@ export function FragranceCard({
 }: FragranceCardProps) {
   const interactive = onClick && !disabled;
   const cardRef = useRef<HTMLElement | null>(null);
+  // Hide bottles when identity/house is concealed — distinctive bottles spoil the quiz.
+  const revealBottle = !hideIdentity && !hideHouse;
+  const bottleSrc = revealBottle
+    ? fragrance.imageUrl ||
+      guessedBottleUrl(fragrance.house, fragrance.name)
+    : null;
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const imageFailed = Boolean(bottleSrc && failedSrc === bottleSrc);
 
   // useGSAP cleans up tweens on unmount / dependency change
   useGSAP(
@@ -50,7 +70,7 @@ export function FragranceCard({
   );
 
   // No CSS transform hover/active — those fight GSAP's transform matrix
-  const sharedClassName = `gsap-surface flex w-full flex-col items-center gap-1 rounded-2xl border-2 p-6 text-center transition-[border-color,background-color,opacity,box-shadow] duration-200 ${
+  const sharedClassName = `gsap-surface flex w-full flex-col items-center gap-1 rounded-2xl border-2 p-5 text-center transition-[border-color,background-color,opacity,box-shadow] duration-200 sm:p-6 ${
     STATE_CLASSES[state]
   } ${
     interactive
@@ -58,8 +78,32 @@ export function FragranceCard({
       : ""
   } ${className}`;
 
+  const showBottle = Boolean(bottleSrc) && !imageFailed;
+
   const body = (
     <>
+      {showBottle ? (
+        <div className="mb-3 flex h-36 w-full items-end justify-center sm:h-44">
+          {/* Native img: reliable onError for missing CDN bottles */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            key={bottleSrc!}
+            src={bottleSrc!}
+            alt=""
+            className="max-h-full w-auto max-w-[70%] object-contain drop-shadow-md"
+            onError={() => setFailedSrc(bottleSrc)}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      ) : revealBottle ? (
+        <div
+          className="mb-3 flex h-36 w-full items-center justify-center sm:h-44"
+          aria-hidden
+        >
+          <BottlePlaceholder />
+        </div>
+      ) : null}
       <span className="text-xs font-medium uppercase tracking-widest text-muted">
         {hideIdentity || hideHouse ? "? ? ?" : fragrance.house}
       </span>
@@ -109,6 +153,19 @@ export function FragranceCard({
     >
       {body}
     </div>
+  );
+}
+
+function BottlePlaceholder() {
+  return (
+    <svg
+      viewBox="0 0 80 120"
+      className="h-28 w-auto text-muted opacity-40"
+      fill="currentColor"
+    >
+      <rect x="32" y="4" width="16" height="14" rx="2" />
+      <path d="M28 18h24l6 14v70a10 10 0 0 1-10 10H32a10 10 0 0 1-10-10V32l6-14z" />
+    </svg>
   );
 }
 

@@ -140,6 +140,12 @@ function mapPerfume(data: unknown, slug: string): Fragrance | null {
     return null;
   }
 
+  const imageUrl =
+    str(p.imageTransparent) ||
+    str(p.image) ||
+    str(p.imageUrl) ||
+    str(p.image_url);
+
   return {
     id: `fraganty-${slug}`,
     name,
@@ -152,6 +158,7 @@ function mapPerfume(data: unknown, slug: string): Fragrance | null {
     baseNotes: base,
     accords,
     description: str(p.description),
+    ...(imageUrl ? { imageUrl } : {}),
   };
 }
 

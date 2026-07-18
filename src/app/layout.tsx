@@ -15,10 +15,59 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "https://this-or-that-fragrance-games.vercel.app";
+
+const title = "This or That — Fragrance Games";
+const description =
+  "Test your fragrance knowledge: ratings, prices, notes, accords, houses and more.";
+
 export const metadata: Metadata = {
-  title: "This or That — Fragrance Games",
-  description:
-    "Test your fragrance knowledge: ratings, prices, notes, accords, houses and more.",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  applicationName: "This or That",
+  keywords: [
+    "fragrance",
+    "perfume",
+    "this or that",
+    "scent quiz",
+    "perfume game",
+    "fragrance notes",
+    "accords",
+    "perfume houses",
+  ],
+  authors: [{ name: "This or That" }],
+  creator: "This or That",
+  publisher: "This or That",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    siteName: "This or That",
+    title,
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 export default function RootLayout({

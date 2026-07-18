@@ -52,6 +52,7 @@ interface FragranceOut {
   accords: string[];
   description: string;
   votes?: number;
+  imageUrl?: string;
 }
 
 interface SourceStats {
@@ -156,6 +157,9 @@ function mapFragellaItem(item: unknown): FragranceOut | null {
   const accords = strArray(p["Main Accords"]).map((a) => a.toLowerCase());
   if (accords.length === 0) return null;
 
+  const imageUrl =
+    str(p["Image URL Transparent"]) || str(p["Image URL"]);
+
   return {
     id: `fragella-${norm(house)}-${norm(name)}`,
     name,
@@ -175,6 +179,7 @@ function mapFragellaItem(item: unknown): FragranceOut | null {
       base.length > 0 ? base : general.slice(Math.ceil((2 * general.length) / 3)),
     accords,
     description: str(p["Description"]) || str(p["description"]),
+    ...(imageUrl ? { imageUrl } : {}),
   };
 }
 
@@ -338,6 +343,10 @@ function mergeItem(
   }
   if (existing.year === 0 && incoming.year > 0) {
     existing.year = incoming.year;
+    enriched = true;
+  }
+  if (!existing.imageUrl && incoming.imageUrl) {
+    existing.imageUrl = incoming.imageUrl;
     enriched = true;
   }
   if (

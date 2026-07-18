@@ -24,6 +24,20 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.fragella.com",
+        pathname: "/images/**",
+      },
+      {
+        protocol: "https",
+        hostname: "img.fraganty.ai",
+        pathname: "/**",
+      },
+    ],
+  },
   async headers() {
     return [
       {
