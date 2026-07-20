@@ -81,6 +81,54 @@ export const MODES: GameModeMeta[] = [
     tagline: "How many can you list with this note?",
     howTo: "You get a note and a timer. Type as many fragrances containing that note as you can.",
   },
+  {
+    id: "note-pyramid",
+    kind: "note-pyramid",
+    title: "Note Pyramid",
+    tagline: "Identify a fragrance as its clues unfold.",
+    howTo:
+      "Guess the exact fragrance from progressively revealed base, heart, top, accord, year, and house clues. Earlier answers score more.",
+  },
+  {
+    id: "fragrance-grid",
+    kind: "fragrance-grid",
+    title: "Fragrance Grid",
+    tagline: "Find nine fragrances at the intersections.",
+    howTo:
+      "Fill every cell with a unique fragrance matching both its row and column criteria. Wrong answers consume an attempt.",
+  },
+  {
+    id: "odd-one-out",
+    kind: "odd-one-out",
+    title: "Odd One Out",
+    tagline: "Three belong. One bottle breaks the connection.",
+    howTo:
+      "Choose the one fragrance that does not share the objective house, note, accord, or release-era connection.",
+  },
+  {
+    id: "build-an-accord",
+    kind: "build-an-accord",
+    title: "Build an Accord",
+    tagline: "Compose a scent profile note by note.",
+    howTo:
+      "Choose a limited set of notes for each target accord, then learn which choices form its structure and character.",
+  },
+  {
+    id: "fragrance-timeline",
+    kind: "fragrance-timeline",
+    title: "Fragrance Timeline",
+    tagline: "Put fragrance history in the right order.",
+    howTo:
+      "Reorder the cards from oldest to newest. Drag them or use the accessible move buttons, then submit your timeline.",
+  },
+  {
+    id: "bottle-silhouette",
+    kind: "bottle-silhouette",
+    title: "Bottle Silhouette",
+    tagline: "Name the fragrance behind the shape.",
+    howTo:
+      "Guess the exact fragrance from an obscured bottle. Each wrong answer reveals more of the image and lowers the score.",
+  },
   CONNECTIONS_MODE,
   {
     id: "connections-daily",

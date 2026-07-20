@@ -13,6 +13,16 @@ export function useSaveRecord() {
   return useCallback(
     (record: Omit<GameRecord, "playedAt">): boolean => {
       const { best, history } = useAppStore.getState();
+      const dailyKey = record.label?.match(/^daily:\d{4}-\d{2}-\d{2}/)?.[0];
+      if (
+        dailyKey &&
+        history.some(
+          (entry) =>
+            entry.mode === record.mode && entry.label?.startsWith(dailyKey),
+        )
+      ) {
+        return false;
+      }
       if (
         record.mode === "connections-daily" &&
         record.label &&

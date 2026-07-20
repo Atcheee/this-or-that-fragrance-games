@@ -14,6 +14,7 @@
  * By default each run (and each relaunch) uses a fresh throwaway Chrome profile.
  * If you get 429/blocked, Ctrl+C and re-run — you get a new session automatically.
  * Optional: --reuse-profile keeps the old persistent profile; --cdp uses your real Chrome.
+ * --popular scrapes well-known houses first (LV, Chanel, Dior, YSL…), mass-market last.
  *
  * Caches HTML-derived JSON under scripts/fragrantica-cache/ so re-runs are free.
  * Be polite: default delay is 2.5s between perfume pages.
@@ -922,8 +923,126 @@ function designerPerfumeEstimate(d: DesignerRef): number {
   return d.count && d.count > 0 ? d.count : Number.MAX_SAFE_INTEGER;
 }
 
-function isAvon(d: DesignerRef): boolean {
-  return norm(d.name) === "avon" || norm(d.slug) === "avon";
+/** Well-known / high-interest houses first (scrape order). Matched via substring on name/slug. */
+const HOUSE_PRIORITY: string[] = [
+  "louis vuitton",
+  "chanel",
+  "dior",
+  "yves saint laurent",
+  "tom ford",
+  "creed",
+  "hermes",
+  "gucci",
+  "prada",
+  "nishane",
+  "parfums de marly",
+  "maison francis kurkdjian",
+  "le labo",
+  "byredo",
+  "diptyque",
+  "amouage",
+  "xerjoff",
+  "initio",
+  "kilian",
+  "jean paul gaultier",
+  "giorgio armani",
+  "versace",
+  "dolce",
+  "burberry",
+  "jo malone",
+  "guerlain",
+  "bvlgari",
+  "valentino",
+  "mugler",
+  "lancome",
+  "carolina herrera",
+  "acqua di parma",
+  "serge lutens",
+  "frederic malle",
+  "penhaligon",
+  "maison martin margiela",
+  "montale",
+  "mancera",
+  "ex nihilo",
+  "memo paris",
+  "chloe",
+  "narciso rodriguez",
+  "etat libre",
+  "zoologist",
+  "nasomatto",
+  "orto parisi",
+  "bdk",
+  "juliette has a gun",
+  "kayali",
+  "afnan",
+  "lattafa",
+  "armaf",
+  "rasasi",
+  "al haramain",
+  "maison alhambra",
+  "swiss arabian",
+  "french avenue",
+  "roja",
+  "bond no",
+  "clive christian",
+  "boadicea",
+  "tiziana terenzi",
+  "sospiro",
+  "casamorati",
+  "marc antoine barrois",
+  "givenchy",
+  "hugo boss",
+  "rabanne",
+  "calvin klein",
+  "issey miyake",
+  "kenzo",
+  "montblanc",
+  "loewe",
+  "marc jacobs",
+  "van cleef",
+  "ralph lauren",
+  "azzaro",
+  "lalique",
+  "viktor",
+  "comme des garcons",
+  "l artisan",
+];
+
+/** Mass-market / huge catalogs last. */
+const HOUSE_LAST: string[] = [
+  "avon",
+  "zara",
+  "victoria s secret",
+  "bath body works",
+  "o boticario",
+  "natura",
+  "demeter",
+  "fragrance world",
+  "lush",
+  "gulf orchid",
+  "paris corner",
+  "britney spears",
+  "ariana grande",
+  "elizabeth arden",
+  "sol de janeiro",
+  "phlur",
+  "granado",
+];
+
+function houseMatchNeedle(d: DesignerRef, needle: string): boolean {
+  const n = norm(needle);
+  const name = norm(d.name);
+  const slug = norm(d.slug.replace(/-/g, " "));
+  return name === n || slug === n || name.includes(n) || slug.includes(n);
+}
+
+function popularitySortIndex(d: DesignerRef): number {
+  const pri = HOUSE_PRIORITY.findIndex((p) => houseMatchNeedle(d, p));
+  if (pri >= 0) return pri;
+  const last = HOUSE_LAST.findIndex((p) => houseMatchNeedle(d, p));
+  if (last >= 0) return 10_000 + last;
+  // Unknown / lesser-known: after priority, before mass-market
+  return 5_000 + designerPerfumeEstimate(d);
 }
 
 function resolveDesigners(all: DesignerRef[]): DesignerRef[] {
@@ -956,19 +1075,18 @@ function resolveDesigners(all: DesignerRef[]): DesignerRef[] {
     );
   }
 
-  // Smallest houses first; Avon always last (huge catalog).
+  // Well-known / popular houses first; mass-market catalogs last.
   if (hasFlag("--popular")) {
-    const avon = selected.filter(isAvon);
-    const rest = selected.filter((d) => !isAvon(d));
-    rest.sort(
-      (a, b) => designerPerfumeEstimate(a) - designerPerfumeEstimate(b),
-    );
-    selected = [...rest, ...avon];
+    selected = [...selected].sort((a, b) => {
+      const diff = popularitySortIndex(a) - popularitySortIndex(b);
+      if (diff !== 0) return diff;
+      return norm(a.name).localeCompare(norm(b.name));
+    });
     console.log(
-      `Order: smallest→largest, Avon last. First up: ${selected
-        .slice(0, 5)
-        .map((d) => `${d.name} (~${designerPerfumeEstimate(d)})`)
-        .join(", ")}`,
+      `Order: well-known first. Next up: ${selected
+        .slice(0, 8)
+        .map((d) => d.name)
+        .join(", ")}${selected.length > 8 ? "…" : ""}`,
     );
   }
 

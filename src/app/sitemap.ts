@@ -3,6 +3,7 @@ import {
   getAllCatalogFragrances,
   getAllHouseSummaries,
 } from "@/lib/catalog";
+import { MODES } from "@/lib/modes";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -34,6 +35,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
+  const gameRoutes: MetadataRoute.Sitemap = MODES.map((mode) => ({
+    url: `${siteUrl}/play/${mode.id}`,
+    lastModified,
+    changeFrequency: "weekly",
+    priority: 0.8,
+  }));
+
   const houseRoutes: MetadataRoute.Sitemap = getAllHouseSummaries().map(
     (house) => ({
       url: `${siteUrl}/house/${house.slug}`,
@@ -43,5 +51,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  return [...staticRoutes, ...houseRoutes, ...fragranceRoutes];
+  return [...staticRoutes, ...gameRoutes, ...houseRoutes, ...fragranceRoutes];
 }

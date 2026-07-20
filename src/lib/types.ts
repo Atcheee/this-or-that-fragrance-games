@@ -48,7 +48,13 @@ export type GameModeId =
   | "name-by-note"
   | "connections-curated"
   | "connections-generated"
-  | "connections-daily";
+  | "connections-daily"
+  | "note-pyramid"
+  | "fragrance-grid"
+  | "odd-one-out"
+  | "build-an-accord"
+  | "fragrance-timeline"
+  | "bottle-silhouette";
 
 export type GameKind =
   | "this-or-that"
@@ -57,7 +63,13 @@ export type GameKind =
   | "bracket"
   | "discovery"
   | "naming"
-  | "connections";
+  | "connections"
+  | "note-pyramid"
+  | "fragrance-grid"
+  | "odd-one-out"
+  | "build-an-accord"
+  | "fragrance-timeline"
+  | "bottle-silhouette";
 
 export interface GameModeMeta {
   id: GameModeId;

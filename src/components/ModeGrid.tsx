@@ -14,6 +14,12 @@ const KIND_LABELS: Record<GameKind, string> = {
   discovery: "Discovery",
   naming: "Timed",
   connections: "Connections",
+  "note-pyramid": "Deduction",
+  "fragrance-grid": "Grid",
+  "odd-one-out": "Trivia",
+  "build-an-accord": "Composition",
+  "fragrance-timeline": "Timeline",
+  "bottle-silhouette": "Visual",
 };
 
 export function ModeGrid() {
