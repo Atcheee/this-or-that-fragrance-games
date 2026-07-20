@@ -20,7 +20,7 @@ interface ConnectionsGameProps {
   puzzle: PreparedConnectionPuzzle;
   variant: ConnectionsVariant;
   /** Non-daily only: never end the game from mistakes. */
-  infiniteMistakes?: boolean;
+  unlimitedGuesses?: boolean;
   onPlayAgain: () => void;
 }
 
@@ -37,11 +37,11 @@ export function ConnectionsGame({
   meta,
   puzzle,
   variant,
-  infiniteMistakes = false,
+  unlimitedGuesses = false,
   onPlayAgain,
 }: ConnectionsGameProps) {
   const daily = variant === "daily";
-  const unlimitedMistakes = !daily && infiniteMistakes;
+  const unlimitedMistakes = !daily && unlimitedGuesses;
   const dateKey = useMemo(
     () => puzzle.dateKey ?? utcDateKey(),
     [puzzle.dateKey],

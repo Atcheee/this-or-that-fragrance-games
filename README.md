@@ -1,6 +1,6 @@
 # This or That — Fragrance Games
 
-A fragrance knowledge and discovery app with thirteen game modes, built with Next.js (App Router), TypeScript and Tailwind CSS.
+A fragrance knowledge and discovery app with twelve game modes, built with Next.js (App Router), TypeScript and Tailwind CSS.
 
 ## Game modes
 
@@ -16,8 +16,7 @@ A fragrance knowledge and discovery app with thirteen game modes, built with Nex
 | Find Your Perfect Fragrance | Discovery | Narrow the catalog through a preference quiz |
 | Name That House's Fragrances | Timed naming | Type as many fragrances from a house as you can |
 | Name Fragrances With a Note | Timed naming | Type as many fragrances containing a note as you can |
-| Fragrance Connections | Connections | Solve a randomly selected hand-curated grouping puzzle |
-| Infinite Connections | Connections | Solve a fresh puzzle generated from catalog metadata |
+| Fragrance Connections | Connections | Choose a hand-crafted puzzle or a fresh puzzle generated from catalog metadata |
 | Daily Connections | Connections | One shared, resumable attempt per UTC day |
 
 ## Getting started

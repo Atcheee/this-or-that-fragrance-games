@@ -1,5 +1,14 @@
 import type { GameModeId, GameModeMeta } from "./types";
 
+const CONNECTIONS_MODE: GameModeMeta = {
+  id: "connections-curated",
+  kind: "connections",
+  title: "Fragrance Connections",
+  tagline: "Choose a hand-crafted or freshly generated puzzle.",
+  howTo:
+    "Choose a puzzle mode, then sort 16 fragrances into four connected groups. Select four at a time and submit the strongest connection.",
+};
+
 export const MODES: GameModeMeta[] = [
   {
     id: "higher-rating",
@@ -72,22 +81,7 @@ export const MODES: GameModeMeta[] = [
     tagline: "How many can you list with this note?",
     howTo: "You get a note and a timer. Type as many fragrances containing that note as you can.",
   },
-  {
-    id: "connections-curated",
-    kind: "connections",
-    title: "Fragrance Connections",
-    tagline: "Find four carefully crafted fragrance connections.",
-    howTo:
-      "Sort 16 fragrances into four connected groups. Select four at a time and submit — you can make up to four mistakes.",
-  },
-  {
-    id: "connections-generated",
-    kind: "connections",
-    title: "Infinite Connections",
-    tagline: "A fresh catalog-generated puzzle every game.",
-    howTo:
-      "Sort 16 fragrances into four groups generated from houses, notes, accords, and release years. You can make up to four mistakes.",
-  },
+  CONNECTIONS_MODE,
   {
     id: "connections-daily",
     kind: "connections",
@@ -99,9 +93,12 @@ export const MODES: GameModeMeta[] = [
 ];
 
 export function getMode(id: string): GameModeMeta | undefined {
+  if (id === "connections-generated") {
+    return { ...CONNECTIONS_MODE, id };
+  }
   return MODES.find((m) => m.id === id);
 }
 
 export function isGameModeId(id: string): id is GameModeId {
-  return MODES.some((m) => m.id === id);
+  return getMode(id) !== undefined;
 }

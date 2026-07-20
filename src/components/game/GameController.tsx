@@ -26,6 +26,8 @@ import {
 
 const ROUND_CHOICES = [10, 15, 20];
 const DURATION_CHOICES = [60, 90, 120];
+const CONNECTIONS_MODE_CHOICES = ["curated", "generated"] as const;
+type ConnectionsPuzzleMode = (typeof CONNECTIONS_MODE_CHOICES)[number];
 /** Broad catalog window for preference scoring */
 const DISCOVERY_POOL_SIZE = 800;
 
@@ -39,24 +41,29 @@ export function GameController({ meta }: GameControllerProps) {
   const [rounds, setRounds] = useState(10);
   const [bracketSize, setBracketSize] = useState<BracketSize>(16);
   const [duration, setDuration] = useState(60);
-  const [infiniteMistakes, setInfiniteMistakes] = useState(false);
+  const [connectionsMode, setConnectionsMode] = useState<ConnectionsPuzzleMode>(
+    () => (meta.id === "connections-generated" ? "generated" : "curated"),
+  );
+  const [unlimitedGuesses, setUnlimitedGuesses] = useState(false);
   const [pool, setPool] = useState<Fragrance[]>([]);
   const [source, setSource] = useState<"seed" | "fraganty">("seed");
   const [connectionsPuzzle, setConnectionsPuzzle] =
     useState<PreparedConnectionPuzzle | null>(null);
   const [gameKey, setGameKey] = useState(0);
   const isDailyConnections = meta.id === "connections-daily";
+  const connectionsVariant: ConnectionsVariant = isDailyConnections
+    ? "daily"
+    : connectionsMode;
 
   const start = useCallback(async () => {
     setPhase("loading");
     if (meta.kind === "connections") {
       const fallback = CONNECTION_PUZZLES[0];
       if (!fallback) throw new Error("No Connections puzzles are configured.");
-      const variant = connectionsVariant(meta.id);
       const puzzle =
-        variant === "daily"
+        connectionsVariant === "daily"
           ? dailyConnectionPuzzle(CONNECTION_PUZZLES, seedFragrances)
-          : variant === "generated"
+          : connectionsVariant === "generated"
             ? generateConnectionPuzzle(seedFragrances, fallback)
             : randomConnectionPuzzle(CONNECTION_PUZZLES, seedFragrances);
       setConnectionsPuzzle(puzzle);
@@ -79,7 +86,7 @@ export function GameController({ meta }: GameControllerProps) {
     }
     setGameKey((k) => k + 1);
     setPhase("playing");
-  }, [meta, rounds, bracketSize, apiKey]);
+  }, [meta, rounds, bracketSize, apiKey, connectionsVariant]);
 
   if (phase === "setup") {
     return (
@@ -120,18 +127,27 @@ export function GameController({ meta }: GameControllerProps) {
               connection.
               {isDailyConnections
                 ? " Four incorrect submissions end the game."
-                : infiniteMistakes
+                : unlimitedGuesses
                   ? " Keep guessing until every group is found."
                   : " Four incorrect submissions end the game."}
             </p>
             {!isDailyConnections && (
-              <OptionPicker
-                label="Mistakes"
-                choices={[0, 1]}
-                value={infiniteMistakes ? 1 : 0}
-                onChange={(v) => setInfiniteMistakes(v === 1)}
-                format={(v) => (v === 1 ? "Unlimited" : "4 mistakes")}
-              />
+              <>
+                <OptionPicker
+                  label="Puzzle mode"
+                  choices={CONNECTIONS_MODE_CHOICES}
+                  value={connectionsMode}
+                  onChange={setConnectionsMode}
+                  format={(value) =>
+                    value === "curated" ? "Curated" : "Generated"
+                  }
+                />
+                <Toggle
+                  label="Unlimited guesses"
+                  checked={unlimitedGuesses}
+                  onChange={setUnlimitedGuesses}
+                />
+              </>
             )}
           </div>
         ) : (
@@ -198,21 +214,15 @@ export function GameController({ meta }: GameControllerProps) {
           key={gameKey}
           {...common}
           puzzle={connectionsPuzzle}
-          variant={connectionsVariant(meta.id)}
-          infiniteMistakes={!isDailyConnections && infiniteMistakes}
+          variant={connectionsVariant}
+          unlimitedGuesses={!isDailyConnections && unlimitedGuesses}
         />
       )}
     </div>
   );
 }
 
-function connectionsVariant(id: GameModeMeta["id"]): ConnectionsVariant {
-  if (id === "connections-daily") return "daily";
-  if (id === "connections-generated") return "generated";
-  return "curated";
-}
-
-function OptionPicker<T extends number>({
+function OptionPicker<T extends string | number>({
   label,
   choices,
   value,
@@ -220,7 +230,7 @@ function OptionPicker<T extends number>({
   format,
 }: {
   label: string;
-  choices: T[];
+  choices: readonly T[];
   value: T;
   onChange: (value: T) => void;
   format: (value: T) => string;
@@ -246,5 +256,39 @@ function OptionPicker<T extends number>({
         ))}
       </div>
     </div>
+  );
+}
+
+function Toggle({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={() => onChange(!checked)}
+      className="mx-auto flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-accent"
+    >
+      <span>{label}</span>
+      <span
+        aria-hidden="true"
+        className={`relative h-6 w-11 rounded-full transition-colors ${
+          checked ? "bg-accent" : "bg-border"
+        }`}
+      >
+        <span
+          className={`absolute top-1 size-4 rounded-full bg-white shadow-sm transition-transform ${
+            checked ? "translate-x-5" : "translate-x-1"
+          }`}
+        />
+      </span>
+    </button>
   );
 }
