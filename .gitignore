@@ -24,10 +24,8 @@
 .DS_Store
 *.pem
 
-# downloaded source data (rebuilt via scripts/build-dataset.ts)
-/scripts/parfumo_data_clean.csv
-/scripts/api-cache/
-/scripts/fragrantica-cache/
+# local scrape/build tooling + caches (not part of the app)
+/scripts/
 
 # debug
 npm-debug.log*

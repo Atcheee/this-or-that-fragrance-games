@@ -16,14 +16,13 @@ const ALIASES: Record<string, string> = {
   "virginia cedar": "cedar",
   "atlas cedar": "cedar",
   "tonka": "tonka bean",
-  "ylang ylang": "ylang-ylang",
   "oak moss": "oakmoss",
-  "ambergris": "ambergris",
-  "orange blossom": "orange blossom",
   "mandarin": "mandarin orange",
   "clementine": "mandarin orange",
   "haitian vetiver": "vetiver",
   "java vetiver": "vetiver",
+  "khus": "vetiver",
+  "vetivert": "vetiver",
   "provencal lavender": "lavender",
   "french lavender": "lavender",
   "english lavender": "lavender",
@@ -32,8 +31,9 @@ const ALIASES: Record<string, string> = {
   "bulgarian rose": "rose",
   "moroccan rose": "rose",
   "pink peppercorn": "pink pepper",
-  "sichuan pepper": "sichuan pepper",
-  "iso e super": "iso e super",
+  "bergamot orange": "bergamot",
+  "woodsy notes": "woody notes",
+  "muguet": "lily of the valley",
 };
 
 function normKey(name: string): string {
@@ -41,7 +41,8 @@ function normKey(name: string): string {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
-    .replace(/[_/]+/g, " ")
+    .replace(/[_/\-]+/g, " ")
+    .replace(/[®™]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }
