@@ -76,10 +76,10 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col font-sans">
         <ThemeProvider>
           <SiteHeader />
-          <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-8">
+          <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 py-10 sm:px-8 sm:py-12">
             {children}
           </main>
-          <footer className="border-t border-border py-4 text-center text-xs text-muted">
+          <footer className="border-t border-border py-5 text-center text-xs text-muted">
             Fragrance data is approximate and for entertainment only.
           </footer>
         </ThemeProvider>

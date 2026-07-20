@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { FragranceSearchResultVisual } from "@/components/FragranceSearchResultVisual";
 
@@ -124,7 +125,7 @@ export function FragranceSearch({ mobile = false }: { mobile?: boolean }) {
             aria-hidden
             className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-muted"
           >
-            <SearchIcon />
+            <MagnifyingGlass aria-hidden size={17} weight="regular" />
           </span>
           <input
             ref={inputRef}
@@ -147,7 +148,7 @@ export function FragranceSearch({ mobile = false }: { mobile?: boolean }) {
                 ? `${listboxId}-option-${activeIndex}`
                 : undefined
             }
-            className="h-9 w-full rounded-full border border-border bg-card pl-9 pr-9 text-sm outline-none transition-[border-color,box-shadow] placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent-soft"
+            className="h-10 w-full rounded-full border border-border bg-card pl-10 pr-10 text-sm outline-none transition-[border-color,box-shadow] placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent-soft sm:text-base"
           />
           {loading ? (
             <span
@@ -201,23 +202,5 @@ export function FragranceSearch({ mobile = false }: { mobile?: boolean }) {
         </div>
       ) : null}
     </div>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      aria-hidden
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="m20 20-3.5-3.5" />
-    </svg>
   );
 }

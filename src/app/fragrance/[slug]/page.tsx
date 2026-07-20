@@ -69,6 +69,12 @@ export default async function FragrancePage({ params }: FragrancePageProps) {
           </li>
           <li aria-hidden>/</li>
           <li>
+            <Link href="/fragrances" className="hover:text-foreground">
+              Fragrances
+            </Link>
+          </li>
+          <li aria-hidden>/</li>
+          <li>
             <Link
               href={`/house/${fragrance.houseSlug}`}
               className="hover:text-foreground"

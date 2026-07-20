@@ -1,29 +1,43 @@
 import Link from "next/link";
+import { BrandMark } from "@/components/BrandMark";
 import { FragranceSearch } from "@/components/FragranceSearch";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex min-h-14 w-full max-w-5xl items-center gap-3 px-4">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur-md">
+      <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center gap-4 px-5 sm:px-8">
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-2 font-semibold tracking-tight"
+          className="flex shrink-0 items-center gap-2.5 font-semibold tracking-tight transition-colors hover:text-accent"
         >
-          <span aria-hidden className="text-accent">
-            <BottleIcon />
-          </span>
+          <BrandMark className="text-accent" size={26} />
           <span>This or That</span>
         </Link>
 
-        <div className="hidden min-w-0 flex-1 justify-center px-3 md:flex">
+        <nav aria-label="Primary navigation" className="hidden shrink-0 items-center gap-4 lg:flex">
+          <Link
+            href="/fragrances"
+            className="text-sm text-muted transition-colors hover:text-foreground"
+          >
+            Fragrances
+          </Link>
+          <Link
+            href="/houses"
+            className="text-sm text-muted transition-colors hover:text-foreground"
+          >
+            Houses
+          </Link>
+        </nav>
+
+        <div className="hidden min-w-0 flex-1 justify-center px-5 md:flex">
           <FragranceSearch />
         </div>
 
-        <nav aria-label="Utility navigation" className="ml-auto flex shrink-0 items-center gap-3">
+        <nav aria-label="Utility navigation" className="ml-auto flex shrink-0 items-center gap-4">
           <Link
             href="/settings"
-            className="text-sm text-muted transition-colors hover:text-foreground"
+            className="text-sm text-muted transition-colors hover:text-foreground sm:text-base"
           >
             Settings
           </Link>
@@ -31,27 +45,17 @@ export function SiteHeader() {
         </nav>
       </div>
 
-      <div className="mx-auto w-full max-w-5xl px-4 pb-3 md:hidden">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-5 pb-3 md:hidden">
         <FragranceSearch mobile />
+        <nav aria-label="Primary navigation" className="flex items-center gap-5 pt-1 text-sm">
+          <Link href="/fragrances" className="font-medium text-muted hover:text-foreground">
+            Browse fragrances
+          </Link>
+          <Link href="/houses" className="font-medium text-muted hover:text-foreground">
+            Designer houses
+          </Link>
+        </nav>
       </div>
     </header>
-  );
-}
-
-function BottleIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M10 2h4m-3 2h2v3l3 2.5a4 4 0 0 1 1.5 3.1V19a3 3 0 0 1-3 3h-5a3 3 0 0 1-3-3v-6.4A4 4 0 0 1 8 9.5L11 7V4Z" />
-    </svg>
   );
 }

@@ -76,6 +76,12 @@ export default async function HousePage({ params }: HousePageProps) {
             </Link>
           </li>
           <li aria-hidden>/</li>
+          <li>
+            <Link href="/houses" className="hover:text-foreground">
+              Houses
+            </Link>
+          </li>
+          <li aria-hidden>/</li>
           <li className="text-foreground" aria-current="page">
             {house.name}
           </li>

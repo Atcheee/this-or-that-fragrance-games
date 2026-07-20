@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { BrandMark } from "@/components/BrandMark";
 
 export const alt = "This or That — Fragrance Games";
 export const size = {
@@ -42,31 +43,7 @@ export default function OpenGraphImage() {
               border: "2px solid #f59e0b",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: 16,
-                  height: 6,
-                  background: "#f59e0b",
-                  borderRadius: 2,
-                }}
-              />
-              <div style={{ width: 7, height: 8, background: "#f59e0b" }} />
-              <div
-                style={{
-                  width: 30,
-                  height: 32,
-                  background: "#f59e0b",
-                  borderRadius: "6px 6px 10px 10px",
-                }}
-              />
-            </div>
+            <BrandMark color="#f59e0b" cutoutColor="#1c1917" size={54} />
           </div>
           <div
             style={{

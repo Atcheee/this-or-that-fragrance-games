@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import Link from "next/link";
+import { GameIcon } from "@/components/GameIcon";
 import type { Fragrance, GameModeMeta } from "@/lib/types";
 import { getPoolForMode, seedFragrances } from "@/lib/data-source";
 import { useAppStore } from "@/lib/store";
@@ -157,17 +158,33 @@ export function GameController({ meta }: GameControllerProps) {
 
   if (phase === "setup") {
     return (
-      <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center gap-8 py-8 animate-card-in">
-        <div className="text-center">
-          <Link href="/" className="text-sm text-muted hover:text-foreground">
-            ← All games
-          </Link>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight">{meta.title}</h1>
-          <p className="mt-3 text-muted">{meta.howTo}</p>
-        </div>
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center gap-6 py-4 sm:py-10 animate-card-in">
+        <Link
+          href="/#games"
+          className="w-fit text-sm font-medium text-muted transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+        >
+          ← All games
+        </Link>
 
-        {isChallengeGame ? (
-          <div className="space-y-5">
+        <section className="rounded-3xl border border-border bg-card px-6 py-8 sm:px-10 sm:py-10">
+          <div className="text-center">
+            <span className="mx-auto flex size-20 items-center justify-center rounded-full border border-accent/70 text-accent sm:size-24">
+              <GameIcon modeId={meta.id} size={44} />
+            </span>
+            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-accent">
+              Fragrance game
+            </p>
+            <h1 className="mt-2 text-3xl font-bold tracking-[-0.04em] sm:text-5xl">
+              {meta.title}
+            </h1>
+            <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-muted">
+              {meta.howTo}
+            </p>
+          </div>
+
+          <div className="mx-auto mt-8 max-w-xl border-t border-border pt-8">
+          {isChallengeGame ? (
+            <div className="space-y-5">
             <OptionPicker
               label="Challenge"
               choices={CHALLENGE_VARIANTS}
@@ -195,8 +212,8 @@ export function GameController({ meta }: GameControllerProps) {
                 ? ` Current streak: ${currentDailyStreak} ${currentDailyStreak === 1 ? "day" : "days"}.`
                 : ""}
             </p>
-          </div>
-        ) : meta.kind === "bracket" ? (
+            </div>
+          ) : meta.kind === "bracket" ? (
           <OptionPicker
             label="Bracket size"
             choices={[...BRACKET_SIZES]}
@@ -255,18 +272,20 @@ export function GameController({ meta }: GameControllerProps) {
             onChange={setRounds}
             format={(v) => `${v} rounds`}
           />
-        )}
+          )}
 
-        <button
-          onClick={start}
-          className="mx-auto rounded-full bg-accent px-10 py-3 text-lg font-semibold text-white transition-opacity hover:opacity-90 dark:text-black"
-        >
-          {meta.kind === "discovery"
-            ? "Begin"
-            : isDailyConnections
-              ? "Play today’s puzzle"
-              : "Start"}
-        </button>
+            <button
+              onClick={start}
+              className="mx-auto mt-8 block min-h-12 rounded-full bg-accent px-10 py-3 text-lg font-semibold text-[#17120a] transition-[opacity,transform] hover:-translate-y-0.5 hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
+              {meta.kind === "discovery"
+                ? "Begin"
+                : isDailyConnections
+                  ? "Play today’s puzzle"
+                  : "Start"}
+            </button>
+          </div>
+        </section>
       </div>
     );
   }
@@ -396,12 +415,12 @@ function OptionPicker<T extends string | number>({
       <p className="text-sm font-medium uppercase tracking-widest text-muted">
         {label}
       </p>
-      <div className="flex justify-center gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         {choices.map((choice) => (
           <button
             key={choice}
             onClick={() => onChange(choice)}
-            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+            className={`min-h-10 rounded-full border px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
               choice === value
                 ? "border-accent bg-accent-soft text-accent"
                 : "border-border bg-card text-muted hover:text-foreground"
