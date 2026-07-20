@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import type { FormEvent, KeyboardEvent } from "react";
 import type { Fragrance, GameModeMeta } from "@/lib/types";
+import { FragranceSearchResultVisual } from "@/components/FragranceSearchResultVisual";
 import {
   createNotePyramidChallenge,
   createNotePyramidShareText,
@@ -10,11 +11,15 @@ import {
   resolveExactFragranceGuess,
   scoreNotePyramid,
   searchNotePyramidFragrances,
+  type NotePyramidClueKind,
   type NotePyramidVariant,
 } from "@/lib/engines/note-pyramid";
+import { NoteImage } from "@/components/NoteImage";
 import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 import { PerfumePyramid } from "@/components/PerfumePyramid";
 import { ResultsSummary } from "@/components/ResultsSummary";
+import { AccordBadge } from "./SubjectBadge";
+import { HouseMark } from "./HouseMark";
 import { useSaveRecord } from "./useSaveRecord";
 
 export interface NotePyramidGameProps {
@@ -220,7 +225,10 @@ export function NotePyramidGame({
           </div>
           <div>
             <p className="text-2xl font-bold tracking-tight">{challenge.fragrance.name}</p>
-            <p className="text-muted">{challenge.fragrance.house}</p>
+            <p className="mt-1 flex items-center gap-2 text-muted">
+              <HouseMark name={challenge.fragrance.house} size="sm" />
+              {challenge.fragrance.house}
+            </p>
             <dl className="mt-4 grid grid-cols-3 gap-2 text-center text-sm">
               <ResultStat label="Clues" value={`${revealedCount}/${challenge.clues.length}`} />
               <ResultStat label="Guesses" value={String(guesses.length)} />
@@ -293,11 +301,8 @@ export function NotePyramidGame({
                   </p>
                   <ul className="mt-2 flex flex-wrap gap-2">
                     {clue.values.map((value) => (
-                      <li
-                        key={value}
-                        className="rounded-full border border-border bg-background px-3 py-1 text-sm font-medium"
-                      >
-                        {value}
+                      <li key={value}>
+                        <ClueValue kind={clue.kind} value={value} />
                       </li>
                     ))}
                   </ul>
@@ -363,8 +368,7 @@ export function NotePyramidGame({
                       activeOption === index ? "bg-accent-soft text-accent" : "hover:bg-card-hover"
                     }`}
                   >
-                    <span className="font-semibold">{fragrance.name}</span>
-                    <span className="shrink-0 text-xs text-muted">{fragrance.house}</span>
+                    <FragranceSearchResultVisual fragrance={fragrance} />
                   </button>
                 </li>
               ))}
@@ -401,19 +405,47 @@ export function NotePyramidGame({
           >
             Previous guesses
           </h3>
-          <ul className="mt-2 flex flex-wrap gap-2">
+          <ul className="mt-2 grid gap-2 sm:grid-cols-2">
             {guesses.map((guess) => (
               <li
                 key={guess.id}
-                className="rounded-full bg-danger-soft px-3 py-1 text-sm font-medium text-danger"
+                className="flex items-center justify-between gap-2 rounded-xl border border-danger bg-danger-soft p-2 text-danger"
               >
-                {guess.name} <span className="opacity-70">· {guess.house}</span>
+                <FragranceSearchResultVisual fragrance={guess} />
               </li>
             ))}
           </ul>
         </section>
       )}
     </div>
+  );
+}
+
+function ClueValue({ kind, value }: { kind: NotePyramidClueKind; value: string }) {
+  if (kind === "accords") return <AccordBadge name={value} compact />;
+
+  if (kind === "house") {
+    return (
+      <span className="inline-flex items-center gap-2 rounded-xl border border-border bg-background py-1 pl-1 pr-3 text-sm font-medium">
+        <HouseMark name={value} size="sm" />
+        {value}
+      </span>
+    );
+  }
+
+  if (kind === "year") {
+    return (
+      <span className="inline-flex min-h-9 items-center rounded-full border border-border bg-background px-3 text-sm font-medium tabular-nums">
+        {value}
+      </span>
+    );
+  }
+
+  return (
+    <span className="inline-flex items-center gap-2 rounded-xl border border-border bg-background py-1 pl-1 pr-3 text-sm font-medium">
+      <NoteImage name={value} className="h-9 w-9 rounded-lg" />
+      {value}
+    </span>
   );
 }
 

@@ -20,6 +20,7 @@ import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { ScoreBar } from "@/components/ScoreBar";
 import { AnswerFeedback } from "./AnswerFeedback";
+import { HouseMark } from "./HouseMark";
 import { RoundStage } from "./RoundStage";
 import { useSaveRecord } from "./useSaveRecord";
 
@@ -346,6 +347,24 @@ export function OddOneOutGame({
                 <summary className="cursor-pointer font-semibold">
                   {answer?.correct ? "✓" : "×"} Round {roundIndex + 1}: {odd.name}
                 </summary>
+                <div className="mt-3 flex items-center gap-3 rounded-xl bg-background p-2">
+                  <span className="flex h-14 w-12 shrink-0 items-center justify-center rounded-lg bg-white p-1 ring-1 ring-border" aria-hidden="true">
+                    <FragranceBottleImage
+                      key={`${odd.id}:${odd.imageUrl ?? ""}`}
+                      imageUrl={odd.imageUrl}
+                      alt=""
+                      className="max-h-full w-auto max-w-full object-contain drop-shadow-sm"
+                      placeholderClassName="h-10 w-auto text-stone-400 opacity-40"
+                    />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-semibold">{odd.name}</span>
+                    <span className="mt-1 flex items-center gap-1.5 text-xs text-muted">
+                      <HouseMark name={odd.house} size="xs" />
+                      <span className="truncate">{odd.house}</span>
+                    </span>
+                  </span>
+                </div>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{round.explanation}</p>
               </details>
             );
@@ -436,8 +455,9 @@ export function OddOneOutGame({
                     />
                   </span>
                 )}
-                <span className="text-xs font-medium uppercase tracking-widest text-muted">
-                  {fragrance.house}
+                <span className="flex max-w-full items-center gap-1.5 text-xs font-medium uppercase tracking-widest text-muted">
+                  <HouseMark name={fragrance.house} size="xs" />
+                  <span className="truncate">{fragrance.house}</span>
                 </span>
                 <span className="mt-1 font-semibold leading-tight">{fragrance.name}</span>
                 {revealed && isOdd && (

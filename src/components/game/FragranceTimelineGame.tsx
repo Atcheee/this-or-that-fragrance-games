@@ -22,6 +22,7 @@ import {
   type FragranceTimelineResult,
 } from "@/lib/engines/fragrance-timeline";
 import type { Fragrance, GameModeMeta } from "@/lib/types";
+import { HouseMark } from "./HouseMark";
 import { useSaveRecord } from "./useSaveRecord";
 
 export interface FragranceTimelineGameProps {
@@ -331,7 +332,10 @@ function TimelineRound({
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block truncate font-bold">{fragrance.name}</span>
-                <span className="block truncate text-sm text-muted">{fragrance.house}</span>
+                <span className="mt-1 flex min-w-0 items-center gap-1.5 text-sm text-muted">
+                  <HouseMark name={fragrance.house} size="xs" />
+                  <span className="truncate">{fragrance.house}</span>
+                </span>
                 {hinted ? (
                   <span className="mt-1 block text-xs font-semibold text-accent">
                     Oldest · {fragrance.year}
@@ -423,14 +427,24 @@ function ResultOrder({
                     : "border-border bg-background"
               }`}
             >
-              <div className="flex items-start gap-2">
+              <div className="flex items-center gap-2">
                 <span className="font-bold tabular-nums text-muted">{index + 1}.</span>
+                <span className="flex h-14 w-11 shrink-0 items-center justify-center rounded-lg bg-white p-1 ring-1 ring-border" aria-hidden="true">
+                  <FragranceBottleImage
+                    key={`${fragrance.id}:${fragrance.imageUrl ?? ""}`}
+                    imageUrl={fragrance.imageUrl}
+                    alt=""
+                    className="max-h-full w-auto max-w-full object-contain drop-shadow-sm"
+                    placeholderClassName="h-10 w-auto text-stone-400 opacity-40"
+                  />
+                </span>
                 <span className="min-w-0 flex-1">
                   <span className="block font-semibold leading-tight">
                     {fragrance.name}
                   </span>
-                  <span className="mt-0.5 block text-xs text-muted">
-                    {fragrance.house} · {fragrance.year}
+                  <span className="mt-1 flex min-w-0 items-center gap-1.5 text-xs text-muted">
+                    <HouseMark name={fragrance.house} size="xs" />
+                    <span className="truncate">{fragrance.house} · {fragrance.year}</span>
                   </span>
                   {placement ? (
                     <span

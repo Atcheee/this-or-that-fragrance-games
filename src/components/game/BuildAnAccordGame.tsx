@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { KeyboardEvent } from "react";
+import { NoteImage } from "@/components/NoteImage";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import {
   createBuildAnAccordRounds,
@@ -139,17 +140,30 @@ export function BuildAnAccordGame({
             Composition recap
           </h2>
           <ol className="mt-3 grid gap-2 sm:grid-cols-2">
-            {completedRounds.map((completed) => (
-              <li key={completed.round.id} className="rounded-2xl border border-border bg-card p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="font-semibold">{completed.round.profile.name}</p>
-                  <p className="font-bold tabular-nums text-accent">{completed.score.percentage}%</p>
-                </div>
-                <p className="mt-1 text-xs text-muted">
-                  {completed.score.strong.length} strong · {completed.score.weak.length} conflicting
-                </p>
-              </li>
-            ))}
+            {completedRounds.map((completed) => {
+              const selectedNotes = completed.selectedIds
+                .map((id) => completed.round.profile.notes.find((note) => note.id === id))
+                .filter((note): note is AccordNoteOption => Boolean(note));
+              return (
+                <li key={completed.round.id} className="rounded-2xl border border-border bg-card p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="font-semibold">{completed.round.profile.name}</p>
+                    <p className="font-bold tabular-nums text-accent">{completed.score.percentage}%</p>
+                  </div>
+                  <ul className="mt-3 flex flex-wrap gap-2" aria-label="Selected notes">
+                    {selectedNotes.map((note) => (
+                      <li key={note.id} className="flex items-center gap-1.5 rounded-full bg-background py-1 pl-1 pr-2 text-xs font-medium">
+                        <NoteImage name={note.label} className="h-7 w-7 rounded-full" />
+                        {note.label}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-2 text-xs text-muted">
+                    {completed.score.strong.length} strong · {completed.score.weak.length} conflicting
+                  </p>
+                </li>
+              );
+            })}
           </ol>
         </section>
         <div className="flex flex-col items-center gap-2">
@@ -229,7 +243,7 @@ export function BuildAnAccordGame({
                 aria-pressed={selected}
                 disabled={disabled}
                 onClick={() => toggleNote(option.id)}
-                className={`min-h-24 rounded-2xl border p-3 text-left transition-[border-color,background-color,box-shadow,transform] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-not-allowed ${
+                className={`min-h-36 rounded-2xl border p-3 text-left transition-[border-color,background-color,box-shadow,transform] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:cursor-not-allowed ${
                   selected
                     ? "border-accent bg-accent-soft shadow-sm"
                     : "border-border bg-card hover:border-accent hover:bg-card-hover disabled:opacity-50"
@@ -239,6 +253,10 @@ export function BuildAnAccordGame({
                   <span className="font-semibold leading-tight">{option.label}</span>
                   <span aria-hidden="true" className="text-xs text-muted">{index + 1}</span>
                 </span>
+                <NoteImage
+                  name={option.label}
+                  className="mx-auto mt-3 h-14 w-14 rounded-xl"
+                />
                 <span className="mt-2 block text-xs capitalize text-muted">{option.layer} note</span>
               </button>
             );
@@ -279,8 +297,8 @@ function RoundFeedback({
   finalRound: boolean;
 }) {
   const ideal = round.profile.idealNoteIds
-    .map((id) => round.profile.notes.find((candidate) => candidate.id === id)?.label)
-    .filter((label): label is string => Boolean(label));
+    .map((id) => round.profile.notes.find((candidate) => candidate.id === id))
+    .filter((note): note is AccordNoteOption => Boolean(note));
   return (
     <section className="rounded-3xl border border-border bg-card p-5 sm:p-7" aria-labelledby="accord-feedback-title">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -304,7 +322,14 @@ function RoundFeedback({
         ) : null}
         <div className="rounded-2xl border border-border bg-background p-4">
           <p className="text-sm font-bold">Suggested combination</p>
-          <p className="mt-2 text-sm leading-6 text-muted">{ideal.join(" · ")}</p>
+          <ul className="mt-3 grid grid-cols-2 gap-2">
+            {ideal.map((note) => (
+              <li key={note.id} className="flex items-center gap-2 text-sm font-medium">
+                <NoteImage name={note.label} className="h-9 w-9 rounded-lg" />
+                <span>{note.label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
@@ -348,9 +373,12 @@ function FeedbackGroup({
       {notes.length ? (
         <ul className="mt-2 space-y-2">
           {notes.map((note) => (
-            <li key={note.id} className="text-sm">
-              <span className="font-semibold">{note.label}</span>
-              <span className="text-muted"> — {note.insight}</span>
+            <li key={note.id} className="flex items-start gap-2 text-sm">
+              <NoteImage name={note.label} className="h-9 w-9 rounded-lg" />
+              <span className="min-w-0">
+                <span className="font-semibold">{note.label}</span>
+                <span className="text-muted"> — {note.insight}</span>
+              </span>
             </li>
           ))}
         </ul>

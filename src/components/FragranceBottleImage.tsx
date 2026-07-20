@@ -13,6 +13,9 @@ interface FragranceBottleImageProps {
 export function bottleCandidates(imageUrl: string | undefined): string[] {
   if (!imageUrl || imageUrl.includes("cdn.fragella.com")) return [];
 
+  const backgroundRemoved = backgroundRemovedCandidate(imageUrl);
+  if (backgroundRemoved) return [backgroundRemoved, imageUrl];
+
   const fragantyId =
     imageUrl.match(/img\.fraganty\.ai\/perfume(?:-nobg)?\/(\d+)\./i)?.[1] ??
     null;
@@ -25,6 +28,24 @@ export function bottleCandidates(imageUrl: string | undefined): string[] {
   }
 
   return [imageUrl];
+}
+
+function backgroundRemovedCandidate(imageUrl: string): string | null {
+  try {
+    const url = new URL(imageUrl);
+    const isOpaqueCatalogImage =
+      url.protocol === "https:" &&
+      url.hostname === "fimgs.net" &&
+      /^\/mdimg\/perfume(?:-thumbs)?\/\d+x\d+\.\d+\.(?:jpe?g|png|webp)$/i.test(
+        url.pathname,
+      );
+
+    return isOpaqueCatalogImage
+      ? `/api/fragrance-image?v=2&src=${encodeURIComponent(url.toString())}`
+      : null;
+  } catch {
+    return null;
+  }
 }
 
 export function FragranceBottleImage({

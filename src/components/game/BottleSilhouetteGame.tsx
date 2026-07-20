@@ -9,6 +9,7 @@ import {
   type KeyboardEvent,
 } from "react";
 import { FragranceBottleImage } from "@/components/FragranceBottleImage";
+import { FragranceSearchResultVisual } from "@/components/FragranceSearchResultVisual";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import {
   bottleGuessLabel,
@@ -23,6 +24,7 @@ import {
 } from "@/lib/engines/bottle-silhouette";
 import { utcDateKey } from "@/lib/daily";
 import type { Fragrance, GameModeMeta } from "@/lib/types";
+import { HouseMark } from "./HouseMark";
 import { useSaveRecord } from "./useSaveRecord";
 
 export interface BottleSilhouetteGameProps {
@@ -357,7 +359,10 @@ export function BottleSilhouetteGame({
             <h2 id="bottle-result-title" className="text-2xl font-bold tracking-tight">
               {challenge.fragrance.name}
             </h2>
-            <p className="text-muted">{challenge.fragrance.house}</p>
+            <p className="mt-1 flex items-center gap-2 text-muted">
+              <HouseMark name={challenge.fragrance.house} size="sm" />
+              {challenge.fragrance.house}
+            </p>
             <dl className="mt-4 grid grid-cols-3 gap-2 text-center text-sm">
               <ResultStat label="Attempts" value={String(guesses.length)} />
               <ResultStat
@@ -462,8 +467,9 @@ export function BottleSilhouetteGame({
           stageLabel={currentStage.label}
         />
         {currentStage.id === "brand" ? (
-          <p className="mt-3 inline-flex rounded-full border border-accent bg-accent-soft px-4 py-1.5 text-sm font-semibold text-accent animate-reveal">
-            House: {challenge.fragrance.house}
+            <p className="mt-3 inline-flex items-center gap-2 rounded-xl border border-accent bg-accent-soft py-1 pl-1 pr-4 text-sm font-semibold text-accent animate-reveal">
+              <HouseMark name={challenge.fragrance.house} size="sm" />
+              House: {challenge.fragrance.house}
           </p>
         ) : null}
       </section>
@@ -528,10 +534,10 @@ export function BottleSilhouetteGame({
                         : "hover:bg-card-hover"
                     }`}
                   >
-                    <span className="font-semibold">{fragrance.name}</span>
-                    <span className="shrink-0 text-xs text-muted">
-                      {fragrance.house}
-                    </span>
+                    <FragranceSearchResultVisual
+                      fragrance={fragrance}
+                      showBottle={false}
+                    />
                   </button>
                 </li>
               ))}

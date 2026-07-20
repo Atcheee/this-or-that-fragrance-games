@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { FragranceBottleImage } from "@/components/FragranceBottleImage";
+import { FragranceSearchResultVisual } from "@/components/FragranceSearchResultVisual";
 import type { Fragrance } from "@/lib/types";
 import {
   DEFAULT_GRID_ATTEMPTS,
@@ -16,6 +18,7 @@ import {
 } from "@/lib/engines/fragrance-grid";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { utcDateKey } from "@/lib/daily";
+import { HouseMark } from "./HouseMark";
 import { useSaveRecord } from "./useSaveRecord";
 
 export interface FragranceGridGameProps {
@@ -294,9 +297,13 @@ export function FragranceGridGame({
                   <p className="mb-1 text-[0.65rem] font-bold uppercase tracking-wide text-muted">
                     {puzzle.rows[intersection.row].label} × {puzzle.columns[intersection.column].label}
                   </p>
-                  <p className="font-semibold">
-                    {answer ? `${answer.name} · ${answer.house}` : "Unfilled"}
-                  </p>
+                  {answer ? (
+                    <div className="flex items-center justify-between gap-2 rounded-lg bg-background p-2">
+                      <FragranceSearchResultVisual fragrance={answer} />
+                    </div>
+                  ) : (
+                    <p className="font-semibold">Unfilled</p>
+                  )}
                   <p className="mt-1 text-xs text-muted">
                     Other valid: {alternatives.length ? alternatives.map((item) => item.name).join(", ") : "None in catalog"}
                   </p>
@@ -380,13 +387,9 @@ export function FragranceGridGame({
                     onMouseDown={(event) => event.preventDefault()}
                     onMouseEnter={() => setActiveResult(index)}
                     onClick={() => selectSearchResult(fragrance)}
-                    className={`flex w-full justify-between gap-3 rounded-xl px-3 py-2.5 text-left ${index === activeResult ? "bg-accent-soft" : "hover:bg-card-hover"}`}
+                    className={`flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left ${index === activeResult ? "bg-accent-soft" : "hover:bg-card-hover"}`}
                   >
-                    <span className="min-w-0">
-                      <span className="block truncate text-sm font-semibold">{fragrance.name}</span>
-                      <span className="block truncate text-xs text-muted">{fragrance.house}</span>
-                    </span>
-                    {fragrance.year > 0 ? <span className="shrink-0 text-xs tabular-nums text-muted">{fragrance.year}</span> : null}
+                    <FragranceSearchResultVisual fragrance={fragrance} />
                   </button>
                 </li>
               ))}
@@ -498,7 +501,7 @@ function GridRow({
             aria-selected={selected}
             aria-label={fragrance ? `${row.label} and ${column.label}: ${fragrance.name} by ${fragrance.house}` : `${row.label} and ${column.label}, ${failed ? "incorrect attempt" : "empty"}${selected ? ", selected" : ""}`}
             onClick={() => onSelect(index)}
-            className={`min-h-20 rounded-xl border p-1.5 text-center leading-tight transition-[border-color,background-color,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:min-h-24 sm:p-2 ${
+            className={`min-h-24 rounded-xl border p-1.5 text-center leading-tight transition-[border-color,background-color,box-shadow] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:min-h-32 sm:p-2 ${
               fragrance
                 ? "border-success bg-success-soft text-success"
                 : selected
@@ -509,9 +512,21 @@ function GridRow({
             }`}
           >
             {fragrance ? (
-              <span>
+              <span className="flex flex-col items-center">
+                <span className="mb-1 flex h-9 w-full items-end justify-center sm:h-12" aria-hidden="true">
+                  <FragranceBottleImage
+                    key={`${fragrance.id}:${fragrance.imageUrl ?? ""}`}
+                    imageUrl={fragrance.imageUrl}
+                    alt=""
+                    className="max-h-full w-auto max-w-[65%] object-contain drop-shadow-sm"
+                    placeholderClassName="h-8 w-auto text-muted opacity-25"
+                  />
+                </span>
                 <span className="block text-[0.68rem] font-bold sm:text-sm">{fragrance.name}</span>
-                <span className="mt-1 block text-[0.6rem] opacity-80 sm:text-xs">{fragrance.house}</span>
+                <span className="mt-1 flex max-w-full items-center gap-1 text-[0.6rem] opacity-80 sm:text-xs">
+                  <HouseMark name={fragrance.house} size="xs" />
+                  <span className="truncate">{fragrance.house}</span>
+                </span>
               </span>
             ) : (
               <span aria-hidden="true" className="text-xl text-muted">+</span>

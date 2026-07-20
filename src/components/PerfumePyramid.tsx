@@ -1,7 +1,4 @@
-"use client";
-
-import { useState } from "react";
-import { noteIconUrl } from "@/lib/visuals/note-icons";
+import { NoteImage } from "@/components/NoteImage";
 
 interface PerfumePyramidProps {
   topNotes: string[];
@@ -58,7 +55,11 @@ function PyramidTier({
       <ul className="flex flex-wrap items-start justify-center gap-5">
         {notes.map((note) => (
           <li key={note} className="flex w-24 flex-col items-center gap-2">
-            <NoteIcon name={note} />
+            <NoteImage
+              name={note}
+              className="h-20 w-20 rounded-2xl"
+              imageClassName="h-[88%] w-[88%] rounded-xl object-cover"
+            />
             <span className="text-center text-sm font-medium leading-snug">
               {note}
             </span>
@@ -66,35 +67,6 @@ function PyramidTier({
         ))}
       </ul>
     </div>
-  );
-}
-
-function NoteIcon({ name }: { name: string }) {
-  const src = noteIconUrl(name);
-  const [failed, setFailed] = useState(false);
-  const showImage = Boolean(src) && !failed;
-
-  return (
-    <span
-      className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white ring-1 ring-border"
-      aria-hidden
-    >
-      {showImage ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={src!}
-          alt=""
-          className="h-[85%] w-[85%] object-contain"
-          onError={() => setFailed(true)}
-          loading="lazy"
-          decoding="async"
-        />
-      ) : (
-        <span className="text-lg font-bold text-stone-500">
-          {name.charAt(0).toUpperCase()}
-        </span>
-      )}
-    </span>
   );
 }
 

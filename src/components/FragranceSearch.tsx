@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FragranceSearchResultVisual } from "@/components/FragranceSearchResultVisual";
 
 interface SearchResult {
   id: string;
@@ -9,6 +10,7 @@ interface SearchResult {
   house: string;
   year: number;
   slug: string;
+  imageUrl?: string;
 }
 
 export function FragranceSearch({ mobile = false }: { mobile?: boolean }) {
@@ -180,25 +182,13 @@ export function FragranceSearch({ mobile = false }: { mobile?: boolean }) {
                     onMouseEnter={() => setActiveIndex(index)}
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={() => goToResult(result)}
-                    className={`flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-left transition-colors ${
+                    className={`flex w-full items-center justify-between gap-3 rounded-xl px-3 py-2 text-left transition-colors ${
                       index === activeIndex
                         ? "bg-accent-soft text-foreground"
                         : "hover:bg-card-hover"
                     }`}
                   >
-                    <span className="min-w-0">
-                      <span className="block truncate text-sm font-semibold">
-                        {result.name}
-                      </span>
-                      <span className="block truncate text-xs text-muted">
-                        {result.house}
-                      </span>
-                    </span>
-                    {result.year > 0 ? (
-                      <span className="shrink-0 text-xs tabular-nums text-muted">
-                        {result.year}
-                      </span>
-                    ) : null}
+                    <FragranceSearchResultVisual fragrance={result} />
                   </button>
                 </li>
               ))}

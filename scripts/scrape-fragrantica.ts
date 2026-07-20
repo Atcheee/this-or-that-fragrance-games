@@ -337,7 +337,6 @@ function preferFreshSessionOn429(): boolean {
 async function waitForRealPage(page: Page) {
   await page.waitForSelector("body", { timeout: 15_000 }).catch(() => null);
   let warned = false;
-  let rateAttempt = 0;
   const deadline = Date.now() + 15 * 60_000; // CF solve window
   while (true) {
     if (page.isClosed()) {
@@ -760,9 +759,9 @@ async function scrapePerfumePage(
       if (raw.wearRaw?.[k]) wearVotes[k] = parseCount(raw.wearRaw[k]!);
     }
 
-    let topNotes = splitNotes(raw.top);
+    const topNotes = splitNotes(raw.top);
     let heartNotes = splitNotes(raw.middle);
-    let baseNotes = splitNotes(raw.base);
+    const baseNotes = splitNotes(raw.base);
     if (
       topNotes.length + heartNotes.length + baseNotes.length === 0 &&
       raw.flatNotes?.length
@@ -900,7 +899,6 @@ function mergeIntoCatalog(scraped: ScrapedPerfume[]): {
 
 function loadCachedPerfumes(): ScrapedPerfume[] {
   if (!existsSync(PERFUME_DIR)) return [];
-  const { readdirSync } = require("node:fs") as typeof import("node:fs");
   return readdirSync(PERFUME_DIR)
     .filter((f) => f.endsWith(".json"))
     .map(

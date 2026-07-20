@@ -1,11 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import { NoteImage } from "@/components/NoteImage";
 import {
   accordColor,
   accordSoftBackground,
 } from "@/lib/visuals/accord-colors";
-import { fetchNoteImageUrl } from "@/lib/visuals/note-images";
 
 interface NoteBadgeProps {
   name: string;
@@ -13,43 +10,9 @@ interface NoteBadgeProps {
 
 /** Note name + Wikimedia thumbnail for the contains-note question. */
 export function NoteBadge({ name }: NoteBadgeProps) {
-  const [src, setSrc] = useState<string | null>(null);
-  const [failed, setFailed] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-    setSrc(null);
-    setFailed(false);
-    fetchNoteImageUrl(name).then((url) => {
-      if (!cancelled) setSrc(url);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [name]);
-
-  const showImage = Boolean(src) && !failed;
-
   return (
     <span className="inline-flex items-center gap-2 rounded-xl bg-accent-soft py-1 pl-1 pr-3 align-middle text-accent">
-      <span
-        className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-card text-sm font-bold text-muted"
-        aria-hidden
-      >
-        {showImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={src!}
-            alt=""
-            className="h-full w-full object-cover"
-            onError={() => setFailed(true)}
-            loading="lazy"
-            decoding="async"
-          />
-        ) : (
-          name.charAt(0).toUpperCase()
-        )}
-      </span>
+      <NoteImage name={name} className="h-9 w-9 rounded-lg" />
       <span className="font-semibold">{name}</span>
     </span>
   );
