@@ -9,7 +9,8 @@ interface ResultsSummaryProps {
   scoreText: string;
   subText?: string;
   isNewBest?: boolean;
-  onPlayAgain: () => void;
+  onPlayAgain?: () => void;
+  playAgainLabel?: string;
   children?: React.ReactNode;
 }
 
@@ -19,6 +20,7 @@ export function ResultsSummary({
   subText,
   isNewBest,
   onPlayAgain,
+  playAgainLabel = "Play again",
   children,
 }: ResultsSummaryProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -49,12 +51,14 @@ export function ResultsSummary({
       </div>
       {children}
       <div className="flex gap-3" data-animate="result">
-        <button
-          onClick={onPlayAgain}
-          className="rounded-full bg-accent px-6 py-2.5 font-semibold text-white transition-opacity hover:opacity-90 active:scale-95 dark:text-black"
-        >
-          Play again
-        </button>
+        {onPlayAgain && (
+          <button
+            onClick={onPlayAgain}
+            className="rounded-full bg-accent px-6 py-2.5 font-semibold text-white transition-opacity hover:opacity-90 active:scale-95 dark:text-black"
+          >
+            {playAgainLabel}
+          </button>
+        )}
         <Link
           href="/"
           className="rounded-full border border-border bg-card px-6 py-2.5 font-semibold transition-colors hover:bg-card-hover active:scale-95"

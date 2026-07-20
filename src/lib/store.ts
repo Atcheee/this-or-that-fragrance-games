@@ -2,13 +2,25 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { GameModeId, GameRecord } from "./types";
 
+export interface DailyConnectionsProgress {
+  dateKey: string;
+  puzzleId: string;
+  tileOrder: string[];
+  selectedIds: string[];
+  solvedGroupIds: string[];
+  mistakes: number;
+  outcome: "won" | "lost" | null;
+}
+
 interface AppState {
   apiKey: string;
   history: GameRecord[];
   /** Best score percentage (0–100) per quiz mode, or raw count for naming modes */
   best: Partial<Record<GameModeId, number>>;
+  dailyConnections?: DailyConnectionsProgress;
   setApiKey: (key: string) => void;
   addRecord: (record: GameRecord) => void;
+  setDailyConnections: (progress: DailyConnectionsProgress) => void;
   clearHistory: () => void;
 }
 
@@ -21,6 +33,7 @@ export const useAppStore = create<AppState>()(
       history: [],
       best: {},
       setApiKey: (key) => set({ apiKey: key.trim() }),
+      setDailyConnections: (dailyConnections) => set({ dailyConnections }),
       addRecord: (record) =>
         set((state) => {
           const isNaming = NAMING_MODES.includes(record.mode);

@@ -1,22 +1,47 @@
 import type { MetadataRoute } from "next";
+import {
+  getAllCatalogFragrances,
+  getAllHouseSummaries,
+} from "@/lib/catalog";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
   "https://this-or-that-fragrance-games.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  const lastModified = new Date();
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: siteUrl,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
       url: `${siteUrl}/settings`,
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: "monthly",
       priority: 0.4,
     },
   ];
+
+  const fragranceRoutes: MetadataRoute.Sitemap = getAllCatalogFragrances().map(
+    (fragrance) => ({
+      url: `${siteUrl}/fragrance/${fragrance.slug}`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    }),
+  );
+
+  const houseRoutes: MetadataRoute.Sitemap = getAllHouseSummaries().map(
+    (house) => ({
+      url: `${siteUrl}/house/${house.slug}`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    }),
+  );
+
+  return [...staticRoutes, ...houseRoutes, ...fragranceRoutes];
 }

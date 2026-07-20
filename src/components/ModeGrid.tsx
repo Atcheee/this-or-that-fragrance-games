@@ -13,6 +13,7 @@ const KIND_LABELS: Record<GameKind, string> = {
   bracket: "Bracket",
   discovery: "Discovery",
   naming: "Timed",
+  connections: "Connections",
 };
 
 export function ModeGrid() {
@@ -38,6 +39,8 @@ export function ModeGrid() {
                   Best:{" "}
                   {mode.kind === "naming"
                     ? `${bestValue} named`
+                    : mode.kind === "connections"
+                      ? `${Math.round(bestValue / 25)}/4 groups`
                     : mode.kind === "bracket" || mode.kind === "discovery"
                       ? "played"
                       : `${bestValue}%`}

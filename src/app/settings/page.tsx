@@ -74,6 +74,8 @@ export default function SettingsPage() {
                   ? "—"
                   : mode.kind === "naming"
                     ? `${best[mode.id]} named`
+                    : mode.kind === "connections"
+                      ? `${Math.round(best[mode.id]! / 25)}/4 groups`
                     : mode.kind === "bracket" || mode.kind === "discovery"
                       ? "played"
                       : `${best[mode.id]}%`}

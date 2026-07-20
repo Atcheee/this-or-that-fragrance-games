@@ -27,6 +27,7 @@
 # downloaded source data (rebuilt via scripts/build-dataset.ts)
 /scripts/parfumo_data_clean.csv
 /scripts/api-cache/
+/scripts/fragrantica-cache/
 
 # debug
 npm-debug.log*

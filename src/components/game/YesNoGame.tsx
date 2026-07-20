@@ -10,6 +10,7 @@ import { ScoreBar } from "@/components/ScoreBar";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { AnswerFeedback } from "./AnswerFeedback";
 import { RoundStage } from "./RoundStage";
+import { AccordBadge, NoteBadge } from "./SubjectBadge";
 import { useSaveRecord } from "./useSaveRecord";
 
 const REVEAL_MS = 2200;
@@ -92,11 +93,13 @@ export function YesNoGame({ meta, pool, rounds, onPlayAgain }: YesNoGameProps) {
   return (
     <div className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6">
       <ScoreBar round={index} totalRounds={gameRounds.length} score={score} streak={streak} />
-      <h2 className="text-center text-xl font-semibold">
+      <h2 className="text-center text-xl font-semibold leading-relaxed">
         {isNote ? "Does it contain the note" : "Does it have the main accord"}{" "}
-        <span className="rounded-lg bg-accent-soft px-2 py-0.5 text-accent">
-          {current.subject}
-        </span>
+        {isNote ? (
+          <NoteBadge name={current.subject} />
+        ) : (
+          <AccordBadge name={current.subject} />
+        )}
         ?
       </h2>
       <RoundStage roundKey={index}>
@@ -107,8 +110,10 @@ export function YesNoGame({ meta, pool, rounds, onPlayAgain }: YesNoGameProps) {
           state={revealed ? (wasCorrect ? "correct" : "wrong") : "idle"}
           detail={
             revealed && !isNote ? (
-              <span className="text-sm font-normal text-muted">
-                Main accords: {current.fragrance.accords.join(", ")}
+              <span className="flex flex-wrap items-center justify-center gap-1.5 text-sm font-normal">
+                {current.fragrance.accords.map((accord) => (
+                  <AccordBadge key={accord} name={accord} compact />
+                ))}
               </span>
             ) : undefined
           }

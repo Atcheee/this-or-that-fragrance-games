@@ -12,7 +12,19 @@ export function useSaveRecord() {
 
   return useCallback(
     (record: Omit<GameRecord, "playedAt">): boolean => {
-      const { best } = useAppStore.getState();
+      const { best, history } = useAppStore.getState();
+      if (
+        record.mode === "connections-daily" &&
+        record.label &&
+        record.label.length >= 10 &&
+        history.some(
+          (entry) =>
+            entry.mode === record.mode &&
+            entry.label?.startsWith(record.label!.slice(0, 10)),
+        )
+      ) {
+        return false;
+      }
       const isNaming =
         record.mode === "name-by-house" || record.mode === "name-by-note";
       const value = isNaming

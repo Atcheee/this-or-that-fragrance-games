@@ -12,6 +12,7 @@ import { ScoreBar } from "@/components/ScoreBar";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { animateCorrect, animateRevealOptions, gsap } from "@/lib/animations";
 import { AnswerFeedback } from "./AnswerFeedback";
+import { HouseMark } from "./HouseMark";
 import { RoundStage } from "./RoundStage";
 import { useSaveRecord } from "./useSaveRecord";
 
@@ -154,8 +155,13 @@ export function MultipleChoiceGame({
                 disabled={revealed}
                 className={`gsap-surface rounded-xl border-2 px-4 py-3 text-sm font-semibold transition-[border-color,background-color,opacity,color] duration-200 ${styles} ${
                   !revealed ? "cursor-pointer hover:border-accent hover:shadow-md" : ""
+                } ${
+                  isDescription
+                    ? ""
+                    : "flex flex-col items-center justify-center gap-2 py-4"
                 }`}
               >
+                {!isDescription && <HouseMark name={option} />}
                 {option}
               </button>
             );

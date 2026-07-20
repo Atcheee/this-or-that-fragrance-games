@@ -6,12 +6,23 @@ import type { Fragrance, GameModeMeta } from "@/lib/types";
 import { getPoolForMode, seedFragrances } from "@/lib/data-source";
 import { useAppStore } from "@/lib/store";
 import { BRACKET_SIZES, type BracketSize } from "@/lib/engines/bracket";
+import {
+  dailyConnectionPuzzle,
+  generateConnectionPuzzle,
+  randomConnectionPuzzle,
+  type PreparedConnectionPuzzle,
+} from "@/lib/engines/connections";
+import { CONNECTION_PUZZLES } from "@/data/connections-puzzles";
 import { ThisOrThatGame } from "./ThisOrThatGame";
 import { YesNoGame } from "./YesNoGame";
 import { MultipleChoiceGame } from "./MultipleChoiceGame";
 import { BracketGame } from "./BracketGame";
 import { NamingGame } from "./NamingGame";
 import { DiscoveryGame } from "./DiscoveryGame";
+import {
+  ConnectionsGame,
+  type ConnectionsVariant,
+} from "./ConnectionsGame";
 
 const ROUND_CHOICES = [10, 15, 20];
 const DURATION_CHOICES = [60, 90, 120];
@@ -28,13 +39,29 @@ export function GameController({ meta }: GameControllerProps) {
   const [rounds, setRounds] = useState(10);
   const [bracketSize, setBracketSize] = useState<BracketSize>(16);
   const [duration, setDuration] = useState(60);
+  const [infiniteMistakes, setInfiniteMistakes] = useState(false);
   const [pool, setPool] = useState<Fragrance[]>([]);
   const [source, setSource] = useState<"seed" | "fraganty">("seed");
+  const [connectionsPuzzle, setConnectionsPuzzle] =
+    useState<PreparedConnectionPuzzle | null>(null);
   const [gameKey, setGameKey] = useState(0);
+  const isDailyConnections = meta.id === "connections-daily";
 
   const start = useCallback(async () => {
     setPhase("loading");
-    if (meta.kind === "naming") {
+    if (meta.kind === "connections") {
+      const fallback = CONNECTION_PUZZLES[0];
+      if (!fallback) throw new Error("No Connections puzzles are configured.");
+      const variant = connectionsVariant(meta.id);
+      const puzzle =
+        variant === "daily"
+          ? dailyConnectionPuzzle(CONNECTION_PUZZLES, seedFragrances)
+          : variant === "generated"
+            ? generateConnectionPuzzle(seedFragrances, fallback)
+            : randomConnectionPuzzle(CONNECTION_PUZZLES, seedFragrances);
+      setConnectionsPuzzle(puzzle);
+      setSource("seed");
+    } else if (meta.kind === "naming") {
       setPool(seedFragrances);
       setSource("seed");
     } else {
@@ -86,6 +113,27 @@ export function GameController({ meta }: GameControllerProps) {
             You&apos;ll pick a goal, set limits, then answer a short preference
             quiz. Results come from the fragrance catalog — not a scored test.
           </p>
+        ) : meta.kind === "connections" ? (
+          <div className="space-y-4">
+            <p className="text-center text-sm text-muted">
+              Select exactly four fragrance names, then submit the strongest
+              connection.
+              {isDailyConnections
+                ? " Four incorrect submissions end the game."
+                : infiniteMistakes
+                  ? " Keep guessing until every group is found."
+                  : " Four incorrect submissions end the game."}
+            </p>
+            {!isDailyConnections && (
+              <OptionPicker
+                label="Mistakes"
+                choices={[0, 1]}
+                value={infiniteMistakes ? 1 : 0}
+                onChange={(v) => setInfiniteMistakes(v === 1)}
+                format={(v) => (v === 1 ? "Unlimited" : "4 mistakes")}
+              />
+            )}
+          </div>
         ) : (
           <OptionPicker
             label="Rounds"
@@ -100,7 +148,11 @@ export function GameController({ meta }: GameControllerProps) {
           onClick={start}
           className="mx-auto rounded-full bg-accent px-10 py-3 text-lg font-semibold text-white transition-opacity hover:opacity-90 dark:text-black"
         >
-          {meta.kind === "discovery" ? "Begin" : "Start"}
+          {meta.kind === "discovery"
+            ? "Begin"
+            : isDailyConnections
+              ? "Play today’s puzzle"
+              : "Start"}
         </button>
       </div>
     );
@@ -141,8 +193,23 @@ export function GameController({ meta }: GameControllerProps) {
       {meta.kind === "naming" && (
         <NamingGame key={gameKey} {...common} duration={duration} />
       )}
+      {meta.kind === "connections" && connectionsPuzzle && (
+        <ConnectionsGame
+          key={gameKey}
+          {...common}
+          puzzle={connectionsPuzzle}
+          variant={connectionsVariant(meta.id)}
+          infiniteMistakes={!isDailyConnections && infiniteMistakes}
+        />
+      )}
     </div>
   );
+}
+
+function connectionsVariant(id: GameModeMeta["id"]): ConnectionsVariant {
+  if (id === "connections-daily") return "daily";
+  if (id === "connections-generated") return "generated";
+  return "curated";
 }
 
 function OptionPicker<T extends number>({

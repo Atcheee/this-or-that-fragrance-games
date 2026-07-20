@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import type { Fragrance } from "@/lib/types";
 import { animateCorrect, animateWrong, useGSAP } from "@/lib/animations";
+import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 
 export type CardState = "idle" | "correct" | "wrong" | "dimmed";
 
@@ -26,27 +27,6 @@ const STATE_CLASSES: Record<CardState, string> = {
   dimmed: "border-border bg-card opacity-50",
 };
 
-/**
- * Build bottle URL candidates. Prefer Fraganty transparent cutouts; fall back
- * to the opaque JPEG when nobg isn't processed yet (404).
- */
-function bottleCandidates(url: string | undefined): string[] {
-  if (!url) return [];
-  if (url.includes("cdn.fragella.com")) return [];
-
-  const fragantyId =
-    url.match(/img\.fraganty\.ai\/perfume(?:-nobg)?\/(\d+)\./i)?.[1] ?? null;
-
-  if (fragantyId) {
-    return [
-      `https://img.fraganty.ai/perfume-nobg/${fragantyId}.webp`,
-      `https://img.fraganty.ai/perfume/${fragantyId}.jpg`,
-    ];
-  }
-
-  return [url];
-}
-
 export function FragranceCard({
   fragrance,
   onClick,
@@ -62,20 +42,7 @@ export function FragranceCard({
   const cardRef = useRef<HTMLElement | null>(null);
   // Hide bottles when identity/house is concealed — distinctive bottles spoil the quiz.
   const revealBottle = !hideIdentity && !hideHouse;
-  const candidates = revealBottle
-    ? bottleCandidates(fragrance.imageUrl)
-    : [];
-  const [candidateIndex, setCandidateIndex] = useState(0);
-  const bottleSrc = candidates[candidateIndex] ?? null;
-  const imageFailed = candidates.length > 0 && candidateIndex >= candidates.length;
-
-  // Reset fallback chain when the fragrance (or its image) changes
   const candidateKey = `${fragrance.id}:${fragrance.imageUrl ?? ""}`;
-  const [seenKey, setSeenKey] = useState(candidateKey);
-  if (seenKey !== candidateKey) {
-    setSeenKey(candidateKey);
-    setCandidateIndex(0);
-  }
 
   // useGSAP cleans up tweens on unmount / dependency change
   useGSAP(
@@ -95,30 +62,16 @@ export function FragranceCard({
       : ""
   } ${className}`;
 
-  const showBottle = Boolean(bottleSrc) && !imageFailed;
-
   const body = (
     <>
-      {showBottle ? (
+      {revealBottle ? (
         <div className="mb-3 flex h-36 w-full items-end justify-center sm:h-44">
-          {/* Native img: onError walks transparent → opaque fallbacks */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            key={bottleSrc!}
-            src={bottleSrc!}
+          <FragranceBottleImage
+            key={candidateKey}
+            imageUrl={fragrance.imageUrl}
             alt=""
             className="max-h-full w-auto max-w-[70%] object-contain drop-shadow-md"
-            onError={() => setCandidateIndex((i) => i + 1)}
-            loading="lazy"
-            decoding="async"
           />
-        </div>
-      ) : revealBottle ? (
-        <div
-          className="mb-3 flex h-36 w-full items-center justify-center sm:h-44"
-          aria-hidden
-        >
-          <BottlePlaceholder />
         </div>
       ) : null}
       <span className="text-xs font-medium uppercase tracking-widest text-muted">
@@ -170,19 +123,6 @@ export function FragranceCard({
     >
       {body}
     </div>
-  );
-}
-
-function BottlePlaceholder() {
-  return (
-    <svg
-      viewBox="0 0 80 120"
-      className="h-28 w-auto text-muted opacity-40"
-      fill="currentColor"
-    >
-      <rect x="32" y="4" width="16" height="14" rx="2" />
-      <path d="M28 18h24l6 14v70a10 10 0 0 1-10 10H32a10 10 0 0 1-10-10V32l6-14z" />
-    </svg>
   );
 }
 

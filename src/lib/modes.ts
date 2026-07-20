@@ -72,6 +72,30 @@ export const MODES: GameModeMeta[] = [
     tagline: "How many can you list with this note?",
     howTo: "You get a note and a timer. Type as many fragrances containing that note as you can.",
   },
+  {
+    id: "connections-curated",
+    kind: "connections",
+    title: "Fragrance Connections",
+    tagline: "Find four carefully crafted fragrance connections.",
+    howTo:
+      "Sort 16 fragrances into four connected groups. Select four at a time and submit — you can make up to four mistakes.",
+  },
+  {
+    id: "connections-generated",
+    kind: "connections",
+    title: "Infinite Connections",
+    tagline: "A fresh catalog-generated puzzle every game.",
+    howTo:
+      "Sort 16 fragrances into four groups generated from houses, notes, accords, and release years. You can make up to four mistakes.",
+  },
+  {
+    id: "connections-daily",
+    kind: "connections",
+    title: "Daily Connections",
+    tagline: "One shared fragrance puzzle every UTC day.",
+    howTo:
+      "Solve today's shared puzzle in one resumable attempt. Your progress is saved, and a new puzzle arrives at midnight UTC.",
+  },
 ];
 
 export function getMode(id: string): GameModeMeta | undefined {

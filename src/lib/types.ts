@@ -1,3 +1,11 @@
+export type WearOccasion =
+  | "winter"
+  | "spring"
+  | "summer"
+  | "fall"
+  | "day"
+  | "night";
+
 export interface Fragrance {
   id: string;
   name: string;
@@ -16,6 +24,15 @@ export interface Fragrance {
   votes?: number;
   /** Bottle image URL when known (Fragella / Fraganty CDN) */
   imageUrl?: string;
+  /** Longevity label when known (e.g. Long Lasting) */
+  longevity?: string;
+  /** Sillage / projection label when known */
+  sillage?: string;
+  /**
+   * Normalized when-to-wear shares (0–1). Prefer API rankings when present;
+   * otherwise derived from accords at catalog build time.
+   */
+  wear?: Partial<Record<WearOccasion, number>>;
 }
 
 export type GameModeId =
@@ -28,7 +45,10 @@ export type GameModeId =
   | "find-favorite"
   | "perfect-match"
   | "name-by-house"
-  | "name-by-note";
+  | "name-by-note"
+  | "connections-curated"
+  | "connections-generated"
+  | "connections-daily";
 
 export type GameKind =
   | "this-or-that"
@@ -36,7 +56,8 @@ export type GameKind =
   | "multiple-choice"
   | "bracket"
   | "discovery"
-  | "naming";
+  | "naming"
+  | "connections";
 
 export interface GameModeMeta {
   id: GameModeId;
@@ -57,6 +78,30 @@ export interface GameRecord {
   playedAt: string;
   /** Extra label, e.g. bracket winner name or naming subject */
   label?: string;
+}
+
+export type ConnectionDifficulty = "yellow" | "green" | "blue" | "purple";
+
+export type ConnectionMatch =
+  | { kind: "house"; value: string }
+  | { kind: "note"; value: string }
+  | { kind: "accord"; value: string; maxIndex?: number }
+  | { kind: "year-range"; min: number; max: number }
+  | { kind: "longevity"; value: string }
+  | { kind: "sillage"; value: string }
+  | { kind: "curated" };
+
+export interface ConnectionGroup {
+  id: string;
+  label: string;
+  difficulty: ConnectionDifficulty;
+  fragranceIds: [string, string, string, string];
+  match: ConnectionMatch;
+}
+
+export interface ConnectionPuzzle {
+  id: string;
+  groups: [ConnectionGroup, ConnectionGroup, ConnectionGroup, ConnectionGroup];
 }
 
 export function allNotes(f: Fragrance): string[] {

@@ -8,8 +8,8 @@ export default function Home() {
           Fragrance <span className="text-accent">This or That</span>
         </h1>
         <p className="mx-auto mt-3 max-w-xl text-muted">
-          Ten games: test your nose-knowledge on ratings, prices, notes, and
-          houses — or discover your perfect fragrance with a preference quiz.
+          Thirteen games: test your nose-knowledge on ratings, prices, notes,
+          houses, and fragrance connections — or discover your perfect match.
         </p>
       </section>
       <ModeGrid />
