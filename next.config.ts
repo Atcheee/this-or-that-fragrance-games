@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  // ONNX stays in scripts/cutout-worker.mjs (child process). Keep sharp
+  // external so the API route's native binding stays intact.
+  serverExternalPackages: ["sharp"],
   images: {
     remotePatterns: [
       {

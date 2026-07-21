@@ -68,12 +68,13 @@ export function FragranceCard({
   const body = (
     <>
       {revealBottle ? (
-        <div className="mb-3 flex h-36 w-full items-end justify-center sm:h-44">
+        <div className="bottle-studio mb-3 flex h-36 w-full items-end justify-center rounded-xl px-2 pb-2 pt-3 sm:h-44">
           <FragranceBottleImage
             key={candidateKey}
             imageUrl={fragrance.imageUrl}
             alt=""
-            className="max-h-full w-auto max-w-[70%] object-contain drop-shadow-md"
+            className="max-h-full w-auto max-w-full object-contain"
+            stage={false}
           />
         </div>
       ) : null}

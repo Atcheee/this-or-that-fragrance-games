@@ -91,13 +91,14 @@ export default async function FragrancePage({ params }: FragrancePageProps) {
 
       <section className="overflow-hidden rounded-3xl border border-border bg-card">
         <div className="grid gap-8 p-6 sm:p-8 md:grid-cols-[minmax(220px,0.8fr)_minmax(0,1.4fr)]">
-          <div className="flex min-h-72 items-center justify-center rounded-2xl bg-background/70 p-6">
+          <div className="bottle-studio flex min-h-72 items-center justify-center rounded-2xl px-4 py-6">
             <FragranceBottleImage
               imageUrl={fragrance.imageUrl}
               alt={`${fragrance.name} by ${fragrance.house} bottle`}
               eager
-              className="max-h-80 w-auto max-w-full object-contain drop-shadow-xl"
-              placeholderClassName="h-44 w-auto text-muted opacity-25"
+              className="max-h-80 w-auto max-w-full object-contain"
+              placeholderClassName="h-44 w-auto text-stone-400 opacity-40"
+              stage={false}
             />
           </div>
 

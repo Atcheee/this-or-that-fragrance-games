@@ -25,7 +25,9 @@ export function FragranceSearchResultVisual({
               key={`${fragrance.id}:${fragrance.imageUrl ?? ""}`}
               imageUrl={fragrance.imageUrl}
               alt=""
-              className="max-h-full w-auto max-w-full object-contain drop-shadow-sm"
+              well={false}
+              stage={false}
+              className="max-h-full w-auto max-w-full object-contain"
               placeholderClassName="h-9 w-auto text-stone-400 opacity-45"
             />
           </span>

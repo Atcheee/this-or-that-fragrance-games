@@ -101,6 +101,32 @@ input {
   contain-intrinsic-size: auto 260px;
 }
 
+/* Soft radial stage behind cutouts (subtle, not a white plate). */
+.bottle-stage {
+  border-radius: 0.9rem;
+  background: radial-gradient(
+    ellipse 70% 65% at 50% 72%,
+    color-mix(in oklab, var(--card-hover) 70%, transparent) 0%,
+    transparent 72%
+  );
+}
+
+.bottle-well {
+  border-radius: 0.9rem;
+  background: #ffffff;
+}
+
+/* Full-bleed studio band for catalog cards. Pure white matches typical
+   product JPG backdrops so the photo doesn't sit in a nested light box. */
+.bottle-studio {
+  background: #ffffff;
+}
+
+.dark .bottle-studio {
+  background: #ffffff;
+  box-shadow: inset 0 -1px 0 color-mix(in oklab, var(--border) 55%, transparent);
+}
+
 [data-animate="item"],
 [data-animate="result"] {
   will-change: transform, opacity;

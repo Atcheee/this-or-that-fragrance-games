@@ -352,7 +352,10 @@ export function BottleSilhouetteGame({
               imageUrl={challenge.fragrance.imageUrl}
               alt={`${challenge.fragrance.name} by ${challenge.fragrance.house}`}
               eager
-              className="max-h-52 w-auto max-w-full object-contain drop-shadow-md"
+              well={false}
+              stage={false}
+              process
+              className="max-h-52 w-auto max-w-full object-contain"
             />
           </div>
           <div className="self-center">
@@ -626,6 +629,9 @@ function BottleVisual({
           imageUrl={fragrance.imageUrl}
           alt=""
           eager
+          well={false}
+          stage={false}
+          process
           className={imageClassName}
           placeholderClassName="h-32 w-auto text-black"
         />
@@ -646,6 +652,9 @@ function BottleVisual({
             imageUrl={fragrance.imageUrl}
             alt=""
             eager
+            well={false}
+            stage={false}
+            process
             className={imageClassName}
             placeholderClassName="h-32 w-auto text-black"
           />

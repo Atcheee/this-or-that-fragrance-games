@@ -280,13 +280,14 @@ export function FragranceCollectionBrowser({
                 href={`/fragrance/${item.slug}`}
                 className="catalog-card flex items-center gap-4 p-4 transition-colors hover:bg-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
               >
-                <div className="flex h-16 w-14 shrink-0 items-center justify-center">
+                <div className="bottle-studio flex h-16 w-14 shrink-0 items-center justify-center rounded-lg px-1 py-1">
                   <FragranceBottleImage
                     key={`${item.id}:${item.imageUrl ?? ""}`}
                     imageUrl={item.imageUrl}
                     alt={`${item.name} bottle`}
-                    className="max-h-full max-w-full object-contain"
-                    placeholderClassName="h-12 w-auto text-muted opacity-25"
+                    className="max-h-[90%] max-w-[90%] object-contain"
+                    placeholderClassName="h-12 w-auto text-stone-400 opacity-40"
+                    stage={false}
                   />
                 </div>
                 <span className="min-w-0 flex-1">

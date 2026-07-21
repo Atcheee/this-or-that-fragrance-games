@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# local ML cutout cache
+/.cache/
+
 # production
 /build
 
@@ -28,6 +31,7 @@
 /scripts/*
 !/scripts/scrape-scentbase.ts
 !/scripts/dataset-utils.ts
+!/scripts/cutout-worker.mjs
 
 # debug
 npm-debug.log*
