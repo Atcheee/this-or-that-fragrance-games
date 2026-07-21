@@ -65,6 +65,7 @@ export function NoteImage({
           src={src}
           alt=""
           className={imageClassName}
+          referrerPolicy="no-referrer"
           onError={handleImageError}
           loading="lazy"
           decoding="async"

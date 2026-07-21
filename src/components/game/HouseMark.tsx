@@ -52,6 +52,7 @@ export function HouseMark({ name, className = "", size = "md" }: HouseMarkProps)
           src={logo!}
           alt=""
           className={`${sizing.image} object-contain`}
+          referrerPolicy="no-referrer"
           onError={() => setFailedFor(name)}
           loading="lazy"
           decoding="async"
