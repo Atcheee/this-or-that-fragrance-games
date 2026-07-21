@@ -27,6 +27,7 @@
 # local scrape/build tooling + caches (not part of the app)
 /scripts/*
 !/scripts/scrape-scentbase.ts
+!/scripts/dataset-utils.ts
 
 # debug
 npm-debug.log*
