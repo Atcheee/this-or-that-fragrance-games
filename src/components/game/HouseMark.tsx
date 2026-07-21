@@ -6,7 +6,7 @@ import { houseInitials, houseLogoUrl } from "@/lib/visuals/house-logos";
 interface HouseMarkProps {
   name: string;
   className?: string;
-  size?: "xs" | "sm" | "md";
+  size?: "xs" | "sm" | "md" | "lg";
 }
 
 const SIZE_CLASSES = {
@@ -24,6 +24,11 @@ const SIZE_CLASSES = {
     frame: "h-10 w-10 rounded-xl",
     image: "h-7 w-7",
     text: "text-xs",
+  },
+  lg: {
+    frame: "h-16 w-16 rounded-2xl",
+    image: "h-12 w-12",
+    text: "text-sm",
   },
 } as const;
 

@@ -138,7 +138,8 @@ export function GameController({ meta }: GameControllerProps) {
           : meta.kind === "bracket"
             ? bracketSize
             : meta.kind === "this-or-that"
-              ? rounds * 2
+              ? // King of the hill: 2 openers + 1 new challenger per later round, with spare options.
+                rounds + 16
               : Math.max(rounds, 16);
       const result = await getPoolForMode(meta.id, poolCount, apiKey);
       setPool(result.pool);

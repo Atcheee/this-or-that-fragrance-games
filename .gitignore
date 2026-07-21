@@ -25,7 +25,8 @@
 *.pem
 
 # local scrape/build tooling + caches (not part of the app)
-/scripts/
+/scripts/*
+!/scripts/scrape-scentbase.ts
 
 # debug
 npm-debug.log*

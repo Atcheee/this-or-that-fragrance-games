@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import type { Fragrance, GameModeMeta } from "@/lib/types";
 import { allNotes } from "@/lib/types";
 import { generateYesNoRounds } from "@/lib/engines/yes-no";
@@ -8,12 +8,14 @@ import { accordVocabulary, noteVocabulary } from "@/lib/data-source";
 import { FragranceCard } from "@/components/FragranceCard";
 import { ScoreBar } from "@/components/ScoreBar";
 import { ResultsSummary } from "@/components/ResultsSummary";
-import { AnswerFeedback } from "./AnswerFeedback";
 import { RoundStage } from "./RoundStage";
 import { AccordBadge, NoteBadge } from "./SubjectBadge";
+import {
+  AnswerReveal,
+  YesNoRevealContent,
+  continueLabel,
+} from "./AnswerReveal";
 import { useSaveRecord } from "./useSaveRecord";
-
-const REVEAL_MS = 2200;
 
 interface YesNoGameProps {
   meta: GameModeMeta;
@@ -39,9 +41,6 @@ export function YesNoGame({ meta, pool, rounds, onPlayAgain }: YesNoGameProps) {
   const [done, setDone] = useState(false);
   const [isNewBest, setIsNewBest] = useState(false);
   const saveRecord = useSaveRecord();
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  useEffect(() => () => clearTimeout(timeoutRef.current), []);
 
   const current = gameRounds[index];
 
@@ -55,18 +54,19 @@ export function YesNoGame({ meta, pool, rounds, onPlayAgain }: YesNoGameProps) {
     } else {
       setStreak(0);
     }
-    timeoutRef.current = setTimeout(() => {
-      if (index + 1 >= gameRounds.length) {
-        const finalScore = correct ? score + 1 : score;
-        setIsNewBest(
-          saveRecord({ mode: meta.id, score: finalScore, total: gameRounds.length }),
-        );
-        setDone(true);
-      } else {
-        setIndex((i) => i + 1);
-        setAnswered(null);
-      }
-    }, REVEAL_MS);
+  }
+
+  function continueGame() {
+    if (answered === null) return;
+    if (index + 1 >= gameRounds.length) {
+      setIsNewBest(
+        saveRecord({ mode: meta.id, score, total: gameRounds.length }),
+      );
+      setDone(true);
+    } else {
+      setIndex((i) => i + 1);
+      setAnswered(null);
+    }
   }
 
   if (done) {
@@ -89,9 +89,10 @@ export function YesNoGame({ meta, pool, rounds, onPlayAgain }: YesNoGameProps) {
 
   const revealed = answered !== null;
   const wasCorrect = answered === current.answer;
+  const isLast = index + 1 >= gameRounds.length;
 
   return (
-    <div className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6">
+    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6">
       <ScoreBar round={index} totalRounds={gameRounds.length} score={score} streak={streak} />
       <h2 className="text-center text-xl font-semibold leading-relaxed">
         {isNote ? "Does it contain the note" : "Does it have the main accord"}{" "}
@@ -106,27 +107,29 @@ export function YesNoGame({ meta, pool, rounds, onPlayAgain }: YesNoGameProps) {
         <FragranceCard
           key={index}
           fragrance={current.fragrance}
-          showPyramid={revealed && isNote}
           state={revealed ? (wasCorrect ? "correct" : "wrong") : "idle"}
-          detail={
-            revealed && !isNote ? (
-              <span className="flex flex-wrap items-center justify-center gap-1.5 text-sm font-normal">
-                {current.fragrance.accords.map((accord) => (
-                  <AccordBadge key={accord} name={accord} compact />
-                ))}
-              </span>
-            ) : undefined
-          }
         />
       </RoundStage>
       {revealed ? (
-        <AnswerFeedback correct={wasCorrect}>
-          {wasCorrect ? (
-            "Correct!"
-          ) : (
-            <>Wrong — the answer was {current.answer ? "Yes" : "No"}.</>
-          )}
-        </AnswerFeedback>
+        <AnswerReveal
+          correct={wasCorrect}
+          status={
+            wasCorrect ? (
+              "Correct!"
+            ) : (
+              <>Wrong — the answer was {current.answer ? "Yes" : "No"}.</>
+            )
+          }
+          continueLabel={continueLabel(isLast)}
+          onContinue={continueGame}
+        >
+          <YesNoRevealContent
+            fragrance={current.fragrance}
+            subject={current.subject}
+            answer={current.answer}
+            isNote={isNote}
+          />
+        </AnswerReveal>
       ) : (
         <div className="flex justify-center gap-4">
           <button

@@ -1,16 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import type { Fragrance, GameModeMeta } from "@/lib/types";
 import { generatePairRounds } from "@/lib/engines/this-or-that";
 import { FragranceCard, type CardState } from "@/components/FragranceCard";
 import { ScoreBar } from "@/components/ScoreBar";
 import { ResultsSummary } from "@/components/ResultsSummary";
-import { AnswerFeedback } from "./AnswerFeedback";
 import { RoundStage } from "./RoundStage";
+import {
+  AnswerReveal,
+  ThisOrThatRevealContent,
+  continueLabel,
+} from "./AnswerReveal";
 import { useSaveRecord } from "./useSaveRecord";
-
-const REVEAL_MS = 1700;
 
 interface ThisOrThatGameProps {
   meta: GameModeMeta;
@@ -37,9 +39,6 @@ export function ThisOrThatGame({ meta, pool, rounds, onPlayAgain }: ThisOrThatGa
   const [done, setDone] = useState(false);
   const [isNewBest, setIsNewBest] = useState(false);
   const saveRecord = useSaveRecord();
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  useEffect(() => () => clearTimeout(timeoutRef.current), []);
 
   const current = gameRounds[index];
 
@@ -53,18 +52,19 @@ export function ThisOrThatGame({ meta, pool, rounds, onPlayAgain }: ThisOrThatGa
     } else {
       setStreak(0);
     }
-    timeoutRef.current = setTimeout(() => {
-      if (index + 1 >= gameRounds.length) {
-        const finalScore = correct ? score + 1 : score;
-        setIsNewBest(
-          saveRecord({ mode: meta.id, score: finalScore, total: gameRounds.length }),
-        );
-        setDone(true);
-      } else {
-        setIndex((i) => i + 1);
-        setPickedId(null);
-      }
-    }, REVEAL_MS);
+  }
+
+  function continueGame() {
+    if (!pickedId) return;
+    if (index + 1 >= gameRounds.length) {
+      setIsNewBest(
+        saveRecord({ mode: meta.id, score, total: gameRounds.length }),
+      );
+      setDone(true);
+    } else {
+      setIndex((i) => i + 1);
+      setPickedId(null);
+    }
   }
 
   if (done) {
@@ -87,9 +87,12 @@ export function ThisOrThatGame({ meta, pool, rounds, onPlayAgain }: ThisOrThatGa
 
   const revealed = pickedId !== null;
   const wasCorrect = pickedId === current.correctId;
+  const previous = index > 0 ? gameRounds[index - 1] : null;
+  const championId = previous?.correctId ?? null;
   const question = isPrice
     ? "Which one costs more?"
     : "Which one is rated higher?";
+  const isLast = index + 1 >= gameRounds.length;
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6">
@@ -105,6 +108,7 @@ export function ThisOrThatGame({ meta, pool, rounds, onPlayAgain }: ThisOrThatGa
             fragrance={f}
             onClick={() => handlePick(f.id)}
             disabled={revealed}
+            animateIn={championId !== f.id}
             state={cardState(f.id, current.correctId, pickedId)}
             detail={
               revealed ? (
@@ -119,9 +123,19 @@ export function ThisOrThatGame({ meta, pool, rounds, onPlayAgain }: ThisOrThatGa
         ))}
       </RoundStage>
       {revealed && (
-        <AnswerFeedback correct={wasCorrect}>
-          {wasCorrect ? "Correct!" : "Not quite."}
-        </AnswerFeedback>
+        <AnswerReveal
+          correct={wasCorrect}
+          status={wasCorrect ? "Correct!" : "Not quite."}
+          continueLabel={continueLabel(isLast)}
+          onContinue={continueGame}
+        >
+          <ThisOrThatRevealContent
+            a={current.a}
+            b={current.b}
+            correctId={current.correctId}
+            isPrice={isPrice}
+          />
+        </AnswerReveal>
       )}
     </div>
   );

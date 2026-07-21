@@ -17,6 +17,8 @@ interface FragranceCardProps {
   showPyramid?: boolean;
   hideIdentity?: boolean;
   hideHouse?: boolean;
+  /** When false, skips the round-enter animation (e.g. king-of-the-hill champion). */
+  animateIn?: boolean;
   className?: string;
 }
 
@@ -36,6 +38,7 @@ export function FragranceCard({
   showPyramid,
   hideIdentity,
   hideHouse,
+  animateIn = true,
   className = "",
 }: FragranceCardProps) {
   const interactive = onClick && !disabled;
@@ -103,7 +106,7 @@ export function FragranceCard({
           cardRef.current = node;
         }}
         type="button"
-        data-animate="item"
+        data-animate={animateIn ? "item" : undefined}
         onClick={onClick}
         disabled={disabled}
         className={sharedClassName}
@@ -118,7 +121,7 @@ export function FragranceCard({
       ref={(node) => {
         cardRef.current = node;
       }}
-      data-animate="item"
+      data-animate={animateIn ? "item" : undefined}
       className={sharedClassName}
     >
       {body}

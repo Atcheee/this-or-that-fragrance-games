@@ -14,14 +14,19 @@ import {
   dailyOddOneOutSeed,
   generateOddOneOutRounds,
   oddOneOutUtcDateKey,
+  type OddOneOutProperty,
   type OddOneOutRound,
 } from "@/lib/engines/odd-one-out";
 import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { ScoreBar } from "@/components/ScoreBar";
-import { AnswerFeedback } from "./AnswerFeedback";
 import { HouseMark } from "./HouseMark";
 import { RoundStage } from "./RoundStage";
+import {
+  AnswerReveal,
+  OddOneOutRevealContent,
+  continueLabel,
+} from "./AnswerReveal";
 import { useSaveRecord } from "./useSaveRecord";
 
 export type OddOneOutVariant = "daily" | "practice";
@@ -471,28 +476,34 @@ export function OddOneOutGame({
         </div>
 
         {currentAnswer && (
-          <div className="space-y-2 text-center animate-reveal">
-            <AnswerFeedback correct={currentAnswer.correct}>
-              {currentAnswer.correct
+          <AnswerReveal
+            correct={currentAnswer.correct}
+            status={
+              currentAnswer.correct
                 ? `Correct! +${currentAnswer.points} points.`
-                : `Not this time. ${oddFragrance.name} is the odd one out.`}
-            </AnswerFeedback>
-            <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted">
-              <span className="font-semibold text-foreground">Connection:</span>{" "}
-              {current.explanation}
-            </p>
-            <button
-              type="button"
-              onClick={continueGame}
-              className="mt-3 rounded-full bg-accent px-6 py-2.5 font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background dark:text-black"
-            >
-              {index + 1 === generated.rounds.length ? "View results" : "Next round"}
-            </button>
-          </div>
+                : `Not this time. ${oddFragrance.name} is the odd one out.`
+            }
+            continueLabel={continueLabel(index + 1 === generated.rounds.length)}
+            onContinue={continueGame}
+          >
+            <OddOneOutRevealContent
+              fragrances={[...current.fragrances]}
+              oddFragranceId={current.oddFragranceId}
+              matchingFragranceIds={[...current.matchingFragranceIds]}
+              explanation={current.explanation}
+              propertyKind={current.property.kind}
+              propertyLabel={oddOneOutPropertyLabel(current.property)}
+            />
+          </AnswerReveal>
         )}
       </RoundStage>
     </div>
   );
+}
+
+function oddOneOutPropertyLabel(property: OddOneOutProperty): string {
+  if (property.kind === "release-decade") return `${property.startYear}s`;
+  return property.value;
 }
 
 export function oddOneOutShareText({

@@ -11,12 +11,14 @@ import { FragranceCard } from "@/components/FragranceCard";
 import { ScoreBar } from "@/components/ScoreBar";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { animateCorrect, animateRevealOptions, gsap } from "@/lib/animations";
-import { AnswerFeedback } from "./AnswerFeedback";
 import { HouseMark } from "./HouseMark";
 import { RoundStage } from "./RoundStage";
+import {
+  AnswerReveal,
+  MultipleChoiceRevealContent,
+  continueLabel,
+} from "./AnswerReveal";
 import { useSaveRecord } from "./useSaveRecord";
-
-const REVEAL_MS = 2000;
 
 interface MultipleChoiceGameProps {
   meta: GameModeMeta;
@@ -47,13 +49,11 @@ export function MultipleChoiceGame({
   const [done, setDone] = useState(false);
   const [isNewBest, setIsNewBest] = useState(false);
   const saveRecord = useSaveRecord();
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const revealTlRef = useRef<ReturnType<typeof gsap.timeline> | null>(null);
 
   useEffect(
     () => () => {
-      clearTimeout(timeoutRef.current);
       revealTlRef.current?.kill();
     },
     [],
@@ -78,18 +78,19 @@ export function MultipleChoiceGame({
           optionRefs.current[current.answerIndex],
         ) ?? null;
     }
-    timeoutRef.current = setTimeout(() => {
-      if (index + 1 >= gameRounds.length) {
-        const finalScore = correct ? score + 1 : score;
-        setIsNewBest(
-          saveRecord({ mode: meta.id, score: finalScore, total: gameRounds.length }),
-        );
-        setDone(true);
-      } else {
-        setIndex((i) => i + 1);
-        setPicked(null);
-      }
-    }, REVEAL_MS);
+  }
+
+  function continueGame() {
+    if (picked === null) return;
+    if (index + 1 >= gameRounds.length) {
+      setIsNewBest(
+        saveRecord({ mode: meta.id, score, total: gameRounds.length }),
+      );
+      setDone(true);
+    } else {
+      setIndex((i) => i + 1);
+      setPicked(null);
+    }
   }
 
   if (done) {
@@ -112,9 +113,11 @@ export function MultipleChoiceGame({
 
   const revealed = picked !== null;
   const wasCorrect = picked === current.answerIndex;
+  const isLast = index + 1 >= gameRounds.length;
+  const correctOption = current.options[current.answerIndex];
 
   return (
-    <div className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-6">
+    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6">
       <ScoreBar round={index} totalRounds={gameRounds.length} score={score} streak={streak} />
       <h2 className="text-center text-xl font-semibold">
         {isDescription ? "Which fragrance is this?" : "Which house makes it?"}
@@ -170,9 +173,20 @@ export function MultipleChoiceGame({
       </RoundStage>
 
       {revealed && (
-        <AnswerFeedback correct={wasCorrect}>
-          {wasCorrect ? "Correct!" : <>It was {current.options[current.answerIndex]}.</>}
-        </AnswerFeedback>
+        <AnswerReveal
+          correct={wasCorrect}
+          status={
+            wasCorrect ? "Correct!" : <>It was {correctOption}.</>
+          }
+          continueLabel={continueLabel(isLast)}
+          onContinue={continueGame}
+        >
+          <MultipleChoiceRevealContent
+            fragrance={current.fragrance}
+            isDescription={isDescription}
+            correctOption={correctOption}
+          />
+        </AnswerReveal>
       )}
     </div>
   );

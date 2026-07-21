@@ -14,15 +14,17 @@ export const MODES: GameModeMeta[] = [
     id: "higher-rating",
     kind: "this-or-that",
     title: "Higher Rating",
-    tagline: "Which fragrance does the community rate higher?",
-    howTo: "Two fragrances are shown. Pick the one with the higher community rating.",
+    tagline: "King of the hill — keep the higher-rated bottle alive.",
+    howTo:
+      "Two fragrances face off. Pick the higher community rating — the correct one stays as champion while the other is replaced. Keep going until the rounds run out.",
   },
   {
     id: "cost-more",
     kind: "this-or-that",
     title: "Does It Cost More?",
-    tagline: "Pick the pricier bottle.",
-    howTo: "Two fragrances are shown. Pick the one with the higher retail price (per ~100ml).",
+    tagline: "King of the hill — keep the pricier bottle alive.",
+    howTo:
+      "Two fragrances face off. Pick the higher retail price (per ~100ml) — the correct one stays as champion while the other is replaced. Keep going until the rounds run out.",
   },
   {
     id: "contains-note",

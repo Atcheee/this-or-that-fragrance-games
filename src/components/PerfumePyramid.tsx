@@ -4,12 +4,15 @@ interface PerfumePyramidProps {
   topNotes: string[];
   heartNotes: string[];
   baseNotes: string[];
+  /** When set, matching notes get a highlighted ring. */
+  highlight?: string;
 }
 
 export function PerfumePyramid({
   topNotes,
   heartNotes,
   baseNotes,
+  highlight,
 }: PerfumePyramidProps) {
   const hasNotes =
     topNotes.length > 0 || heartNotes.length > 0 || baseNotes.length > 0;
@@ -30,9 +33,9 @@ export function PerfumePyramid({
       </header>
 
       <div className="flex flex-col divide-y divide-border">
-        <PyramidTier label="Top notes" notes={topNotes} />
-        <PyramidTier label="Middle notes" notes={heartNotes} />
-        <PyramidTier label="Base notes" notes={baseNotes} />
+        <PyramidTier label="Top notes" notes={topNotes} highlight={highlight} />
+        <PyramidTier label="Middle notes" notes={heartNotes} highlight={highlight} />
+        <PyramidTier label="Base notes" notes={baseNotes} highlight={highlight} />
       </div>
     </div>
   );
@@ -41,9 +44,11 @@ export function PerfumePyramid({
 function PyramidTier({
   label,
   notes,
+  highlight,
 }: {
   label: string;
   notes: string[];
+  highlight?: string;
 }) {
   if (notes.length === 0) return null;
 
@@ -53,18 +58,32 @@ function PyramidTier({
         {label}
       </h3>
       <ul className="flex flex-wrap items-start justify-center gap-5">
-        {notes.map((note) => (
-          <li key={note} className="flex w-24 flex-col items-center gap-2">
-            <NoteImage
-              name={note}
-              className="h-20 w-20 rounded-2xl"
-              imageClassName="h-[88%] w-[88%] rounded-xl object-cover"
-            />
-            <span className="text-center text-sm font-medium leading-snug">
-              {note}
-            </span>
-          </li>
-        ))}
+        {notes.map((note) => {
+          const isHighlighted =
+            !!highlight &&
+            note.trim().toLowerCase() === highlight.trim().toLowerCase();
+          return (
+            <li
+              key={note}
+              className={`flex w-24 flex-col items-center gap-2 ${
+                isHighlighted ? "rounded-2xl ring-2 ring-accent ring-offset-2 ring-offset-card" : ""
+              }`}
+            >
+              <NoteImage
+                name={note}
+                className="h-20 w-20 rounded-2xl"
+                imageClassName="h-[88%] w-[88%] rounded-xl object-cover"
+              />
+              <span
+                className={`text-center text-sm leading-snug ${
+                  isHighlighted ? "font-bold text-accent" : "font-medium"
+                }`}
+              >
+                {note}
+              </span>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

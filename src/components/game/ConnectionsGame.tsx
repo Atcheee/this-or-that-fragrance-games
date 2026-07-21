@@ -10,6 +10,7 @@ import {
   useAppStore,
 } from "@/lib/store";
 import { animateCorrect, animateWrong } from "@/lib/animations";
+import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { useSaveRecord } from "./useSaveRecord";
 
@@ -420,20 +421,45 @@ function SolvedGroup({
   fragranceById,
 }: {
   group: ConnectionGroup;
-  fragranceById: ReadonlyMap<string, { name: string }>;
+  fragranceById: ReadonlyMap<
+    string,
+    { name: string; imageUrl?: string }
+  >;
 }) {
+  const fragrances = group.fragranceIds
+    .map((id) => {
+      const fragrance = fragranceById.get(id);
+      return fragrance ? { id, ...fragrance } : null;
+    })
+    .filter(
+      (
+        fragrance,
+      ): fragrance is { id: string; name: string; imageUrl?: string } => !!fragrance,
+    );
+
   return (
     <section
       className={`rounded-xl px-4 py-3 text-center animate-reveal ${GROUP_STYLES[group.difficulty]}`}
       aria-label={`${group.difficulty} group: ${group.label}`}
     >
       <h3 className="font-bold">{group.label}</h3>
-      <p className="mt-1 text-sm font-medium">
-        {group.fragranceIds
-          .map((id) => fragranceById.get(id)?.name)
-          .filter(Boolean)
-          .join(" · ")}
-      </p>
+      <div className="mt-3 grid grid-cols-4 gap-2">
+        {fragrances.map((fragrance) => (
+          <div key={fragrance.id} className="flex flex-col items-center gap-1">
+            <span className="flex h-14 w-full items-end justify-center" aria-hidden="true">
+              <FragranceBottleImage
+                imageUrl={fragrance.imageUrl}
+                alt=""
+                className="max-h-full w-auto max-w-[70%] object-contain drop-shadow-sm"
+                placeholderClassName="h-10 w-auto opacity-30"
+              />
+            </span>
+            <span className="line-clamp-2 text-[11px] font-semibold leading-tight">
+              {fragrance.name}
+            </span>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }
