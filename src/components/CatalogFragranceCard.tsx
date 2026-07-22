@@ -49,7 +49,7 @@ export function CatalogFragranceCard({
             </span>
           ) : null}
           <span
-            className={`block line-clamp-2 text-[0.95rem] font-semibold leading-snug tracking-tight ${
+            className={`block line-clamp-2 font-display text-[0.95rem] font-semibold leading-snug tracking-tight ${
               showHouse ? "mt-1.5" : ""
             }`}
           >

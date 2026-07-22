@@ -9,7 +9,7 @@ export function SiteHeader() {
       <div className="mx-auto grid w-full max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-x-4 gap-y-3 px-5 py-3 sm:px-8 md:grid-cols-[auto_auto_minmax(0,1fr)_auto] md:py-0 md:min-h-16">
         <Link
           href="/"
-          className="col-start-1 row-start-1 flex shrink-0 items-center gap-2.5 font-semibold tracking-tight transition-colors hover:text-accent"
+          className="col-start-1 row-start-1 flex shrink-0 items-center gap-2.5 font-display text-lg font-semibold tracking-tight transition-colors hover:text-accent"
         >
           <BrandMark className="text-accent" size={26} />
           <span>This or That</span>
@@ -21,14 +21,14 @@ export function SiteHeader() {
         >
           <Link
             href="/fragrances"
-            className="font-medium text-muted transition-colors hover:text-foreground md:font-normal md:text-sm"
+            className="font-medium text-muted transition-colors hover:text-foreground md:text-sm"
           >
             <span className="md:hidden">Browse fragrances</span>
             <span className="hidden md:inline">Fragrances</span>
           </Link>
           <Link
             href="/houses"
-            className="font-medium text-muted transition-colors hover:text-foreground md:font-normal md:text-sm"
+            className="font-medium text-muted transition-colors hover:text-foreground md:text-sm"
           >
             <span className="md:hidden">Designer houses</span>
             <span className="hidden md:inline">Houses</span>

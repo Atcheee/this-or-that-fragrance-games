@@ -64,7 +64,7 @@ export function ModeGrid() {
               <div>
                 <h2
                   id={slugify(group.title)}
-                  className="text-xl font-semibold tracking-tight sm:text-2xl"
+                  className="font-display text-xl font-semibold tracking-tight sm:text-2xl"
                 >
                   {group.title}
                 </h2>
@@ -89,7 +89,7 @@ export function ModeGrid() {
                       <GameIcon modeId={mode.id} size={36} />
                     </span>
                     <span className="min-w-0">
-                      <span className="block text-lg font-semibold leading-6 tracking-tight group-hover:text-accent">
+                      <span className="block font-display text-lg font-semibold leading-6 tracking-tight group-hover:text-accent">
                         {mode.title}
                       </span>
                       <span className="mt-1 block text-sm leading-5 text-muted sm:text-base">

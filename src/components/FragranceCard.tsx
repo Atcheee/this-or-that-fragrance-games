@@ -81,7 +81,7 @@ export function FragranceCard({
       <span className="text-xs font-medium uppercase tracking-widest text-muted">
         {hideIdentity || hideHouse ? "? ? ?" : fragrance.house}
       </span>
-      <span className="text-xl font-semibold tracking-tight sm:text-2xl">
+      <span className="font-display text-xl font-semibold tracking-tight sm:text-2xl">
         {hideIdentity ? "Mystery Fragrance" : fragrance.name}
       </span>
       {!hideIdentity && fragrance.year > 0 && (

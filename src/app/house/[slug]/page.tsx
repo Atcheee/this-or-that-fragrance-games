@@ -6,6 +6,7 @@ import {
   FragranceCollectionBrowser,
   type HouseCollectionItem,
 } from "@/components/FragranceCollectionBrowser";
+import { HouseMark } from "@/components/game/HouseMark";
 import { getAllHouseSummaries, getHouseBySlug } from "@/lib/catalog";
 import { allNotes } from "@/lib/types";
 
@@ -91,12 +92,17 @@ export default async function HousePage({ params }: HousePageProps) {
       <section className="overflow-hidden rounded-3xl border border-border bg-card">
         <div className="grid gap-8 p-6 sm:p-8 md:grid-cols-[minmax(0,1.35fr)_minmax(260px,0.65fr)]">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
-              Fragrance house
-            </p>
-            <h1 className="mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
-              {house.name}
-            </h1>
+            <div className="flex items-start gap-4 sm:gap-5">
+              <HouseMark name={house.name} size="lg" className="mt-1" />
+              <div className="min-w-0">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
+                  Fragrance house
+                </p>
+                <h1 className="mt-2 text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">
+                  {house.name}
+                </h1>
+              </div>
+            </div>
             <p className="mt-4 max-w-2xl leading-7 text-muted">
               Browse the local catalog for {house.name}. Search the complete
               collection or narrow it by notes, accords, release year, rating,

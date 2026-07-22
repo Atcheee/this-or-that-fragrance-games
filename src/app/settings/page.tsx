@@ -16,7 +16,7 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-10 py-4">
       <section className="space-y-3">
-        <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
+        <h1 className="text-2xl font-semibold tracking-[-0.02em]">Settings</h1>
         <h2 className="text-lg font-semibold">Data source</h2>
         <p className="text-sm text-muted">
           By default, games use a built-in catalog of ~120 well-known

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SiteHeader } from "@/components/SiteHeader";
-import { geistSans } from "@/lib/fonts";
+import { fraunces, ibmPlexMono, plusJakarta } from "@/lib/fonts";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -70,9 +70,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} dark h-full antialiased`}
+      className={`${plusJakarta.variable} ${fraunces.variable} ${ibmPlexMono.variable} dark h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col font-sans">
+      <body className="flex min-h-full flex-col font-sans font-medium">
         <ThemeProvider>
           <SiteHeader />
         </ThemeProvider>

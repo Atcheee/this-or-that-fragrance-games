@@ -6,12 +6,12 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-10 pb-8 sm:gap-12">
       <section className="max-w-3xl">
-        <h1 className="text-5xl font-bold leading-[0.98] tracking-[-0.055em] sm:text-6xl">
+        <h1 className="text-5xl font-semibold leading-[1.02] tracking-[-0.02em] sm:text-6xl">
           Pick a game.
           <br />
           Trust <span className="text-accent">your</span> nose.
         </h1>
-        <p className="mt-6 max-w-md text-base leading-6 text-muted sm:text-lg">
+        <p className="mt-6 max-w-md text-base leading-7 text-muted sm:text-lg">
           Eighteen games. Different ways to play.
           <br />
           One thing in common: your taste.

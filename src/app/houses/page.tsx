@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Buildings, MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { Buildings, MagnifyingGlass, Star } from "@phosphor-icons/react/dist/ssr";
+import { HouseMark } from "@/components/game/HouseMark";
 import { getAllCatalogFragrances, getAllHouseSummaries } from "@/lib/catalog";
-import { houseInitials } from "@/lib/visuals/house-logos";
 
 export const metadata: Metadata = {
   title: "Designer houses — This or That",
@@ -59,7 +59,7 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
             House directory
           </p>
-          <h1 className="mt-2 text-4xl font-bold tracking-[-0.04em] sm:text-5xl">
+          <h1 className="mt-2 text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">
             Designer houses
           </h1>
           <p className="mt-4 max-w-2xl leading-7 text-muted">
@@ -140,51 +140,60 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
 
         {visible.length > 0 ? (
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {visible.map((house) => (
-              <Link
-                key={house.slug}
-                href={`/house/${house.slug}`}
-                className="group flex min-w-0 flex-col rounded-2xl border border-border bg-card p-5 transition-[border-color,background-color,box-shadow] hover:border-accent hover:bg-card-hover hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              >
-                <div className="flex items-start gap-3">
-                  <span
-                    aria-hidden
-                    className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-xs font-bold tracking-wide text-accent ring-1 ring-accent/15"
-                  >
-                    {houseInitials(house.name)}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate text-lg font-semibold tracking-tight group-hover:text-accent">
-                      {house.name}
-                    </span>
-                    <span className="mt-0.5 block text-sm text-muted">
-                      {formatNumber(house.fragranceCount)} fragrances
-                    </span>
-                  </span>
-                </div>
+            {visible.map((house) => {
+              const years = yearRange(house.firstYear, house.latestYear);
+              const hasRating = house.averageRating > 0;
 
-                <dl className="mt-5 grid grid-cols-2 gap-2 border-y border-border py-3 text-sm">
-                  <div>
-                    <dt className="text-xs text-muted">Years</dt>
-                    <dd className="mt-0.5 font-medium tabular-nums">{yearRange(house.firstYear, house.latestYear)}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-xs text-muted">Avg. rating</dt>
-                    <dd className="mt-0.5 font-medium tabular-nums">
-                      {house.averageRating > 0 ? `${house.averageRating.toFixed(2)} / 5` : "Not rated"}
-                    </dd>
-                  </div>
-                </dl>
-
-                <div className="mt-4 flex min-h-7 flex-wrap gap-1.5">
-                  {house.topAccords.slice(0, 3).map((accord) => (
-                    <span key={accord.name} className="rounded-full bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent">
-                      {accord.name}
+              return (
+                <Link
+                  key={house.slug}
+                  href={`/house/${house.slug}`}
+                  className="group flex min-w-0 flex-col gap-4 rounded-2xl border border-border bg-card p-5 transition-[border-color,background-color,box-shadow] hover:border-accent hover:bg-card-hover hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  <div className="flex items-start gap-3">
+                    <HouseMark name={house.name} size="md" />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-display text-[0.95rem] font-semibold leading-snug tracking-tight group-hover:text-accent sm:text-base">
+                        {house.name}
+                      </span>
+                      <span className="mt-1 block text-xs text-muted">
+                        {formatNumber(house.fragranceCount)} fragrances
+                      </span>
                     </span>
-                  ))}
-                </div>
-              </Link>
-            ))}
+                  </div>
+
+                  <div className="flex min-h-7 flex-wrap gap-1.5">
+                    {house.topAccords.slice(0, 3).map((accord) => (
+                      <span
+                        key={accord.name}
+                        className="inline-flex items-center justify-center rounded-full bg-accent-soft px-2.5 py-1 text-xs font-medium leading-none text-accent"
+                      >
+                        {accord.name}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-auto flex items-center justify-between gap-3 border-t border-border/70 pt-3 text-xs">
+                    <span className="tabular-nums text-muted">{years}</span>
+                    {hasRating ? (
+                      <span
+                        className="inline-flex items-center gap-1 font-medium tabular-nums text-foreground"
+                        aria-label={`Average rating ${house.averageRating.toFixed(2)} out of 5`}
+                      >
+                        <Star
+                          weight="fill"
+                          className="size-3.5 text-accent"
+                          aria-hidden
+                        />
+                        {house.averageRating.toFixed(2)}
+                      </span>
+                    ) : (
+                      <span className="text-muted">Unrated</span>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         ) : (
           <div className="mt-5 rounded-2xl border border-dashed border-border px-6 py-14 text-center">

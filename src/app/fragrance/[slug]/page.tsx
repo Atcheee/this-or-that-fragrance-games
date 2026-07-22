@@ -125,7 +125,7 @@ export default async function FragrancePage({ params }: FragrancePageProps) {
             >
               {fragrance.house}
             </Link>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+            <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
               {fragrance.name}
             </h1>
             {fragrance.year > 0 ? (

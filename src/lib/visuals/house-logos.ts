@@ -1,7 +1,13 @@
 /**
- * Map fragrance houses to brand websites, then resolve a logo via DuckDuckGo's
- * favicon CDN. Unknown houses fall back to a best-effort `{slug}.com` guess.
+ * Resolve fragrance-house logos.
+ *
+ * Preference order:
+ * 1. Fragrantica designer art from src/data/house-logos.json (harvested)
+ * 2. High-res Google favicon for a known/guessed brand domain
+ * 3. Caller falls back to a monogram when the image fails
  */
+
+import harvested from "@/data/house-logos.json";
 
 const HOUSE_DOMAINS: Record<string, string> = {
   guerlain: "guerlain.com",
@@ -27,6 +33,7 @@ const HOUSE_DOMAINS: Record<string, string> = {
   "dolce & gabbana": "dolcegabbana.com",
   bvlgari: "bulgari.com",
   lattafa: "lattafa.com",
+  "lattafa perfumes": "lattafa.com",
   givenchy: "givenchy.com",
   "jil sander": "jilsander.com",
   "m. micallef": "micallef.com",
@@ -83,23 +90,97 @@ const HOUSE_DOMAINS: Record<string, string> = {
   "juliette has a gun": "juliettehasagun.com",
   "initio parfums prives": "initioparfums.com",
   "memo paris": "memoparisc.com",
-  "diptyque": "diptyqueparis.com",
+  diptyque: "diptyqueparis.com",
   "le labo": "lelabofragrances.com",
-  "aesop": "aesop.com",
+  aesop: "aesop.com",
   "clean reserve": "cleanbeauty.com",
-  "commodity": "commodityfragrances.com",
-  "phlur": "phlur.com",
+  commodity: "commodityfragrances.com",
+  phlur: "phlur.com",
   "ellis brooklyn": "ellisbrooklyn.com",
-  "nest": "nestnewyork.com",
+  nest: "nestnewyork.com",
   "nest fragrances": "nestnewyork.com",
+  "the dua brand": "theduabrand.com",
+  "victoria's secret": "victoriassecret.com",
+  natura: "natura.com.br",
+  "fragrance world": "fragranceworld.ae",
+  ajmal: "ajmalperfume.com",
+  "al haramain perfumes": "alharamainperfumes.com",
+  "al-rehab": "alrehab.com",
+  "al rehab": "alrehab.com",
+  "maison alhambra": "maisonalhambra.com",
+  "swiss arabian": "swissarabian.com",
+  "o boticario": "oboticario.com.br",
+  "casamorati 1888": "xerjoff.com",
+  "abdul samad al qurashi": "asqgroup.com",
+  cartier: "cartier.com",
+  "roja dove": "rojadove.com",
+  cacharel: "cacharel.com",
+  "jimmy choo": "jimmychoo.com",
+  lush: "lush.com",
+  "ds&durga": "dsanddurga.com",
+  "ds durga": "dsanddurga.com",
+  "parfums de nicolai": "pnicolai.com",
+  nicolai: "pnicolai.com",
 };
+
+type HarvestedLogo = {
+  id: number;
+  name?: string;
+  slug?: string;
+  logoUrl: string;
+  thumbUrl?: string;
+};
+
+type HarvestedFile = {
+  logos?: Record<string, HarvestedLogo>;
+};
+
+const harvestedLogos = (harvested as HarvestedFile).logos ?? {};
 
 function normKey(name: string): string {
   return name
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
+    .replace(/[®™]/g, "")
+    .replace(/[_/\-|&]+/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
+}
+
+function lookupHarvested(name: string): HarvestedLogo | null {
+  const key = normKey(name);
+  if (harvestedLogos[key]) return harvestedLogos[key]!;
+
+  const cleaned = name
+    .split(/[|/]/)[0]!
+    .replace(/\s+/g, " ")
+    .trim();
+  const cleanedKey = normKey(cleaned);
+  if (harvestedLogos[cleanedKey]) return harvestedLogos[cleanedKey]!;
+
+  const slugKey = cleanedKey.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  if (harvestedLogos[slugKey]) return harvestedLogos[slugKey]!;
+
+  const spacedSlug = slugKey.replace(/-/g, " ");
+  if (harvestedLogos[spacedSlug]) return harvestedLogos[spacedSlug]!;
+
+  // Common catalog variants: "Lattafa" ↔ "Lattafa Perfumes", "Jo Malone" ↔ "… London"
+  const stripped = cleanedKey
+    .replace(
+      /\b(perfumes?|parfums?|london|paris|fragrances?|collection)\b/g,
+      " ",
+    )
+    .replace(/\s+/g, " ")
+    .trim();
+  if (stripped && harvestedLogos[stripped]) return harvestedLogos[stripped]!;
+
+  for (const suffix of [" perfumes", " parfums", " london", " paris", " fragrances"]) {
+    const expanded = `${stripped}${suffix}`;
+    if (harvestedLogos[expanded]) return harvestedLogos[expanded]!;
+  }
+
+  return null;
 }
 
 /** Best-effort website for a house name. */
@@ -107,7 +188,6 @@ export function houseDomain(name: string): string | null {
   const key = normKey(name);
   if (HOUSE_DOMAINS[key]) return HOUSE_DOMAINS[key]!;
 
-  // Strip parenthetical / slash aliases: "Al Haramain / الحرمين" → "Al Haramain"
   const cleaned = name
     .split(/[|/]/)[0]!
     .replace(/\s+/g, " ")
@@ -120,10 +200,14 @@ export function houseDomain(name: string): string | null {
   return `${slug}.com`;
 }
 
+/** High-res brand mark URL, or null when nothing useful is known. */
 export function houseLogoUrl(name: string): string | null {
+  const harvestedLogo = lookupHarvested(name);
+  if (harvestedLogo?.logoUrl) return harvestedLogo.logoUrl;
+
   const domain = houseDomain(name);
   if (!domain) return null;
-  return `https://icons.duckduckgo.com/ip3/${domain}.ico`;
+  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`;
 }
 
 /** Initials for the monogram fallback (e.g. "Tom Ford" → "TF"). */

@@ -69,15 +69,33 @@
   --color-connection-blue-foreground: var(--connection-blue-foreground);
   --color-connection-purple: var(--connection-purple);
   --color-connection-purple-foreground: var(--connection-purple-foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-plus-jakarta), "Segoe UI", ui-sans-serif, system-ui,
+    sans-serif;
+  --font-display: var(--font-fraunces), "Iowan Old Style", "Palatino Linotype",
+    Palatino, serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   min-width: 320px;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
+  font-weight: 500;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.02em;
+}
+
+/* Small caps / meta labels read clearer with a touch of tracking. */
+.uppercase.tracking-wide,
+.uppercase.tracking-widest {
+  font-weight: 600;
 }
 
 ::selection {

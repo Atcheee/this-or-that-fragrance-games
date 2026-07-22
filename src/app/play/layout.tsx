@@ -1,4 +1,3 @@
-import { GeistMono } from "geist/font/mono";
 import "./play.css";
 
 export default function PlayLayout({
@@ -6,5 +5,5 @@ export default function PlayLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className={GeistMono.variable}>{children}</div>;
+  return children;
 }

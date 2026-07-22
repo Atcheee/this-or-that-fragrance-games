@@ -1,0 +1,1666 @@
+{
+  "source": "https://www.fragrantica.com/designers/",
+  "generatedAt": "2026-07-22T14:42:19.448Z",
+  "count": 135,
+  "logos": {
+    "acqua di parma": {
+      "id": 184,
+      "name": "Acqua di Parma",
+      "slug": "Acqua-di-Parma",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.184.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.184.jpg"
+    },
+    "acqua-di-parma": {
+      "id": 184,
+      "name": "Acqua di Parma",
+      "slug": "Acqua-di-Parma",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.184.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.184.jpg"
+    },
+    "afnan": {
+      "id": 2048,
+      "name": "Afnan",
+      "slug": "Afnan",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2048.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2048.jpg"
+    },
+    "ajmal": {
+      "id": 613,
+      "name": "Ajmal",
+      "slug": "Ajmal",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.613.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.613.jpg"
+    },
+    "al haramain perfumes": {
+      "id": 429,
+      "name": "Al Haramain Perfumes",
+      "slug": "Al-Haramain-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.429.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.429.jpg"
+    },
+    "al rehab": {
+      "id": 151,
+      "name": "Al-Rehab",
+      "slug": "Al-Rehab",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.151.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.151.jpg"
+    },
+    "al-haramain-perfumes": {
+      "id": 429,
+      "name": "Al Haramain Perfumes",
+      "slug": "Al-Haramain-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.429.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.429.jpg"
+    },
+    "al-rehab": {
+      "id": 151,
+      "name": "Al-Rehab",
+      "slug": "Al-Rehab",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.151.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.151.jpg"
+    },
+    "amouage": {
+      "id": 122,
+      "name": "Amouage",
+      "slug": "Amouage",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.122.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.122.jpg"
+    },
+    "arabiyat prestige": {
+      "id": 1826,
+      "name": "Arabiyat Prestige",
+      "slug": "Arabiyat-Prestige",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1826.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1826.jpg"
+    },
+    "arabiyat-prestige": {
+      "id": 1826,
+      "name": "Arabiyat Prestige",
+      "slug": "Arabiyat-Prestige",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1826.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1826.jpg"
+    },
+    "ariana grande": {
+      "id": 2290,
+      "name": "Ariana Grande",
+      "slug": "Ariana-Grande",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2290.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2290.jpg"
+    },
+    "ariana-grande": {
+      "id": 2290,
+      "name": "Ariana Grande",
+      "slug": "Ariana-Grande",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2290.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2290.jpg"
+    },
+    "armaf": {
+      "id": 2068,
+      "name": "Armaf",
+      "slug": "Armaf",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2068.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2068.jpg"
+    },
+    "avon": {
+      "id": 7,
+      "name": "Avon",
+      "slug": "Avon",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.7.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.7.jpg"
+    },
+    "azzaro": {
+      "id": 8,
+      "name": "Azzaro",
+      "slug": "Azzaro",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.8.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.8.jpg"
+    },
+    "bath body works": {
+      "id": 385,
+      "name": "Bath & Body Works",
+      "slug": "Bath-Body-Works",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.385.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.385.jpg"
+    },
+    "bath-body-works": {
+      "id": 385,
+      "name": "Bath & Body Works",
+      "slug": "Bath-Body-Works",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.385.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.385.jpg"
+    },
+    "bdk parfums": {
+      "id": 2768,
+      "name": "BDK Parfums",
+      "slug": "BDK-Parfums",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2768.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2768.jpg"
+    },
+    "bdk-parfums": {
+      "id": 2768,
+      "name": "BDK Parfums",
+      "slug": "BDK-Parfums",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2768.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2768.jpg"
+    },
+    "boadicea the victorious": {
+      "id": 817,
+      "name": "Boadicea the Victorious",
+      "slug": "Boadicea-the-Victorious",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.817.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.817.jpg"
+    },
+    "boadicea-the-victorious": {
+      "id": 817,
+      "name": "Boadicea the Victorious",
+      "slug": "Boadicea-the-Victorious",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.817.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.817.jpg"
+    },
+    "bond no 9": {
+      "id": 120,
+      "name": "Bond No 9",
+      "slug": "Bond-No-9",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.120.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.120.jpg"
+    },
+    "bond-no-9": {
+      "id": 120,
+      "name": "Bond No 9",
+      "slug": "Bond-No-9",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.120.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.120.jpg"
+    },
+    "borntostandout": {
+      "id": 5045,
+      "name": "BORNTOSTANDOUT®",
+      "slug": "BORNTOSTANDOUT",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5045.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5045.jpg"
+    },
+    "britney spears": {
+      "id": 13,
+      "name": "Britney Spears",
+      "slug": "Britney-Spears",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.13.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.13.jpg"
+    },
+    "britney-spears": {
+      "id": 13,
+      "name": "Britney Spears",
+      "slug": "Britney-Spears",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.13.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.13.jpg"
+    },
+    "burberry": {
+      "id": 104,
+      "name": "Burberry",
+      "slug": "Burberry",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.104.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.104.jpg"
+    },
+    "bvlgari": {
+      "id": 14,
+      "name": "Bvlgari",
+      "slug": "Bvlgari",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.14.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.14.jpg"
+    },
+    "by kilian": {
+      "id": 491,
+      "name": "By Kilian",
+      "slug": "By-Kilian",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.491.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.491.jpg"
+    },
+    "by-kilian": {
+      "id": 491,
+      "name": "By Kilian",
+      "slug": "By-Kilian",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.491.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.491.jpg"
+    },
+    "byredo": {
+      "id": 390,
+      "name": "Byredo",
+      "slug": "Byredo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.390.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.390.jpg"
+    },
+    "cacharel": {
+      "id": 17,
+      "name": "Cacharel",
+      "slug": "Cacharel",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.17.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.17.jpg"
+    },
+    "calvin klein": {
+      "id": 18,
+      "name": "Calvin Klein",
+      "slug": "Calvin-Klein",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.18.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.18.jpg"
+    },
+    "calvin-klein": {
+      "id": 18,
+      "name": "Calvin Klein",
+      "slug": "Calvin-Klein",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.18.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.18.jpg"
+    },
+    "carolina herrera": {
+      "id": 20,
+      "name": "Carolina Herrera",
+      "slug": "Carolina-Herrera",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.20.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.20.jpg"
+    },
+    "carolina-herrera": {
+      "id": 20,
+      "name": "Carolina Herrera",
+      "slug": "Carolina-Herrera",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.20.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.20.jpg"
+    },
+    "cartier": {
+      "id": 24,
+      "name": "Cartier",
+      "slug": "Cartier",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.24.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.24.jpg"
+    },
+    "casamorati 1888": {
+      "id": 7907,
+      "name": "Casamorati 1888",
+      "slug": "Casamorati-1888",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.7907.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.7907.jpg"
+    },
+    "casamorati-1888": {
+      "id": 7907,
+      "name": "Casamorati 1888",
+      "slug": "Casamorati-1888",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.7907.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.7907.jpg"
+    },
+    "chanel": {
+      "id": 30,
+      "name": "Chanel",
+      "slug": "Chanel",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.30.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.30.jpg"
+    },
+    "chloe": {
+      "id": 35,
+      "name": "Chloé",
+      "slug": "Chloe",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.35.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.35.jpg"
+    },
+    "clive christian": {
+      "id": 531,
+      "name": "Clive Christian",
+      "slug": "Clive-Christian",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.531.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.531.jpg"
+    },
+    "clive-christian": {
+      "id": 531,
+      "name": "Clive Christian",
+      "slug": "Clive-Christian",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.531.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.531.jpg"
+    },
+    "comme des garcons": {
+      "id": 46,
+      "name": "Comme des Garcons",
+      "slug": "Comme-des-Garcons",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.46.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.46.jpg"
+    },
+    "comme-des-garcons": {
+      "id": 46,
+      "name": "Comme des Garcons",
+      "slug": "Comme-des-Garcons",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.46.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.46.jpg"
+    },
+    "creed": {
+      "id": 50,
+      "name": "Creed",
+      "slug": "Creed",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.50.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.50.jpg"
+    },
+    "d annam": {
+      "id": 5659,
+      "name": "d'Annam",
+      "slug": "d-Annam",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5659.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5659.jpg"
+    },
+    "d-annam": {
+      "id": 5659,
+      "name": "d'Annam",
+      "slug": "d-Annam",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5659.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5659.jpg"
+    },
+    "d'annam": {
+      "id": 5659,
+      "name": "d'Annam",
+      "slug": "d-Annam",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5659.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5659.jpg"
+    },
+    "davidoff": {
+      "id": 53,
+      "name": "Davidoff",
+      "slug": "Davidoff",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.53.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.53.jpg"
+    },
+    "demeter fragrance": {
+      "id": 268,
+      "name": "Demeter Fragrance",
+      "slug": "Demeter-Fragrance",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.268.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.268.jpg"
+    },
+    "demeter-fragrance": {
+      "id": 268,
+      "name": "Demeter Fragrance",
+      "slug": "Demeter-Fragrance",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.268.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.268.jpg"
+    },
+    "dior": {
+      "id": 160,
+      "name": "Dior",
+      "slug": "Dior",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.160.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.160.jpg"
+    },
+    "diptyque": {
+      "id": 421,
+      "name": "Diptyque",
+      "slug": "Diptyque",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.421.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.421.jpg"
+    },
+    "dolce gabbana": {
+      "id": 56,
+      "name": "Dolce&Gabbana",
+      "slug": "Dolce-Gabbana",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.56.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.56.jpg"
+    },
+    "dolce-gabbana": {
+      "id": 56,
+      "name": "Dolce&Gabbana",
+      "slug": "Dolce-Gabbana",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.56.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.56.jpg"
+    },
+    "ds durga": {
+      "id": 901,
+      "name": "DS&Durga",
+      "slug": "DSDurga",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.901.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.901.jpg"
+    },
+    "dsdurga": {
+      "id": 901,
+      "name": "DS&Durga",
+      "slug": "DSDurga",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.901.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.901.jpg"
+    },
+    "elizabeth arden": {
+      "id": 58,
+      "name": "Elizabeth Arden",
+      "slug": "Elizabeth-Arden",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.58.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.58.jpg"
+    },
+    "elizabeth-arden": {
+      "id": 58,
+      "name": "Elizabeth Arden",
+      "slug": "Elizabeth-Arden",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.58.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.58.jpg"
+    },
+    "essential parfums": {
+      "id": 3439,
+      "name": "Essential Parfums",
+      "slug": "Essential-Parfums",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3439.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3439.jpg"
+    },
+    "essential-parfums": {
+      "id": 3439,
+      "name": "Essential Parfums",
+      "slug": "Essential-Parfums",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3439.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3439.jpg"
+    },
+    "estee lauder": {
+      "id": 60,
+      "name": "Estēe Lauder",
+      "slug": "Estee-Lauder",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.60.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.60.jpg"
+    },
+    "estee-lauder": {
+      "id": 60,
+      "name": "Estēe Lauder",
+      "slug": "Estee-Lauder",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.60.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.60.jpg"
+    },
+    "etat libre d orange": {
+      "id": 262,
+      "name": "Etat Libre d'Orange",
+      "slug": "Etat-Libre-d-Orange",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.262.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.262.jpg"
+    },
+    "etat libre d'orange": {
+      "id": 262,
+      "name": "Etat Libre d'Orange",
+      "slug": "Etat-Libre-d-Orange",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.262.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.262.jpg"
+    },
+    "etat-libre-d-orange": {
+      "id": 262,
+      "name": "Etat Libre d'Orange",
+      "slug": "Etat-Libre-d-Orange",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.262.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.262.jpg"
+    },
+    "ex nihilo": {
+      "id": 2064,
+      "name": "Ex Nihilo",
+      "slug": "Ex-Nihilo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2064.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2064.jpg"
+    },
+    "ex-nihilo": {
+      "id": 2064,
+      "name": "Ex Nihilo",
+      "slug": "Ex-Nihilo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2064.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2064.jpg"
+    },
+    "filippo sorcinelli": {
+      "id": 2197,
+      "name": "Filippo Sorcinelli",
+      "slug": "Filippo-Sorcinelli",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2197.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2197.jpg"
+    },
+    "filippo-sorcinelli": {
+      "id": 2197,
+      "name": "Filippo Sorcinelli",
+      "slug": "Filippo-Sorcinelli",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2197.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2197.jpg"
+    },
+    "fragrance world": {
+      "id": 5856,
+      "name": "Fragrance World",
+      "slug": "Fragrance-World",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5856.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5856.jpg"
+    },
+    "fragrance-world": {
+      "id": 5856,
+      "name": "Fragrance World",
+      "slug": "Fragrance-World",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5856.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5856.jpg"
+    },
+    "frederic malle": {
+      "id": 140,
+      "name": "Frederic Malle",
+      "slug": "Frederic-Malle",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.140.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.140.jpg"
+    },
+    "frederic malle editions de parfums": {
+      "id": 140,
+      "name": "Frederic Malle Editions de Parfums",
+      "slug": "Frederic-Malle-Editions-de-Parfums",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.140.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.140.jpg"
+    },
+    "frederic-malle": {
+      "id": 140,
+      "name": "Frederic Malle",
+      "slug": "Frederic-Malle",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.140.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.140.jpg"
+    },
+    "frederic-malle-editions-de-parfums": {
+      "id": 140,
+      "name": "Frederic Malle Editions de Parfums",
+      "slug": "Frederic-Malle-Editions-de-Parfums",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.140.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.140.jpg"
+    },
+    "french avenue": {
+      "id": 6258,
+      "name": "French Avenue",
+      "slug": "French-Avenue",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.6258.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.6258.jpg"
+    },
+    "french-avenue": {
+      "id": 6258,
+      "name": "French Avenue",
+      "slug": "French-Avenue",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.6258.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.6258.jpg"
+    },
+    "fugazzi": {
+      "id": 3900,
+      "name": "Fugazzi",
+      "slug": "Fugazzi",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3900.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3900.jpg"
+    },
+    "giardini di toscana": {
+      "id": 4204,
+      "name": "Giardini Di Toscana",
+      "slug": "Giardini-Di-Toscana",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4204.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4204.jpg"
+    },
+    "giardini-di-toscana": {
+      "id": 4204,
+      "name": "Giardini Di Toscana",
+      "slug": "Giardini-Di-Toscana",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4204.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4204.jpg"
+    },
+    "giorgio armani": {
+      "id": 65,
+      "name": "Giorgio Armani",
+      "slug": "Giorgio-Armani",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.65.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.65.jpg"
+    },
+    "giorgio-armani": {
+      "id": 65,
+      "name": "Giorgio Armani",
+      "slug": "Giorgio-Armani",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.65.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.65.jpg"
+    },
+    "givenchy": {
+      "id": 66,
+      "name": "Givenchy",
+      "slug": "Givenchy",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.66.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.66.jpg"
+    },
+    "goldfield banks australia": {
+      "id": 3017,
+      "name": "Goldfield & Banks Australia",
+      "slug": "Goldfield-Banks-Australia",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3017.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3017.jpg"
+    },
+    "goldfield-banks-australia": {
+      "id": 3017,
+      "name": "Goldfield & Banks Australia",
+      "slug": "Goldfield-Banks-Australia",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3017.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3017.jpg"
+    },
+    "granado": {
+      "id": 2933,
+      "name": "Granado",
+      "slug": "Granado",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2933.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2933.jpg"
+    },
+    "gucci": {
+      "id": 67,
+      "name": "Gucci",
+      "slug": "Gucci",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.67.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.67.jpg"
+    },
+    "guerlain": {
+      "id": 68,
+      "name": "Guerlain",
+      "slug": "Guerlain",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.68.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.68.jpg"
+    },
+    "gulf orchid": {
+      "id": 5769,
+      "name": "Gulf Orchid",
+      "slug": "Gulf-Orchid",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5769.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5769.jpg"
+    },
+    "gulf-orchid": {
+      "id": 5769,
+      "name": "Gulf Orchid",
+      "slug": "Gulf-Orchid",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5769.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5769.jpg"
+    },
+    "hermes": {
+      "id": 69,
+      "name": "Hermès",
+      "slug": "Hermes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.69.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.69.jpg"
+    },
+    "hugo boss": {
+      "id": 70,
+      "name": "Hugo Boss",
+      "slug": "Hugo-Boss",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.70.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.70.jpg"
+    },
+    "hugo-boss": {
+      "id": 70,
+      "name": "Hugo Boss",
+      "slug": "Hugo-Boss",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.70.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.70.jpg"
+    },
+    "imaginary authors": {
+      "id": 1538,
+      "name": "Imaginary Authors",
+      "slug": "Imaginary-Authors",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1538.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1538.jpg"
+    },
+    "imaginary-authors": {
+      "id": 1538,
+      "name": "Imaginary Authors",
+      "slug": "Imaginary-Authors",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1538.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1538.jpg"
+    },
+    "initio parfums prives": {
+      "id": 2260,
+      "name": "Initio Parfums Prives",
+      "slug": "Initio-Parfums-Prives",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2260.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2260.jpg"
+    },
+    "initio-parfums-prives": {
+      "id": 2260,
+      "name": "Initio Parfums Prives",
+      "slug": "Initio-Parfums-Prives",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2260.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2260.jpg"
+    },
+    "issey miyake": {
+      "id": 71,
+      "name": "Issey Miyake",
+      "slug": "Issey-Miyake",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.71.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.71.jpg"
+    },
+    "issey-miyake": {
+      "id": 71,
+      "name": "Issey Miyake",
+      "slug": "Issey-Miyake",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.71.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.71.jpg"
+    },
+    "jean paul gaultier": {
+      "id": 72,
+      "name": "Jean Paul Gaultier",
+      "slug": "Jean-Paul-Gaultier",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.72.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.72.jpg"
+    },
+    "jean-paul-gaultier": {
+      "id": 72,
+      "name": "Jean Paul Gaultier",
+      "slug": "Jean-Paul-Gaultier",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.72.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.72.jpg"
+    },
+    "jil sander": {
+      "id": 74,
+      "name": "Jil Sander",
+      "slug": "Jil-Sander",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.74.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.74.jpg"
+    },
+    "jil-sander": {
+      "id": 74,
+      "name": "Jil Sander",
+      "slug": "Jil-Sander",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.74.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.74.jpg"
+    },
+    "jimmy choo": {
+      "id": 1081,
+      "name": "Jimmy Choo",
+      "slug": "Jimmy-Choo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1081.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1081.jpg"
+    },
+    "jimmy-choo": {
+      "id": 1081,
+      "name": "Jimmy Choo",
+      "slug": "Jimmy-Choo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1081.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1081.jpg"
+    },
+    "jo malone": {
+      "id": 273,
+      "name": "Jo Malone",
+      "slug": "Jo-Malone",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.273.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.273.jpg"
+    },
+    "jo malone london": {
+      "id": 273,
+      "name": "Jo Malone London",
+      "slug": "Jo-Malone-London",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.273.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.273.jpg"
+    },
+    "jo-malone": {
+      "id": 273,
+      "name": "Jo Malone",
+      "slug": "Jo-Malone",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.273.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.273.jpg"
+    },
+    "jo-malone-london": {
+      "id": 273,
+      "name": "Jo Malone London",
+      "slug": "Jo-Malone-London",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.273.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.273.jpg"
+    },
+    "juliette has a gun": {
+      "id": 228,
+      "name": "Juliette Has A Gun",
+      "slug": "Juliette-Has-A-Gun",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.228.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.228.jpg"
+    },
+    "juliette-has-a-gun": {
+      "id": 228,
+      "name": "Juliette Has A Gun",
+      "slug": "Juliette-Has-A-Gun",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.228.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.228.jpg"
+    },
+    "kayali fragrances": {
+      "id": 3526,
+      "name": "Kayali Fragrances",
+      "slug": "Kayali-Fragrances",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3526.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3526.jpg"
+    },
+    "kayali-fragrances": {
+      "id": 3526,
+      "name": "Kayali Fragrances",
+      "slug": "Kayali-Fragrances",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3526.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3526.jpg"
+    },
+    "kenzo": {
+      "id": 76,
+      "name": "Kenzo",
+      "slug": "Kenzo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.76.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.76.jpg"
+    },
+    "khadlaj perfumes": {
+      "id": 4587,
+      "name": "Khadlaj Perfumes",
+      "slug": "Khadlaj-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4587.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4587.jpg"
+    },
+    "khadlaj-perfumes": {
+      "id": 4587,
+      "name": "Khadlaj Perfumes",
+      "slug": "Khadlaj-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4587.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4587.jpg"
+    },
+    "kilian": {
+      "id": 491,
+      "name": "Kilian",
+      "slug": "Kilian",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.491.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.491.jpg"
+    },
+    "l artisan parfumeur": {
+      "id": 119,
+      "name": "L'Artisan Parfumeur",
+      "slug": "L-Artisan-Parfumeur",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.119.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.119.jpg"
+    },
+    "l-artisan-parfumeur": {
+      "id": 119,
+      "name": "L'Artisan Parfumeur",
+      "slug": "L-Artisan-Parfumeur",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.119.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.119.jpg"
+    },
+    "l'artisan parfumeur": {
+      "id": 119,
+      "name": "L'Artisan Parfumeur",
+      "slug": "L-Artisan-Parfumeur",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.119.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.119.jpg"
+    },
+    "lalique": {
+      "id": 205,
+      "name": "Lalique",
+      "slug": "Lalique",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.205.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.205.jpg"
+    },
+    "lancome": {
+      "id": 80,
+      "name": "Lancôme",
+      "slug": "Lancome",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.80.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.80.jpg"
+    },
+    "lattafa": {
+      "id": 1979,
+      "name": "Lattafa",
+      "slug": "Lattafa",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1979.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1979.jpg"
+    },
+    "lattafa perfumes": {
+      "id": 1979,
+      "name": "Lattafa Perfumes",
+      "slug": "Lattafa-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1979.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1979.jpg"
+    },
+    "lattafa-perfumes": {
+      "id": 1979,
+      "name": "Lattafa Perfumes",
+      "slug": "Lattafa-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1979.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1979.jpg"
+    },
+    "le labo": {
+      "id": 403,
+      "name": "Le Labo",
+      "slug": "Le-Labo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.403.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.403.jpg"
+    },
+    "le-labo": {
+      "id": 403,
+      "name": "Le Labo",
+      "slug": "Le-Labo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.403.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.403.jpg"
+    },
+    "les liquides imaginaires": {
+      "id": 1824,
+      "name": "Les Liquides Imaginaires",
+      "slug": "Les-Liquides-Imaginaires",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1824.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1824.jpg"
+    },
+    "les-liquides-imaginaires": {
+      "id": 1824,
+      "name": "Les Liquides Imaginaires",
+      "slug": "Les-Liquides-Imaginaires",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1824.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1824.jpg"
+    },
+    "loewe": {
+      "id": 293,
+      "name": "Loewe",
+      "slug": "Loewe",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.293.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.293.jpg"
+    },
+    "lorenzo pazzaglia": {
+      "id": 4465,
+      "name": "Lorenzo Pazzaglia",
+      "slug": "Lorenzo-Pazzaglia",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4465.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4465.jpg"
+    },
+    "lorenzo-pazzaglia": {
+      "id": 4465,
+      "name": "Lorenzo Pazzaglia",
+      "slug": "Lorenzo-Pazzaglia",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4465.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4465.jpg"
+    },
+    "louis vuitton": {
+      "id": 2747,
+      "name": "Louis Vuitton",
+      "slug": "Louis-Vuitton",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2747.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2747.jpg"
+    },
+    "louis-vuitton": {
+      "id": 2747,
+      "name": "Louis Vuitton",
+      "slug": "Louis-Vuitton",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2747.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2747.jpg"
+    },
+    "lush": {
+      "id": 504,
+      "name": "Lush",
+      "slug": "Lush",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.504.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.504.jpg"
+    },
+    "m micallef": {
+      "id": 497,
+      "name": "M. Micallef",
+      "slug": "M-Micallef",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.497.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.497.jpg"
+    },
+    "m-micallef": {
+      "id": 497,
+      "name": "M. Micallef",
+      "slug": "M-Micallef",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.497.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.497.jpg"
+    },
+    "m. micallef": {
+      "id": 497,
+      "name": "M. Micallef",
+      "slug": "M-Micallef",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.497.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.497.jpg"
+    },
+    "maison alhambra": {
+      "id": 4828,
+      "name": "Maison Alhambra",
+      "slug": "Maison-Alhambra",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4828.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4828.jpg"
+    },
+    "maison asrar": {
+      "id": 5511,
+      "name": "MAISON ASRAR",
+      "slug": "MAISON-ASRAR",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5511.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5511.jpg"
+    },
+    "maison crivelli": {
+      "id": 3591,
+      "name": "Maison Crivelli",
+      "slug": "Maison-Crivelli",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3591.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3591.jpg"
+    },
+    "maison francis kurkdjian": {
+      "id": 770,
+      "name": "Maison Francis Kurkdjian",
+      "slug": "Maison-Francis-Kurkdjian",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.770.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.770.jpg"
+    },
+    "maison martin margiela": {
+      "id": 845,
+      "name": "Maison Martin Margiela",
+      "slug": "Maison-Martin-Margiela",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.845.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.845.jpg"
+    },
+    "maison-alhambra": {
+      "id": 4828,
+      "name": "Maison Alhambra",
+      "slug": "Maison-Alhambra",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4828.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4828.jpg"
+    },
+    "maison-asrar": {
+      "id": 5511,
+      "name": "MAISON ASRAR",
+      "slug": "MAISON-ASRAR",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5511.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5511.jpg"
+    },
+    "maison-crivelli": {
+      "id": 3591,
+      "name": "Maison Crivelli",
+      "slug": "Maison-Crivelli",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3591.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3591.jpg"
+    },
+    "maison-francis-kurkdjian": {
+      "id": 770,
+      "name": "Maison Francis Kurkdjian",
+      "slug": "Maison-Francis-Kurkdjian",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.770.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.770.jpg"
+    },
+    "maison-martin-margiela": {
+      "id": 845,
+      "name": "Maison Martin Margiela",
+      "slug": "Maison-Martin-Margiela",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.845.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.845.jpg"
+    },
+    "mancera": {
+      "id": 1134,
+      "name": "Mancera",
+      "slug": "Mancera",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1134.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1134.jpg"
+    },
+    "marc antoine barrois": {
+      "id": 3176,
+      "name": "Marc-Antoine Barrois",
+      "slug": "Marc-Antoine-Barrois",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3176.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3176.jpg"
+    },
+    "marc jacobs": {
+      "id": 165,
+      "name": "Marc Jacobs",
+      "slug": "Marc-Jacobs",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.165.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.165.jpg"
+    },
+    "marc-antoine-barrois": {
+      "id": 3176,
+      "name": "Marc-Antoine Barrois",
+      "slug": "Marc-Antoine-Barrois",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3176.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3176.jpg"
+    },
+    "marc-jacobs": {
+      "id": 165,
+      "name": "Marc Jacobs",
+      "slug": "Marc-Jacobs",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.165.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.165.jpg"
+    },
+    "matiere premiere": {
+      "id": 3862,
+      "name": "Matiere Premiere",
+      "slug": "Matiere-Premiere",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3862.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3862.jpg"
+    },
+    "matiere-premiere": {
+      "id": 3862,
+      "name": "Matiere Premiere",
+      "slug": "Matiere-Premiere",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3862.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3862.jpg"
+    },
+    "memo paris": {
+      "id": 315,
+      "name": "Memo Paris",
+      "slug": "Memo-Paris",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.315.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.315.jpg"
+    },
+    "memo-paris": {
+      "id": 315,
+      "name": "Memo Paris",
+      "slug": "Memo-Paris",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.315.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.315.jpg"
+    },
+    "mind games": {
+      "id": 4921,
+      "name": "Mind Games",
+      "slug": "Mind-Games",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4921.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4921.jpg"
+    },
+    "mind-games": {
+      "id": 4921,
+      "name": "Mind Games",
+      "slug": "Mind-Games",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4921.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4921.jpg"
+    },
+    "montale": {
+      "id": 150,
+      "name": "Montale",
+      "slug": "Montale",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.150.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.150.jpg"
+    },
+    "montblanc": {
+      "id": 107,
+      "name": "Montblanc",
+      "slug": "Montblanc",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.107.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.107.jpg"
+    },
+    "moschino": {
+      "id": 85,
+      "name": "Moschino",
+      "slug": "Moschino",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.85.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.85.jpg"
+    },
+    "mugler": {
+      "id": 96,
+      "name": "Mugler",
+      "slug": "Mugler",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.96.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.96.jpg"
+    },
+    "narciso rodriguez": {
+      "id": 86,
+      "name": "Narciso Rodriguez",
+      "slug": "Narciso-Rodriguez",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.86.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.86.jpg"
+    },
+    "narciso-rodriguez": {
+      "id": 86,
+      "name": "Narciso Rodriguez",
+      "slug": "Narciso-Rodriguez",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.86.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.86.jpg"
+    },
+    "nasomatto": {
+      "id": 488,
+      "name": "Nasomatto",
+      "slug": "Nasomatto",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.488.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.488.jpg"
+    },
+    "natura": {
+      "id": 582,
+      "name": "Natura",
+      "slug": "Natura",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.582.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.582.jpg"
+    },
+    "nishane": {
+      "id": 2232,
+      "name": "Nishane",
+      "slug": "Nishane",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2232.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2232.jpg"
+    },
+    "o boticario": {
+      "id": 442,
+      "name": "O Boticário",
+      "slug": "O-Boticario",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.442.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.442.jpg"
+    },
+    "o-boticario": {
+      "id": 442,
+      "name": "O Boticário",
+      "slug": "O-Boticario",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.442.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.442.jpg"
+    },
+    "ormonde jayne": {
+      "id": 562,
+      "name": "Ormonde Jayne",
+      "slug": "Ormonde-Jayne",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.562.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.562.jpg"
+    },
+    "ormonde-jayne": {
+      "id": 562,
+      "name": "Ormonde Jayne",
+      "slug": "Ormonde-Jayne",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.562.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.562.jpg"
+    },
+    "orto parisi": {
+      "id": 1887,
+      "name": "Orto Parisi",
+      "slug": "Orto-Parisi",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1887.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1887.jpg"
+    },
+    "orto-parisi": {
+      "id": 1887,
+      "name": "Orto Parisi",
+      "slug": "Orto-Parisi",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1887.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1887.jpg"
+    },
+    "paco rabanne": {
+      "id": 88,
+      "name": "Paco Rabanne",
+      "slug": "Paco-Rabanne",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.88.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.88.jpg"
+    },
+    "paco-rabanne": {
+      "id": 88,
+      "name": "Paco Rabanne",
+      "slug": "Paco-Rabanne",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.88.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.88.jpg"
+    },
+    "parfums de marly": {
+      "id": 1188,
+      "name": "Parfums de Marly",
+      "slug": "Parfums-de-Marly",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1188.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1188.jpg"
+    },
+    "parfums-de-marly": {
+      "id": 1188,
+      "name": "Parfums de Marly",
+      "slug": "Parfums-de-Marly",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1188.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1188.jpg"
+    },
+    "paris corner": {
+      "id": 5137,
+      "name": "PARIS CORNER",
+      "slug": "PARIS-CORNER",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5137.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5137.jpg"
+    },
+    "paris-corner": {
+      "id": 5137,
+      "name": "PARIS CORNER",
+      "slug": "PARIS-CORNER",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5137.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5137.jpg"
+    },
+    "penhaligon s": {
+      "id": 440,
+      "name": "Penhaligon's",
+      "slug": "Penhaligon-s",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.440.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.440.jpg"
+    },
+    "penhaligon-s": {
+      "id": 440,
+      "name": "Penhaligon's",
+      "slug": "Penhaligon-s",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.440.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.440.jpg"
+    },
+    "penhaligon's": {
+      "id": 440,
+      "name": "Penhaligon's",
+      "slug": "Penhaligon-s",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.440.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.440.jpg"
+    },
+    "phlur": {
+      "id": 2769,
+      "name": "Phlur",
+      "slug": "Phlur",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2769.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2769.jpg"
+    },
+    "prada": {
+      "id": 143,
+      "name": "Prada",
+      "slug": "Prada",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.143.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.143.jpg"
+    },
+    "rabanne": {
+      "id": 88,
+      "name": "Rabanne",
+      "slug": "Rabanne",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.88.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.88.jpg"
+    },
+    "ralph lauren": {
+      "id": 106,
+      "name": "Ralph Lauren",
+      "slug": "Ralph-Lauren",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.106.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.106.jpg"
+    },
+    "ralph-lauren": {
+      "id": 106,
+      "name": "Ralph Lauren",
+      "slug": "Ralph-Lauren",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.106.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.106.jpg"
+    },
+    "rasasi": {
+      "id": 888,
+      "name": "Rasasi",
+      "slug": "Rasasi",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.888.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.888.jpg"
+    },
+    "rayhaan": {
+      "id": 6029,
+      "name": "Rayhaan",
+      "slug": "Rayhaan",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.6029.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.6029.jpg"
+    },
+    "roja dove": {
+      "id": 626,
+      "name": "Roja Dove",
+      "slug": "Roja-Dove",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.626.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.626.jpg"
+    },
+    "roja parfums": {
+      "id": 626,
+      "name": "Roja Parfums",
+      "slug": "Roja-Parfums",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.626.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.626.jpg"
+    },
+    "roja-dove": {
+      "id": 626,
+      "name": "Roja Dove",
+      "slug": "Roja-Dove",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.626.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.626.jpg"
+    },
+    "roja-parfums": {
+      "id": 626,
+      "name": "Roja Parfums",
+      "slug": "Roja-Parfums",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.626.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.626.jpg"
+    },
+    "salvatore ferragamo": {
+      "id": 92,
+      "name": "Salvatore Ferragamo",
+      "slug": "Salvatore-Ferragamo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.92.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.92.jpg"
+    },
+    "salvatore-ferragamo": {
+      "id": 92,
+      "name": "Salvatore Ferragamo",
+      "slug": "Salvatore-Ferragamo",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.92.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.92.jpg"
+    },
+    "serge lutens": {
+      "id": 93,
+      "name": "Serge Lutens",
+      "slug": "Serge-Lutens",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.93.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.93.jpg"
+    },
+    "serge-lutens": {
+      "id": 93,
+      "name": "Serge Lutens",
+      "slug": "Serge-Lutens",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.93.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.93.jpg"
+    },
+    "sol de janeiro": {
+      "id": 3709,
+      "name": "Sol de Janeiro",
+      "slug": "Sol-de-Janeiro",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3709.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3709.jpg"
+    },
+    "sol-de-janeiro": {
+      "id": 3709,
+      "name": "Sol de Janeiro",
+      "slug": "Sol-de-Janeiro",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.3709.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.3709.jpg"
+    },
+    "sorce": {
+      "id": 6028,
+      "name": "Sorce",
+      "slug": "Sorce",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.6028.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.6028.jpg"
+    },
+    "sospiro perfumes": {
+      "id": 1350,
+      "name": "Sospiro Perfumes",
+      "slug": "Sospiro-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1350.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1350.jpg"
+    },
+    "sospiro-perfumes": {
+      "id": 1350,
+      "name": "Sospiro Perfumes",
+      "slug": "Sospiro-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1350.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1350.jpg"
+    },
+    "swiss arabian": {
+      "id": 1104,
+      "name": "Swiss Arabian",
+      "slug": "Swiss-Arabian",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1104.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1104.jpg"
+    },
+    "swiss-arabian": {
+      "id": 1104,
+      "name": "Swiss Arabian",
+      "slug": "Swiss-Arabian",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1104.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1104.jpg"
+    },
+    "the dua brand": {
+      "id": 2772,
+      "name": "The Dua Brand",
+      "slug": "The-Dua-Brand",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2772.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2772.jpg"
+    },
+    "the-dua-brand": {
+      "id": 2772,
+      "name": "The Dua Brand",
+      "slug": "The-Dua-Brand",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2772.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2772.jpg"
+    },
+    "tiziana terenzi": {
+      "id": 1535,
+      "name": "Tiziana Terenzi",
+      "slug": "Tiziana-Terenzi",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1535.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1535.jpg"
+    },
+    "tiziana-terenzi": {
+      "id": 1535,
+      "name": "Tiziana Terenzi",
+      "slug": "Tiziana-Terenzi",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.1535.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.1535.jpg"
+    },
+    "tom ford": {
+      "id": 139,
+      "name": "Tom Ford",
+      "slug": "Tom-Ford",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.139.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.139.jpg"
+    },
+    "tom-ford": {
+      "id": 139,
+      "name": "Tom Ford",
+      "slug": "Tom-Ford",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.139.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.139.jpg"
+    },
+    "toskovat": {
+      "id": 4824,
+      "name": "Toskovat'",
+      "slug": "Toskovat",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4824.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4824.jpg"
+    },
+    "toskovat'": {
+      "id": 4824,
+      "name": "Toskovat'",
+      "slug": "Toskovat",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.4824.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.4824.jpg"
+    },
+    "trussardi": {
+      "id": 114,
+      "name": "Trussardi",
+      "slug": "Trussardi",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.114.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.114.jpg"
+    },
+    "valentino": {
+      "id": 100,
+      "name": "Valentino",
+      "slug": "Valentino",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.100.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.100.jpg"
+    },
+    "van cleef arpels": {
+      "id": 101,
+      "name": "Van Cleef & Arpels",
+      "slug": "Van-Cleef-Arpels",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.101.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.101.jpg"
+    },
+    "van-cleef-arpels": {
+      "id": 101,
+      "name": "Van Cleef & Arpels",
+      "slug": "Van-Cleef-Arpels",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.101.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.101.jpg"
+    },
+    "versace": {
+      "id": 97,
+      "name": "Versace",
+      "slug": "Versace",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.97.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.97.jpg"
+    },
+    "victoria s secret": {
+      "id": 199,
+      "name": "Victoria's Secret",
+      "slug": "Victoria-s-Secret",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.199.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.199.jpg"
+    },
+    "victoria-s-secret": {
+      "id": 199,
+      "name": "Victoria's Secret",
+      "slug": "Victoria-s-Secret",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.199.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.199.jpg"
+    },
+    "victoria's secret": {
+      "id": 199,
+      "name": "Victoria's Secret",
+      "slug": "Victoria-s-Secret",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.199.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.199.jpg"
+    },
+    "viktor rolf": {
+      "id": 174,
+      "name": "Viktor&Rolf",
+      "slug": "Viktor-Rolf",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.174.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.174.jpg"
+    },
+    "viktor-rolf": {
+      "id": 174,
+      "name": "Viktor&Rolf",
+      "slug": "Viktor-Rolf",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.174.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.174.jpg"
+    },
+    "vilhelm parfumerie": {
+      "id": 2251,
+      "name": "Vilhelm Parfumerie",
+      "slug": "Vilhelm-Parfumerie",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2251.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2251.jpg"
+    },
+    "vilhelm-parfumerie": {
+      "id": 2251,
+      "name": "Vilhelm Parfumerie",
+      "slug": "Vilhelm-Parfumerie",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2251.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2251.jpg"
+    },
+    "xerjoff": {
+      "id": 720,
+      "name": "Xerjoff",
+      "slug": "Xerjoff",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.720.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.720.jpg"
+    },
+    "yves rocher": {
+      "id": 169,
+      "name": "Yves Rocher",
+      "slug": "Yves-Rocher",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.169.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.169.jpg"
+    },
+    "yves saint laurent": {
+      "id": 99,
+      "name": "Yves Saint Laurent",
+      "slug": "Yves-Saint-Laurent",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.99.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.99.jpg"
+    },
+    "yves-rocher": {
+      "id": 169,
+      "name": "Yves Rocher",
+      "slug": "Yves-Rocher",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.169.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.169.jpg"
+    },
+    "yves-saint-laurent": {
+      "id": 99,
+      "name": "Yves Saint Laurent",
+      "slug": "Yves-Saint-Laurent",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.99.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.99.jpg"
+    },
+    "zara": {
+      "id": 642,
+      "name": "Zara",
+      "slug": "Zara",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.642.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.642.jpg"
+    },
+    "zimaya": {
+      "id": 5311,
+      "name": "Zimaya",
+      "slug": "Zimaya",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.5311.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.5311.jpg"
+    },
+    "zoologist perfumes": {
+      "id": 2087,
+      "name": "Zoologist Perfumes",
+      "slug": "Zoologist-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2087.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2087.jpg"
+    },
+    "zoologist-perfumes": {
+      "id": 2087,
+      "name": "Zoologist Perfumes",
+      "slug": "Zoologist-Perfumes",
+      "logoUrl": "https://fimgs.net/mdimg/dizajneri/o.2087.jpg",
+      "thumbUrl": "https://fimgs.net/mdimg/dizajneri/m.2087.jpg"
+    }
+  }
+}

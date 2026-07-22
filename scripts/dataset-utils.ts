@@ -78,6 +78,15 @@ const BRAND_ALIASES: Record<string, string> = {
   boadiceathevictorious: "Boadicea the Victorious",
   juliettehasagun: "Juliette Has a Gun",
   penhaligons: "Penhaligon's",
+  rojadove: "Roja Parfums",
+  roja: "Roja Parfums",
+  rojaparfums: "Roja Parfums",
+  lacostefragrances: "Lacoste",
+  lacoste: "Lacoste",
+  alfreddunhill: "Dunhill",
+  dunhilllondon: "Dunhill",
+  dunhill: "Dunhill",
+  chopard: "Chopard",
 };
 
 export function canonicalHouse(raw: string): string {

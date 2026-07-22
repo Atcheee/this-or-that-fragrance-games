@@ -89,7 +89,7 @@ export default async function FragrancesPage({
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
             Scent library
           </p>
-          <h1 className="mt-2 text-4xl font-bold tracking-[-0.04em] sm:text-5xl">
+          <h1 className="mt-2 text-4xl font-semibold tracking-[-0.02em] sm:text-5xl">
             Browse fragrances
           </h1>
           <p className="mt-4 max-w-2xl leading-7 text-muted">

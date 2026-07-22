@@ -175,7 +175,7 @@ export function GameController({ meta }: GameControllerProps) {
             <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-accent">
               Fragrance game
             </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-[-0.04em] sm:text-5xl">
+            <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] sm:text-5xl">
               {meta.title}
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-muted">
