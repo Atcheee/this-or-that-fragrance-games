@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SiteHeader } from "@/components/SiteHeader";
+import { geistSans } from "@/lib/fonts";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -71,18 +70,18 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} dark h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
         <ThemeProvider>
           <SiteHeader />
-          <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 py-10 sm:px-8 sm:py-12">
-            {children}
-          </main>
-          <footer className="border-t border-border py-5 text-center text-xs text-muted">
-            Fragrance data is approximate and for entertainment only.
-          </footer>
         </ThemeProvider>
+        <main className="mx-auto flex w-full max-w-7xl flex-1 flex-col px-5 py-10 sm:px-8 sm:py-12">
+          {children}
+        </main>
+        <footer className="border-t border-border py-5 text-center text-xs text-muted">
+          Fragrance data is approximate and for entertainment only.
+        </footer>
       </body>
     </html>
   );

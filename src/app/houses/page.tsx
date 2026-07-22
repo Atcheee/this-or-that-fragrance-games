@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/houses" },
 };
 
-const PAGE_SIZE = 48;
+const PAGE_SIZE = 24;
 const COLLATOR = new Intl.Collator("en", { sensitivity: "base", numeric: true });
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -204,7 +204,12 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
                 Previous
               </Link>
             ) : (
-              <span className="rounded-full border border-border px-4 py-2 text-sm text-muted opacity-50">Previous</span>
+              <span
+                aria-disabled="true"
+                className="rounded-full border border-border px-4 py-2 text-sm font-semibold text-muted"
+              >
+                Previous
+              </span>
             )}
             <span className="text-sm tabular-nums text-muted">
               Page <strong className="text-foreground">{currentPage}</strong> of {totalPages}
@@ -214,7 +219,12 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
                 Next
               </Link>
             ) : (
-              <span className="rounded-full border border-border px-4 py-2 text-sm text-muted opacity-50">Next</span>
+              <span
+                aria-disabled="true"
+                className="rounded-full border border-border px-4 py-2 text-sm font-semibold text-muted"
+              >
+                Next
+              </span>
             )}
           </nav>
         ) : null}

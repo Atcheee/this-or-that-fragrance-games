@@ -14,7 +14,7 @@ interface SearchResult {
   imageUrl?: string;
 }
 
-export function FragranceSearch({ mobile = false }: { mobile?: boolean }) {
+export function FragranceSearch() {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const listboxId = useId();
@@ -104,7 +104,7 @@ export function FragranceSearch({ mobile = false }: { mobile?: boolean }) {
 
   return (
     <div
-      className={`relative ${mobile ? "w-full" : "w-full max-w-md"}`}
+      className="relative w-full max-w-none md:max-w-md"
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
       }}

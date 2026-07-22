@@ -1,8 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { bottleCandidates } from "@/lib/bottle-images";
 
-const PROCESS_VERSION = "21";
+export { bottleCandidates, primaryBottleSrc } from "@/lib/bottle-images";
+
+const OPTIMIZABLE_HOSTS = new Set([
+  "img.fraganty.ai",
+  "media.thescentbase.com",
+  "cdn.fragella.com",
+  "fimgs.net",
+]);
+
+function canOptimizeSrc(src: string): boolean {
+  if (src.startsWith("/")) return true;
+  try {
+    return OPTIMIZABLE_HOSTS.has(new URL(src).hostname);
+  } catch {
+    return false;
+  }
+}
 
 interface FragranceBottleImageProps {
   imageUrl?: string;
@@ -19,47 +37,14 @@ interface FragranceBottleImageProps {
    * catalog uses opaque studio shots + dark-mode multiply blend instead.
    */
   process?: boolean;
+  /** Intrinsic ratio for next/image; bottles are typically ~3:4. */
+  width?: number;
+  height?: number;
+  sizes?: string;
   className?: string;
   placeholderClassName?: string;
   wellClassName?: string;
   stageClassName?: string;
-}
-
-export function bottleCandidates(
-  imageUrl: string | undefined,
-  options: { preferOpaque?: boolean; process?: boolean } = {},
-): string[] {
-  if (!imageUrl || imageUrl.includes("cdn.fragella.com")) return [];
-
-  const preferOpaque = options.preferOpaque ?? true;
-  const process = options.process ?? true;
-  const fragantyId =
-    imageUrl.match(/img\.fraganty\.ai\/perfume(?:-nobg)?\/(\d+)\./i)?.[1] ??
-    null;
-
-  const opaque = fragantyId
-    ? `https://img.fraganty.ai/perfume/${fragantyId}.jpg`
-    : null;
-  const cutout = fragantyId
-    ? `https://img.fraganty.ai/perfume-nobg/${fragantyId}.webp`
-    : null;
-
-  // ML cutouts need an opaque studio source. Prefer that, then remote cutout.
-  const sources: string[] = [];
-  if (fragantyId) {
-    if (preferOpaque && opaque) sources.push(opaque);
-    if (cutout) sources.push(cutout);
-    if (!preferOpaque && opaque) sources.push(opaque);
-  } else {
-    sources.push(imageUrl);
-  }
-
-  if (!process) return sources;
-
-  return sources.map(
-    (src) =>
-      `/api/fragrance-image?v=${PROCESS_VERSION}&src=${encodeURIComponent(src)}`,
-  );
 }
 
 export function FragranceBottleImage({
@@ -69,6 +54,9 @@ export function FragranceBottleImage({
   well = false,
   stage = false,
   process = false,
+  width = 375,
+  height = 500,
+  sizes = "(max-width: 640px) 45vw, 140px",
   className = "max-h-full w-auto max-w-full object-contain",
   placeholderClassName = "h-28 w-auto text-muted opacity-35",
   wellClassName = "",
@@ -79,45 +67,58 @@ export function FragranceBottleImage({
     process,
   });
   const [candidateIndex, setCandidateIndex] = useState(0);
-  const imgRef = useRef<HTMLImageElement>(null);
   const src = candidates[candidateIndex];
 
   useEffect(() => {
     setCandidateIndex(0);
   }, [imageUrl, process]);
 
-  // Catch loads that failed before hydration attached onError (common with
-  // hotlink 403s on above-the-fold images).
-  useEffect(() => {
-    const img = imgRef.current;
-    if (!img || !src) return;
-    if (img.complete && img.naturalWidth === 0) {
-      setCandidateIndex((index) => index + 1);
-    }
-  }, [src]);
+  const advance = () => setCandidateIndex((index) => index + 1);
 
-  const media = !src ? (
-    <BottlePlaceholder
-      className={placeholderClassName}
-      label={alt ? `No bottle image available for ${alt}` : undefined}
-    />
-  ) : (
-    // Native img is intentional: onError walks processed → fallbacks.
-    // no-referrer: media.thescentbase.com returns 403 when Referer is our site.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      key={src}
-      ref={imgRef}
-      src={src}
-      alt={alt}
-      className={className}
-      referrerPolicy="no-referrer"
-      onError={() => setCandidateIndex((index) => index + 1)}
-      loading={eager ? "eager" : "lazy"}
-      fetchPriority={eager ? "high" : "auto"}
-      decoding="async"
-    />
-  );
+  let media: React.ReactNode;
+  if (!src) {
+    media = (
+      <BottlePlaceholder
+        className={placeholderClassName}
+        label={alt ? `No bottle image available for ${alt}` : undefined}
+      />
+    );
+  } else if (canOptimizeSrc(src)) {
+    media = (
+      <Image
+        key={src}
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        sizes={sizes}
+        className={className}
+        referrerPolicy="no-referrer"
+        onError={advance}
+        priority={eager}
+        {...(eager ? {} : { loading: "lazy" as const })}
+        decoding="async"
+      />
+    );
+  } else {
+    media = (
+      // Native img for hosts outside next/image remotePatterns.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        key={src}
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+        referrerPolicy="no-referrer"
+        onError={advance}
+        loading={eager ? "eager" : "lazy"}
+        fetchPriority={eager ? "high" : "auto"}
+        decoding="async"
+      />
+    );
+  }
 
   if (well) {
     return (

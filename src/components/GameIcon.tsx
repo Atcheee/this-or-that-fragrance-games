@@ -1,6 +1,3 @@
-"use client";
-
-import type { Icon } from "@phosphor-icons/react";
 import {
   ArrowsLeftRight,
   CalendarDots,
@@ -21,7 +18,8 @@ import {
   SelectionAll,
   Shapes,
   Timer,
-} from "@phosphor-icons/react";
+} from "@phosphor-icons/react/dist/ssr";
+import type { Icon } from "@phosphor-icons/react";
 
 const MODE_ICONS: Record<string, Icon> = {
   "higher-rating": Lightning,

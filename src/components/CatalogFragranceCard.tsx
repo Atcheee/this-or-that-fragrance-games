@@ -29,6 +29,9 @@ export function CatalogFragranceCard({
           key={`${fragrance.id}:${fragrance.imageUrl ?? ""}`}
           imageUrl={fragrance.imageUrl}
           alt={`${fragrance.name} by ${fragrance.house} bottle`}
+          width={180}
+          height={240}
+          sizes="(max-width: 640px) 42vw, (max-width: 1024px) 20vw, 140px"
           className="max-h-full w-auto max-w-full object-contain transition-transform duration-200 group-hover:scale-[1.03]"
           placeholderClassName="h-24 w-auto text-stone-400 opacity-40"
           stage={false}

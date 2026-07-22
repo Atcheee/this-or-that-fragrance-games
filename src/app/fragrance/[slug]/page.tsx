@@ -6,6 +6,7 @@ import { CatalogFragranceCard } from "@/components/CatalogFragranceCard";
 import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 import { PerfumePyramid } from "@/components/PerfumePyramid";
 import { UserRatings } from "@/components/UserRatings";
+import { primaryBottleSrc } from "@/lib/bottle-images";
 import {
   getFragranceBySlug,
   getPopularFragranceSlugs,
@@ -57,9 +58,21 @@ export default async function FragrancePage({ params }: FragrancePageProps) {
   if (!fragrance) notFound();
 
   const related = getRelatedFragrances(fragrance);
+  const heroSrc = primaryBottleSrc(fragrance.imageUrl);
 
   return (
     <article className="flex flex-col gap-8">
+      {heroSrc ? (
+        <>
+          <link rel="preconnect" href="https://img.fraganty.ai" />
+          <link
+            rel="preconnect"
+            href="https://media.thescentbase.com"
+            crossOrigin="anonymous"
+          />
+        </>
+      ) : null}
+
       <nav aria-label="Breadcrumb" className="text-sm text-muted">
         <ol className="flex flex-wrap items-center gap-2">
           <li>
@@ -96,6 +109,9 @@ export default async function FragrancePage({ params }: FragrancePageProps) {
               imageUrl={fragrance.imageUrl}
               alt={`${fragrance.name} by ${fragrance.house} bottle`}
               eager
+              width={480}
+              height={640}
+              sizes="(max-width: 768px) 70vw, 320px"
               className="max-h-80 w-auto max-w-full object-contain"
               placeholderClassName="h-44 w-auto text-stone-400 opacity-40"
               stage={false}

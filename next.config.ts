@@ -24,10 +24,14 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+  experimental: {
+    optimizePackageImports: ["@phosphor-icons/react"],
+  },
   // ONNX stays in scripts/cutout-worker.mjs (child process). Keep sharp
   // external so the API route's native binding stays intact.
   serverExternalPackages: ["sharp"],
   images: {
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
@@ -38,6 +42,16 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "img.fraganty.ai",
         pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "media.thescentbase.com",
+        pathname: "/perfumes/**",
+      },
+      {
+        protocol: "https",
+        hostname: "fimgs.net",
+        pathname: "/mdimg/**",
       },
     ],
   },
