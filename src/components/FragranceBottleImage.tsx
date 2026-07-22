@@ -8,7 +8,8 @@ export { bottleCandidates, primaryBottleSrc } from "@/lib/bottle-images";
 
 const OPTIMIZABLE_HOSTS = new Set([
   "img.fraganty.ai",
-  "media.thescentbase.com",
+  // media.thescentbase.com: Vercel /_next/image returns 502 (optimizer fetch
+  // blocked upstream) even though the URL works in the browser — use <img>.
   "cdn.fragella.com",
   "fimgs.net",
 ]);
