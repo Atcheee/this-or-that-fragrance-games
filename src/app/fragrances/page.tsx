@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MagnifyingGlass, SprayBottle } from "@phosphor-icons/react/dist/ssr";
+import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
+import { FragranceBottleIcon } from "@/components/FragranceBottleIcon";
 import { CatalogFragranceCard } from "@/components/CatalogFragranceCard";
 import { expandBrandSearchTerms } from "@/lib/brand-aliases";
 import {
@@ -201,7 +202,12 @@ export default async function FragrancesPage({
           </div>
         ) : (
           <div className="mt-5 rounded-2xl border border-dashed border-border px-6 py-14 text-center">
-            <SprayBottle aria-hidden className="mx-auto text-muted" size={42} weight="light" />
+            <FragranceBottleIcon
+              aria-hidden
+              className="mx-auto text-muted"
+              size={42}
+              weight="light"
+            />
             <h3 className="mt-4 font-semibold">No fragrances found</h3>
             <p className="mt-1 text-sm text-muted">Try a broader search or remove a filter.</p>
             <Link

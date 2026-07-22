@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BrandMark } from "@/components/BrandMark";
 import { LazyFragranceSearch } from "@/components/LazyFragranceSearch";
+import { PrimaryNav } from "@/components/PrimaryNav";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function SiteHeader() {
@@ -15,31 +16,7 @@ export function SiteHeader() {
           <span>This or That</span>
         </Link>
 
-        <nav
-          aria-label="Primary navigation"
-          className="col-span-3 row-start-3 flex items-center gap-5 text-sm md:col-span-1 md:col-start-2 md:row-start-1 md:gap-4 lg:flex"
-        >
-          <Link
-            href="/fragrances"
-            className="font-medium text-muted transition-colors hover:text-foreground md:text-sm"
-          >
-            <span className="md:hidden">Browse fragrances</span>
-            <span className="hidden md:inline">Fragrances</span>
-          </Link>
-          <Link
-            href="/houses"
-            className="font-medium text-muted transition-colors hover:text-foreground md:text-sm"
-          >
-            <span className="md:hidden">Designer houses</span>
-            <span className="hidden md:inline">Houses</span>
-          </Link>
-          <Link
-            href="/favorites"
-            className="font-medium text-muted transition-colors hover:text-foreground md:text-sm"
-          >
-            Favorites
-          </Link>
-        </nav>
+        <PrimaryNav />
 
         <div
           data-search-slot="primary"
