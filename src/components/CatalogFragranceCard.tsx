@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Star } from "@phosphor-icons/react/dist/ssr";
 import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 
 export interface CatalogCardFragrance {
@@ -19,6 +20,9 @@ export function CatalogFragranceCard({
   fragrance: CatalogCardFragrance;
   showHouse?: boolean;
 }) {
+  const yearLabel = fragrance.year > 0 ? String(fragrance.year) : "Year unknown";
+  const hasRating = fragrance.rating > 0;
+
   return (
     <Link
       href={`/fragrance/${fragrance.slug}`}
@@ -37,19 +41,45 @@ export function CatalogFragranceCard({
           stage={false}
         />
       </div>
-      <div className="flex flex-1 flex-col p-4 pt-3">
-        {showHouse ? (
-          <span className="truncate text-xs font-medium uppercase tracking-wider text-accent">
-            {fragrance.house}
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        <div className="min-w-0">
+          {showHouse ? (
+            <span className="block truncate text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-accent">
+              {fragrance.house}
+            </span>
+          ) : null}
+          <span
+            className={`block line-clamp-2 text-[0.95rem] font-semibold leading-snug tracking-tight ${
+              showHouse ? "mt-1.5" : ""
+            }`}
+          >
+            {fragrance.name}
           </span>
-        ) : null}
-        <span className="mt-1 line-clamp-2 font-semibold leading-snug">
-          {fragrance.name}
-        </span>
-        <span className="mt-auto pt-2 text-xs text-muted">
-          {fragrance.year > 0 ? fragrance.year : "Year unknown"}
-          {fragrance.rating > 0 ? ` · ${fragrance.rating.toFixed(1)} / 5` : ""}
-        </span>
+        </div>
+
+        <div className="mt-auto flex items-center justify-between gap-3 border-t border-border/70 pt-3 text-xs">
+          <time
+            className="tabular-nums text-muted"
+            dateTime={fragrance.year > 0 ? String(fragrance.year) : undefined}
+          >
+            {yearLabel}
+          </time>
+          {hasRating ? (
+            <span
+              className="inline-flex items-center gap-1 font-medium tabular-nums text-foreground"
+              aria-label={`Rated ${fragrance.rating.toFixed(1)} out of 5`}
+            >
+              <Star
+                weight="fill"
+                className="size-3.5 text-accent"
+                aria-hidden
+              />
+              {fragrance.rating.toFixed(1)}
+            </span>
+          ) : (
+            <span className="text-muted">Unrated</span>
+          )}
+        </div>
       </div>
     </Link>
   );
