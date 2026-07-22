@@ -62,6 +62,8 @@ export function FragranceSearch() {
     setOpen(false);
     setQuery("");
     setResults([]);
+    // Blur before navigate so iOS doesn't keep the input-focus zoom on the next page.
+    inputRef.current?.blur();
     router.push(`/fragrance/${result.slug}`);
   }
 
@@ -148,7 +150,7 @@ export function FragranceSearch() {
                 ? `${listboxId}-option-${activeIndex}`
                 : undefined
             }
-            className="h-10 w-full rounded-full border border-border bg-card pl-10 pr-10 text-sm outline-none transition-[border-color,box-shadow] placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent-soft sm:text-base"
+            className="h-10 w-full rounded-full border border-border bg-card pl-10 pr-10 text-base outline-none transition-[border-color,box-shadow] placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent-soft"
           />
           {loading ? (
             <span

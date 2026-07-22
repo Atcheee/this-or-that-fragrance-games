@@ -64,7 +64,7 @@ function SearchPlaceholder({ onActivate }: { onActivate?: () => void }) {
         autoComplete="off"
         onFocus={onActivate}
         onClick={onActivate}
-        className="h-10 w-full cursor-text rounded-full border border-border bg-card pl-10 pr-10 text-sm outline-none placeholder:text-muted sm:text-base"
+        className="h-10 w-full cursor-text rounded-full border border-border bg-card pl-10 pr-10 text-base outline-none placeholder:text-muted"
       />
     </div>
   );
