@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MagnifyingGlass, SprayBottle } from "@phosphor-icons/react/dist/ssr";
 import { CatalogFragranceCard } from "@/components/CatalogFragranceCard";
+import { expandBrandSearchTerms } from "@/lib/brand-aliases";
 import {
   getAllCatalogFragrances,
   getAllHouseSummaries,
@@ -20,6 +21,16 @@ const COLLATOR = new Intl.Collator("en", { sensitivity: "base", numeric: true })
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
+function normalizeBrowseQuery(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
 export default async function FragrancesPage({
   searchParams,
 }: {
@@ -31,7 +42,10 @@ export default async function FragrancesPage({
   const accord = getParam(params, "accord");
   const sort = getParam(params, "sort") || "popular";
   const page = positiveInteger(getParam(params, "page"));
-  const normalizedQuery = query.toLocaleLowerCase();
+  const queryTerms = expandBrandSearchTerms(
+    normalizeBrowseQuery(query).split(" ").filter(Boolean),
+    normalizeBrowseQuery,
+  );
 
   const fragrances = getAllCatalogFragrances();
   const houses = getAllHouseSummaries();
@@ -47,17 +61,17 @@ export default async function FragrancesPage({
     .filter((fragrance) => {
       if (house && fragrance.houseSlug !== house) return false;
       if (accord && !fragrance.accords.includes(accord)) return false;
-      if (!normalizedQuery) return true;
+      if (queryTerms.length === 0) return true;
 
-      const searchable = [
-        fragrance.name,
-        fragrance.house,
-        ...fragrance.accords,
-        ...allNotes(fragrance),
-      ]
-        .join(" ")
-        .toLocaleLowerCase();
-      return searchable.includes(normalizedQuery);
+      const searchable = normalizeBrowseQuery(
+        [
+          fragrance.name,
+          fragrance.house,
+          ...fragrance.accords,
+          ...allNotes(fragrance),
+        ].join(" "),
+      );
+      return queryTerms.every((term) => searchable.includes(term));
     })
     .sort((a, b) => {
       if (sort === "rating") {

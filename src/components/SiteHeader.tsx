@@ -33,6 +33,12 @@ export function SiteHeader() {
             <span className="md:hidden">Designer houses</span>
             <span className="hidden md:inline">Houses</span>
           </Link>
+          <Link
+            href="/favorites"
+            className="font-medium text-muted transition-colors hover:text-foreground md:text-sm"
+          >
+            Favorites
+          </Link>
         </nav>
 
         <div

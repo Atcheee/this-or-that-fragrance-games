@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Buildings, MagnifyingGlass, Star } from "@phosphor-icons/react/dist/ssr";
 import { HouseMark } from "@/components/game/HouseMark";
+import { expandBrandSearchTerms } from "@/lib/brand-aliases";
 import { getAllCatalogFragrances, getAllHouseSummaries } from "@/lib/catalog";
 
 export const metadata: Metadata = {
@@ -15,24 +16,35 @@ const PAGE_SIZE = 24;
 const COLLATOR = new Intl.Collator("en", { sensitivity: "base", numeric: true });
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
+function normalizeBrowseQuery(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
 export default async function HousesPage({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams;
   const query = getParam(params, "q").trim();
   const sort = getParam(params, "sort") || "collection";
   const page = positiveInteger(getParam(params, "page"));
-  const normalizedQuery = query.toLocaleLowerCase();
+  const queryTerms = expandBrandSearchTerms(
+    normalizeBrowseQuery(query).split(" ").filter(Boolean),
+    normalizeBrowseQuery,
+  );
   const houses = getAllHouseSummaries();
   const fragranceCount = getAllCatalogFragrances().length;
 
   const filtered = houses
     .filter((house) => {
-      if (!normalizedQuery) return true;
-      return (
-        house.name.toLocaleLowerCase().includes(normalizedQuery) ||
-        house.topAccords.some((accord) =>
-          accord.name.toLocaleLowerCase().includes(normalizedQuery),
-        )
+      if (queryTerms.length === 0) return true;
+      const haystack = normalizeBrowseQuery(
+        `${house.name} ${house.topAccords.map((accord) => accord.name).join(" ")}`,
       );
+      return queryTerms.every((term) => haystack.includes(term));
     })
     .sort((a, b) => {
       if (sort === "name") return COLLATOR.compare(a.name, b.name);

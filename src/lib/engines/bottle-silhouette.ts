@@ -1,3 +1,7 @@
+import {
+  brandAliasTokensForHouse,
+  expandBrandSearchTerms,
+} from "../brand-aliases";
 import { hashSeed, seededRandom, utcDateKey } from "../daily";
 import type { Fragrance } from "../types";
 
@@ -182,16 +186,33 @@ export function createBottleSilhouetteChallenge(
   };
 }
 
+function bottleGuessKeys(fragrance: Fragrance): string[] {
+  const keys = new Set<string>();
+  keys.add(normalizeBottleGuess(bottleGuessLabel(fragrance)));
+  keys.add(normalizeBottleGuess(`${fragrance.name} ${fragrance.house}`));
+  for (const alias of brandAliasTokensForHouse(fragrance.house)) {
+    keys.add(normalizeBottleGuess(`${fragrance.name} — ${alias}`));
+    keys.add(normalizeBottleGuess(`${fragrance.name} ${alias}`));
+    keys.add(normalizeBottleGuess(`${alias} ${fragrance.name}`));
+  }
+  return [...keys];
+}
+
 export function resolveExactBottleGuess(
   input: string,
   fragrances: readonly Fragrance[],
 ): Fragrance | null {
   const guess = normalizeBottleGuess(input);
   if (!guess) return null;
+  const expandedGuess = expandBrandSearchTerms(
+    guess.split(" ").filter(Boolean),
+    normalizeBottleGuess,
+  ).join(" ");
 
-  const labelMatch = fragrances.find(
-    (fragrance) => normalizeBottleGuess(bottleGuessLabel(fragrance)) === guess,
-  );
+  const labelMatch = fragrances.find((fragrance) => {
+    const keys = bottleGuessKeys(fragrance);
+    return keys.includes(guess) || keys.includes(expandedGuess);
+  });
   if (labelMatch) return labelMatch;
 
   const nameMatches = fragrances.filter(
@@ -206,7 +227,11 @@ export function searchBottleSilhouetteFragrances(
   limit = 8,
 ): Fragrance[] {
   const query = normalizeBottleGuess(input);
-  const terms = query.split(" ").filter(Boolean);
+  const terms = expandBrandSearchTerms(
+    query.split(" ").filter(Boolean),
+    normalizeBottleGuess,
+  );
+  const expandedQuery = terms.join(" ");
 
   return fragrances
     .filter((fragrance) => {
@@ -217,10 +242,19 @@ export function searchBottleSilhouetteFragrances(
       const name = normalizeBottleGuess(fragrance.name);
       const label = normalizeBottleGuess(bottleGuessLabel(fragrance));
       let rank = Math.log10((fragrance.votes ?? 0) + 1) * 10;
-      if (query && name === query) rank += 1_000;
-      else if (query && label === query) rank += 900;
-      else if (query && name.startsWith(query)) rank += 600;
-      else if (query && label.startsWith(query)) rank += 400;
+      if (query && (name === query || name === expandedQuery)) rank += 1_000;
+      else if (query && (label === query || label === expandedQuery))
+        rank += 900;
+      else if (
+        query &&
+        (name.startsWith(query) || name.startsWith(expandedQuery))
+      )
+        rank += 600;
+      else if (
+        query &&
+        (label.startsWith(query) || label.startsWith(expandedQuery))
+      )
+        rank += 400;
       return { fragrance, rank };
     })
     .sort(

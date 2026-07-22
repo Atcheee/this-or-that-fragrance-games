@@ -1,3 +1,7 @@
+import {
+  brandAliasTokensForHouse,
+  expandBrandSearchTerms,
+} from "../brand-aliases";
 import type { Fragrance } from "../types";
 import { dailySeed, seededRandom, utcDateKey } from "../daily";
 
@@ -160,16 +164,33 @@ export function scoreNotePyramid(cluesUsed: number): number {
   return NOTE_PYRAMID_SCORE_STEPS[index];
 }
 
+function fragranceGuessKeys(fragrance: Fragrance): string[] {
+  const keys = new Set<string>();
+  keys.add(normalizeFragranceGuess(fragranceGuessLabel(fragrance)));
+  keys.add(normalizeFragranceGuess(`${fragrance.name} ${fragrance.house}`));
+  for (const alias of brandAliasTokensForHouse(fragrance.house)) {
+    keys.add(normalizeFragranceGuess(`${fragrance.name} — ${alias}`));
+    keys.add(normalizeFragranceGuess(`${fragrance.name} ${alias}`));
+    keys.add(normalizeFragranceGuess(`${alias} ${fragrance.name}`));
+  }
+  return [...keys];
+}
+
 export function resolveExactFragranceGuess(
   input: string,
   fragrances: readonly Fragrance[],
 ): Fragrance | null {
   const guess = normalizeFragranceGuess(input);
   if (!guess) return null;
+  const expandedGuess = expandBrandSearchTerms(
+    guess.split(" ").filter(Boolean),
+    normalizeFragranceGuess,
+  ).join(" ");
 
-  const exactLabel = fragrances.find(
-    (fragrance) => normalizeFragranceGuess(fragranceGuessLabel(fragrance)) === guess,
-  );
+  const exactLabel = fragrances.find((fragrance) => {
+    const keys = fragranceGuessKeys(fragrance);
+    return keys.includes(guess) || keys.includes(expandedGuess);
+  });
   if (exactLabel) return exactLabel;
 
   const nameMatches = fragrances.filter(
@@ -184,7 +205,11 @@ export function searchNotePyramidFragrances(
   limit = 8,
 ): Fragrance[] {
   const query = normalizeFragranceGuess(input);
-  const terms = query.split(" ").filter(Boolean);
+  const terms = expandBrandSearchTerms(
+    query.split(" ").filter(Boolean),
+    normalizeFragranceGuess,
+  );
+  const expandedQuery = terms.join(" ");
 
   return fragrances
     .filter((fragrance) => {
@@ -196,10 +221,19 @@ export function searchNotePyramidFragrances(
       const name = normalizeFragranceGuess(fragrance.name);
       const label = normalizeFragranceGuess(fragranceGuessLabel(fragrance));
       let rank = Math.log10((fragrance.votes ?? 0) + 1) * 10;
-      if (query && name === query) rank += 1_000;
-      else if (query && label === query) rank += 900;
-      else if (query && name.startsWith(query)) rank += 600;
-      else if (query && label.startsWith(query)) rank += 400;
+      if (query && (name === query || name === expandedQuery)) rank += 1_000;
+      else if (query && (label === query || label === expandedQuery))
+        rank += 900;
+      else if (
+        query &&
+        (name.startsWith(query) || name.startsWith(expandedQuery))
+      )
+        rank += 600;
+      else if (
+        query &&
+        (label.startsWith(query) || label.startsWith(expandedQuery))
+      )
+        rank += 400;
       return { fragrance, rank };
     })
     .sort(

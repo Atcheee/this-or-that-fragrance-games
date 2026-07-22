@@ -3,6 +3,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 import { FragranceSearchResultVisual } from "@/components/FragranceSearchResultVisual";
+import { expandBrandSearchTerms } from "@/lib/brand-aliases";
 import type { Fragrance } from "@/lib/types";
 import {
   DEFAULT_GRID_ATTEMPTS,
@@ -80,7 +81,10 @@ export function FragranceGridGame({
   const searchResults = useMemo(() => {
     const normalized = normalizeGridValue(query);
     if (normalized.length < 2) return [];
-    const terms = normalized.split(" ");
+    const terms = expandBrandSearchTerms(
+      normalized.split(" ").filter(Boolean),
+      normalizeGridValue,
+    );
     return pool
       .filter((fragrance) => {
         if (usedIds.has(fragrance.id)) return false;

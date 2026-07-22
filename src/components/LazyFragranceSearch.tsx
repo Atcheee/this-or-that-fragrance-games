@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const FragranceSearch = dynamic(
   () =>
@@ -14,25 +14,23 @@ const FragranceSearch = dynamic(
 
 export function LazyFragranceSearch() {
   const [enabled, setEnabled] = useState(false);
-  const pendingFocus = useRef(false);
 
   useEffect(() => {
-    if (!enabled || !pendingFocus.current) return;
-    pendingFocus.current = false;
-    const frame = window.requestAnimationFrame(() => {
-      const input = document.querySelector<HTMLInputElement>(
-        'header [data-search-slot="primary"] input[type="search"]:not([readonly])',
-      );
-      input?.focus();
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [enabled]);
+    function onKeyDown(event: KeyboardEvent) {
+      const isShortcut =
+        (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k";
+      if (!isShortcut) return;
+      event.preventDefault();
+      setEnabled(true);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   if (!enabled) {
     return (
       <SearchPlaceholder
         onActivate={() => {
-          pendingFocus.current = true;
           setEnabled(true);
         }}
       />

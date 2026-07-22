@@ -109,6 +109,19 @@ input {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Browsers default buttons to the arrow cursor; show a hand on clickable controls. */
+button:enabled,
+[role="button"]:not([aria-disabled="true"]),
+input:where([type="button"], [type="submit"], [type="reset"]):enabled,
+summary {
+  cursor: pointer;
+}
+
+button:disabled,
+input:where([type="button"], [type="submit"], [type="reset"]):disabled {
+  cursor: not-allowed;
+}
+
 .catalog-card {
   content-visibility: auto;
   contain-intrinsic-size: auto 260px;

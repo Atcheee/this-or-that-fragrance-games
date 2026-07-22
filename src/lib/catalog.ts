@@ -1,6 +1,7 @@
 import "server-only";
 
 import rawData from "@/data/fragrances.json";
+import { expandBrandSearchTerms } from "@/lib/brand-aliases";
 import type { Fragrance } from "@/lib/types";
 import { allNotes } from "@/lib/types";
 
@@ -214,19 +215,28 @@ export function searchCatalog(
 ): CatalogSearchResult[] {
   const normalized = searchKey(query);
   if (normalized.length < 2) return [];
-  const terms = normalized.split(" ");
+  const terms = expandBrandSearchTerms(normalized.split(" "), searchKey);
+  const expandedQuery = terms.join(" ");
 
   return searchRecords
     .map(({ fragrance, name, house, combined }) => {
       if (!terms.every((term) => combined.includes(term))) return null;
 
       let score = 0;
-      if (name === normalized) score += 1_000;
-      else if (name.startsWith(normalized)) score += 700;
-      else if (name.includes(normalized)) score += 450;
-      if (house === normalized) score += 500;
-      else if (house.startsWith(normalized)) score += 260;
-      if (combined.startsWith(normalized)) score += 180;
+      if (name === normalized || name === expandedQuery) score += 1_000;
+      else if (name.startsWith(normalized) || name.startsWith(expandedQuery))
+        score += 700;
+      else if (name.includes(normalized) || name.includes(expandedQuery))
+        score += 450;
+      if (house === normalized || house === expandedQuery) score += 500;
+      else if (house.startsWith(normalized) || house.startsWith(expandedQuery))
+        score += 260;
+      if (
+        combined.startsWith(normalized) ||
+        combined.startsWith(expandedQuery)
+      ) {
+        score += 180;
+      }
       score += Math.min(Math.log10((fragrance.votes ?? 0) + 1) * 30, 150);
       score += fragrance.rating > 0 ? fragrance.rating * 2 : 0;
 
@@ -310,4 +320,26 @@ export function getPopularFragranceSlugs(limit = 250): string[] {
     )
     .slice(0, limit)
     .map((fragrance) => fragrance.slug);
+}
+
+export function getPopularCatalogFragrances(
+  limit = 9,
+): CatalogSearchResult[] {
+  const capped = Math.max(1, Math.min(limit, 24));
+  return [...catalogFragrances]
+    .sort(
+      (a, b) =>
+        (b.votes ?? 0) - (a.votes ?? 0) ||
+        b.rating - a.rating ||
+        a.name.localeCompare(b.name),
+    )
+    .slice(0, capped)
+    .map((fragrance) => ({
+      id: fragrance.id,
+      name: fragrance.name,
+      house: fragrance.house,
+      year: fragrance.year,
+      slug: fragrance.slug,
+      imageUrl: fragrance.imageUrl,
+    }));
 }

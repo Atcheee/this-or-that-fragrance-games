@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AccordBars } from "@/components/AccordBars";
 import { CatalogFragranceCard } from "@/components/CatalogFragranceCard";
+import { FavoriteButton } from "@/components/FavoriteButton";
 import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 import { PerfumePyramid } from "@/components/PerfumePyramid";
 import { UserRatings } from "@/components/UserRatings";
@@ -119,18 +120,34 @@ export default async function FragrancePage({ params }: FragrancePageProps) {
           </div>
 
           <div className="flex min-w-0 flex-col justify-center">
-            <Link
-              href={`/house/${fragrance.houseSlug}`}
-              className="w-fit text-sm font-semibold uppercase tracking-[0.16em] text-accent hover:underline"
-            >
-              {fragrance.house}
-            </Link>
-            <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
-              {fragrance.name}
-            </h1>
-            {fragrance.year > 0 ? (
-              <p className="mt-2 text-muted">Released in {fragrance.year}</p>
-            ) : null}
+            <div className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <Link
+                  href={`/house/${fragrance.houseSlug}`}
+                  className="w-fit text-sm font-semibold uppercase tracking-[0.16em] text-accent hover:underline"
+                >
+                  {fragrance.house}
+                </Link>
+                <h1 className="mt-2 text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
+                  {fragrance.name}
+                </h1>
+                {fragrance.year > 0 ? (
+                  <p className="mt-2 text-muted">Released in {fragrance.year}</p>
+                ) : null}
+              </div>
+              <FavoriteButton
+                fragrance={{
+                  id: fragrance.id,
+                  name: fragrance.name,
+                  house: fragrance.house,
+                  year: fragrance.year,
+                  slug: fragrance.slug,
+                  imageUrl: fragrance.imageUrl,
+                  rating: fragrance.rating,
+                  votes: fragrance.votes,
+                }}
+              />
+            </div>
 
             <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
               <Fact

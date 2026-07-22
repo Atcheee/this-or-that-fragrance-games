@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import {
   CatalogFragranceCard,
@@ -16,6 +16,8 @@ export interface HouseCollectionItem extends CatalogCardFragrance {
 type SortOption = "name" | "rating" | "year" | "popular";
 type CollectionTab = "all" | "top-rated" | "newest" | "popular";
 type ViewMode = "grid" | "list";
+
+const PAGE_SIZE = 24;
 
 const COLLATOR = new Intl.Collator("en", {
   sensitivity: "base",
@@ -49,6 +51,7 @@ export function FragranceCollectionBrowser({
   const [sort, setSort] = useState<SortOption>("name");
   const [tab, setTab] = useState<CollectionTab>("all");
   const [view, setView] = useState<ViewMode>("grid");
+  const [page, setPage] = useState(1);
 
   const options = useMemo(() => {
     const notes = new Set<string>();
@@ -109,6 +112,17 @@ export function FragranceCollectionBrowser({
       });
   }, [accord, deferredQuery, items, note, sort, yearFrom, yearTo]);
 
+  useEffect(() => {
+    setPage(1);
+  }, [accord, deferredQuery, note, sort, yearFrom, yearTo, tab]);
+
+  const totalPages = Math.max(1, Math.ceil(visibleItems.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pagedItems = visibleItems.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
+
   const hasFilters = Boolean(query || note || accord || yearFrom || yearTo);
 
   function clearFilters() {
@@ -117,6 +131,13 @@ export function FragranceCollectionBrowser({
     setAccord("");
     setYearFrom("");
     setYearTo("");
+  }
+
+  function goToPage(nextPage: number) {
+    setPage(nextPage);
+    document
+      .getElementById("collection-results")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   return (
@@ -236,7 +257,10 @@ export function FragranceCollectionBrowser({
         </div>
       </div>
 
-      <div className="mt-6 flex items-center justify-between gap-4">
+      <div
+        id="collection-results"
+        className="mt-6 scroll-mt-24 flex items-center justify-between gap-4"
+      >
         <p id="collection-heading" className="text-sm text-muted" aria-live="polite">
           <span className="font-semibold text-foreground">
             {visibleItems.length}
@@ -262,49 +286,96 @@ export function FragranceCollectionBrowser({
       </div>
 
       {visibleItems.length > 0 ? (
-        view === "grid" ? (
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {visibleItems.map((item) => (
-              <CatalogFragranceCard
-                key={item.id}
-                fragrance={item}
-                showHouse={false}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="mt-4 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
-            {visibleItems.map((item) => (
-              <Link
-                key={item.id}
-                href={`/fragrance/${item.slug}`}
-                className="catalog-card flex items-center gap-4 p-4 transition-colors hover:bg-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
-              >
-                <div className="bottle-studio flex h-16 w-14 shrink-0 items-center justify-center rounded-lg px-1 py-1">
-                  <FragranceBottleImage
-                    key={`${item.id}:${item.imageUrl ?? ""}`}
-                    imageUrl={item.imageUrl}
-                    alt={`${item.name} bottle`}
-                    className="max-h-[90%] max-w-[90%] object-contain"
-                    placeholderClassName="h-12 w-auto text-stone-400 opacity-40"
-                    stage={false}
-                  />
-                </div>
-                <span className="min-w-0 flex-1">
-                  <span className="block truncate font-semibold">
-                    {item.name}
+        <>
+          {view === "grid" ? (
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {pagedItems.map((item) => (
+                <CatalogFragranceCard
+                  key={item.id}
+                  fragrance={item}
+                  showHouse={false}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="mt-4 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
+              {pagedItems.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/fragrance/${item.slug}`}
+                  className="catalog-card flex items-center gap-4 p-4 transition-colors hover:bg-card-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+                >
+                  <div className="bottle-studio flex h-16 w-14 shrink-0 items-center justify-center rounded-lg px-1 py-1">
+                    <FragranceBottleImage
+                      key={`${item.id}:${item.imageUrl ?? ""}`}
+                      imageUrl={item.imageUrl}
+                      alt={`${item.name} bottle`}
+                      className="max-h-[90%] max-w-[90%] object-contain"
+                      placeholderClassName="h-12 w-auto text-stone-400 opacity-40"
+                      stage={false}
+                    />
+                  </div>
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate font-semibold">
+                      {item.name}
+                    </span>
+                    <span className="mt-1 block text-xs text-muted">
+                      {item.year > 0 ? item.year : "Year unknown"}
+                    </span>
                   </span>
-                  <span className="mt-1 block text-xs text-muted">
-                    {item.year > 0 ? item.year : "Year unknown"}
+                  <span className="shrink-0 text-sm tabular-nums text-muted">
+                    {item.rating > 0 ? `${item.rating.toFixed(1)} / 5` : "Unrated"}
                   </span>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {visibleItems.length > PAGE_SIZE ? (
+            <nav
+              aria-label="Collection pages"
+              className="mt-8 flex items-center justify-center gap-4"
+            >
+              {currentPage > 1 ? (
+                <button
+                  type="button"
+                  onClick={() => goToPage(currentPage - 1)}
+                  className="rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-accent hover:bg-card"
+                >
+                  Previous
+                </button>
+              ) : (
+                <span
+                  aria-disabled="true"
+                  className="rounded-full border border-border px-4 py-2 text-sm font-semibold text-muted"
+                >
+                  Previous
                 </span>
-                <span className="shrink-0 text-sm tabular-nums text-muted">
-                  {item.rating > 0 ? `${item.rating.toFixed(1)} / 5` : "Unrated"}
+              )}
+              <span className="text-sm tabular-nums text-muted">
+                Page{" "}
+                <strong className="text-foreground">{currentPage}</strong> of{" "}
+                {totalPages}
+              </span>
+              {currentPage < totalPages ? (
+                <button
+                  type="button"
+                  onClick={() => goToPage(currentPage + 1)}
+                  className="rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-accent hover:bg-card"
+                >
+                  Next
+                </button>
+              ) : (
+                <span
+                  aria-disabled="true"
+                  className="rounded-full border border-border px-4 py-2 text-sm font-semibold text-muted"
+                >
+                  Next
                 </span>
-              </Link>
-            ))}
-          </div>
-        )
+              )}
+            </nav>
+          ) : null}
+        </>
       ) : (
         <div className="mt-4 rounded-2xl border border-dashed border-border px-6 py-12 text-center">
           <h3 className="font-semibold">No fragrances match</h3>

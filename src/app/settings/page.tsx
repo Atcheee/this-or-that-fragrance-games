@@ -1,6 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  clearFavoriteFragrances,
+  getFavoriteFragrances,
+} from "@/lib/favorite-fragrances";
 import { useAppStore } from "@/lib/store";
 import { MODES, getMode } from "@/lib/modes";
 import { useHydrated } from "@/lib/useHydrated";
@@ -9,7 +13,13 @@ export default function SettingsPage() {
   const { apiKey, setApiKey, history, best, clearHistory } = useAppStore();
   const [keyInput, setKeyInput] = useState(() => useAppStore.getState().apiKey);
   const [saved, setSaved] = useState(false);
+  const [favoriteCount, setFavoriteCount] = useState(0);
   const hydrated = useHydrated();
+
+  useEffect(() => {
+    if (!hydrated) return;
+    setFavoriteCount(getFavoriteFragrances().length);
+  }, [hydrated]);
 
   if (!hydrated) return null;
 
@@ -125,6 +135,29 @@ export default function SettingsPage() {
           className="rounded-xl border border-danger px-4 py-2 text-sm font-semibold text-danger transition-colors hover:bg-danger-soft"
         >
           Clear history & bests
+        </button>
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-lg font-semibold">
+          Favorites{" "}
+          <span className="font-normal text-muted">({favoriteCount})</span>
+        </h2>
+        <p className="text-sm text-muted">
+          Saved fragrances are stored only in this browser. Clearing them cannot
+          be undone.
+        </p>
+        <button
+          onClick={() => {
+            if (confirm("Clear all favorite fragrances?")) {
+              clearFavoriteFragrances();
+              setFavoriteCount(0);
+            }
+          }}
+          disabled={favoriteCount === 0}
+          className="rounded-xl border border-danger px-4 py-2 text-sm font-semibold text-danger transition-colors hover:bg-danger-soft disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Clear favorites
         </button>
       </section>
     </div>

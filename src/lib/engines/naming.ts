@@ -1,3 +1,4 @@
+import { brandAliasTokensForHouse } from "../brand-aliases";
 import type { Fragrance } from "../types";
 import { allNotes } from "../types";
 import { pick } from "../random";
@@ -66,6 +67,10 @@ function nameKeys(f: Fragrance): string[] {
   keys.add(name);
   keys.add(normalize(`${f.name} ${f.house}`));
   keys.add(normalize(`${f.house} ${f.name}`));
+  for (const alias of brandAliasTokensForHouse(f.house)) {
+    keys.add(normalize(`${f.name} ${alias}`));
+    keys.add(normalize(`${alias} ${f.name}`));
+  }
   // "K by Dolce & Gabbana" should match a plain "k"
   const withoutBy = f.name.replace(new RegExp(`\\s+by\\s+${f.house}.*$`, "i"), "");
   keys.add(normalize(withoutBy));

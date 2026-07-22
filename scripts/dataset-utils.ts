@@ -35,60 +35,7 @@ export function titleCase(s: string): string {
     .join(" ");
 }
 
-/**
- * Different sources spell houses differently; map to the catalog's canonical
- * names so entries land in the same house.
- */
-const BRAND_ALIASES: Record<string, string> = {
-  christiandior: "Dior",
-  dior: "Dior",
-  gianniversace: "Versace",
-  versace: "Versace",
-  rabanne: "Paco Rabanne",
-  pacorabanne: "Paco Rabanne",
-  armani: "Giorgio Armani",
-  giorgioarmani: "Giorgio Armani",
-  emporioarmani: "Giorgio Armani",
-  ysl: "Yves Saint Laurent",
-  yvessaintlaurent: "Yves Saint Laurent",
-  jeanpaulgaultier: "Jean Paul Gaultier",
-  thierrymugler: "Mugler",
-  mugler: "Mugler",
-  dolcegabbana: "Dolce & Gabbana",
-  dolceandgabbana: "Dolce & Gabbana",
-  hermes: "Hermès",
-  jomalone: "Jo Malone London",
-  jomalonelondon: "Jo Malone London",
-  viktorrolf: "Viktor & Rolf",
-  viktorandrolf: "Viktor & Rolf",
-  tomford: "Tom Ford",
-  maisonfranciskurkdjian: "Maison Francis Kurkdjian",
-  mfk: "Maison Francis Kurkdjian",
-  fredericmalle: "Frederic Malle",
-  editionsdeparfumsfredericmalle: "Frederic Malle",
-  abercrombiefitch: "Abercrombie & Fitch",
-  abercrombieandfitch: "Abercrombie & Fitch",
-  bulgari: "Bvlgari",
-  bvlgari: "Bvlgari",
-  acquadiparma: "Acqua di Parma",
-  bykilian: "Kilian",
-  kilianparis: "Kilian",
-  kilian: "Kilian",
-  etatlibredorange: "Etat Libre d'Orange",
-  boadiceathevictorious: "Boadicea the Victorious",
-  juliettehasagun: "Juliette Has a Gun",
-  penhaligons: "Penhaligon's",
-  rojadove: "Roja Parfums",
-  roja: "Roja Parfums",
-  rojaparfums: "Roja Parfums",
-  lacostefragrances: "Lacoste",
-  lacoste: "Lacoste",
-  alfreddunhill: "Dunhill",
-  dunhilllondon: "Dunhill",
-  dunhill: "Dunhill",
-  chopard: "Chopard",
-};
-
-export function canonicalHouse(raw: string): string {
-  return BRAND_ALIASES[norm(raw)] ?? raw.trim();
-}
+export {
+  BRAND_ALIASES,
+  canonicalHouse,
+} from "../src/lib/brand-aliases";
