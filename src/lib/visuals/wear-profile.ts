@@ -195,6 +195,10 @@ export function deriveSentimentBuckets(
   }));
 }
 
+/** Season and day/night are independent polls with comparable vote scales. */
+const SEASON_IDS: WearBucket["id"][] = ["winter", "spring", "summer", "fall"];
+const TIME_IDS: WearBucket["id"][] = ["day", "night"];
+
 /** Score seasons / day-night from accord overlap, scaled by vote count. */
 export function deriveWearBuckets(
   accords: string[],
@@ -213,42 +217,32 @@ export function deriveWearBuckets(
     }));
   }
 
-  const shares = hasStoredWear(storedWear)
-    ? sharesFromStored(storedWear!)
-    : softMaxWeights(
-        WEAR_META.map((meta) => {
-          const keys = accords.map((a) =>
-            a
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "")
-              .toLowerCase()
-              .trim(),
-          );
-          let score = 0.35; // baseline so every column shows a little
-          for (const accord of keys) {
-            if (meta.accords.includes(accord)) score += 1.4;
-            else if (
-              meta.accords.some((a) => accord.includes(a) || a.includes(accord))
-            ) {
-              score += 0.7;
-            }
-          }
-          return score;
-        }),
-        1.1,
-      );
-
   const voteBase = Math.max(effectiveVotes, 40);
-  const raw = shares.map((share) => share * voteBase);
-  const rounded = allocateIntegers(raw, voteBase);
+  const shareById = new Map<WearBucket["id"], number>();
 
-  return WEAR_META.map((meta, i) => ({
-    id: meta.id,
-    label: meta.label,
-    count: rounded[i]!,
-    share: shares[i]!,
-    color: meta.color,
-  }));
+  if (hasStoredWear(storedWear)) {
+    // Catalog shares are already 0–1 per poll (Fragella) or jointly (Fragrantica).
+    // Keep them as-is so season and day/night counts stay on one Fragrantica-like scale.
+    for (const meta of WEAR_META) {
+      shareById.set(meta.id, Math.max(0, storedWear?.[meta.id] ?? 0));
+    }
+  } else {
+    const seasonShares = accordGroupShares(SEASON_IDS, accords);
+    const timeShares = accordGroupShares(TIME_IDS, accords);
+    SEASON_IDS.forEach((id, i) => shareById.set(id, seasonShares[i]!));
+    TIME_IDS.forEach((id, i) => shareById.set(id, timeShares[i]!));
+  }
+
+  return WEAR_META.map((meta) => {
+    const share = shareById.get(meta.id) ?? 0;
+    return {
+      id: meta.id,
+      label: meta.label,
+      count: Math.round(share * voteBase),
+      share,
+      color: meta.color,
+    };
+  });
 }
 
 function hasStoredWear(
@@ -258,13 +252,35 @@ function hasStoredWear(
   return WEAR_META.some((meta) => (wear[meta.id] ?? 0) > 0);
 }
 
-function sharesFromStored(
-  wear: Partial<Record<WearBucket["id"], number>>,
+/** Soft-max shares within one poll (seasons or day/night). */
+function accordGroupShares(
+  ids: WearBucket["id"][],
+  accords: string[],
 ): number[] {
-  const raw = WEAR_META.map((meta) => Math.max(0, wear[meta.id] ?? 0));
-  const sum = raw.reduce((a, b) => a + b, 0);
-  if (sum <= 0) return WEAR_META.map(() => 1 / WEAR_META.length);
-  return raw.map((n) => n / sum);
+  const keys = accords.map((a) =>
+    a
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim(),
+  );
+
+  return softMaxWeights(
+    ids.map((id) => {
+      const meta = WEAR_META.find((item) => item.id === id)!;
+      let score = 0.35;
+      for (const accord of keys) {
+        if (meta.accords.includes(accord)) score += 1.4;
+        else if (
+          meta.accords.some((a) => accord.includes(a) || a.includes(accord))
+        ) {
+          score += 0.7;
+        }
+      }
+      return score;
+    }),
+    1.1,
+  );
 }
 
 /** Largest-remainder method so bucket counts sum exactly to `total`. */

@@ -170,10 +170,14 @@ async function resolveImageUrl(
     };
     const tn = normKey(cleaned);
     const th = normKey(house);
+    const leadingEau = (s: string) => /^\s*eau\b/i.test(s);
+    const targetHasEau = leadingEau(cleaned);
     let best: { score: number; url: string } | null = null;
     for (const p of data.perfumes ?? []) {
       const url = p.imageTransparent || p.image;
       if (!p.name || !url) continue;
+      // "Eau Sauvage" must not satisfy a bare "Sauvage" lookup.
+      if (leadingEau(p.name) !== targetHasEau) continue;
       const hn = normKey(p.name);
       const hb = normKey(p.brand ?? "");
       let score = 0;

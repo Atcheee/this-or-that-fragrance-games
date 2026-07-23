@@ -33,6 +33,7 @@
 !/scripts/dataset-utils.ts
 !/scripts/cutout-worker.mjs
 !/scripts/generate-catalog-indexes.ts
+!/scripts/sync-fragrantica-cache.ts
 
 # debug
 npm-debug.log*
