@@ -3,12 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { Fragrance, GameModeMeta } from "@/lib/types";
 import {
-  createHouseChallenge,
-  createNoteChallenge,
   matchGuess,
   type NamingChallenge,
 } from "@/lib/engines/naming";
-import { popularFragrances } from "@/lib/data-source";
 import { Timer } from "@/components/Timer";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { animateChipIn, animateFlash, useGSAP } from "@/lib/animations";
@@ -17,15 +14,16 @@ import { useSaveRecord } from "./useSaveRecord";
 interface NamingGameProps {
   meta: GameModeMeta;
   duration: number;
+  challenge: NamingChallenge;
   onPlayAgain: () => void;
 }
 
-export function NamingGame({ meta, duration, onPlayAgain }: NamingGameProps) {
-  const [challenge] = useState<NamingChallenge>(() =>
-    meta.id === "name-by-house"
-      ? createHouseChallenge(popularFragrances)
-      : createNoteChallenge(popularFragrances),
-  );
+export function NamingGame({
+  meta,
+  duration,
+  challenge,
+  onPlayAgain,
+}: NamingGameProps) {
   const [secondsLeft, setSecondsLeft] = useState(duration);
   const [input, setInput] = useState("");
   const [found, setFound] = useState<Fragrance[]>([]);

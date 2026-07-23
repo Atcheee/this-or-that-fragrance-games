@@ -29,8 +29,8 @@ export default function SettingsPage() {
         <h1 className="text-2xl font-semibold tracking-[-0.02em]">Settings</h1>
         <h2 className="text-lg font-semibold">Data source</h2>
         <p className="text-sm text-muted">
-          By default, games use a built-in catalog of ~120 well-known
-          fragrances. If you have a free{" "}
+          By default, games sample from the built-in fragrance catalog on the
+          server when you press Start. If you have a free{" "}
           <a
             href="https://fraganty.ai/api-docs"
             target="_blank"

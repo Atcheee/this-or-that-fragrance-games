@@ -39,6 +39,7 @@ export function CatalogFragranceCard({
           className="max-h-full w-auto max-w-full object-contain transition-transform duration-200 group-hover:scale-[1.03]"
           placeholderClassName="h-24 w-auto text-stone-400 opacity-40"
           stage={false}
+          eager
         />
       </div>
       <div className="flex flex-1 flex-col gap-3 p-4">

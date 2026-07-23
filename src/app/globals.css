@@ -122,11 +122,6 @@ input:where([type="button"], [type="submit"], [type="reset"]):disabled {
   cursor: not-allowed;
 }
 
-.catalog-card {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 260px;
-}
-
 /* Soft radial stage behind cutouts (subtle, not a white plate). */
 .bottle-stage {
   border-radius: 0.9rem;

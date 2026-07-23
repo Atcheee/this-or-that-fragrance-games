@@ -313,6 +313,7 @@ export function FragranceCollectionBrowser({
                       className="max-h-[90%] max-w-[90%] object-contain"
                       placeholderClassName="h-12 w-auto text-stone-400 opacity-40"
                       stage={false}
+                      eager
                     />
                   </div>
                   <span className="min-w-0 flex-1">

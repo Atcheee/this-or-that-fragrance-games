@@ -38,7 +38,7 @@ export function MultipleChoiceGame({
     () =>
       isDescription
         ? generateDescriptionRounds(pool, rounds)
-        : generateWhichHouseRounds(pool, rounds, allHouses()),
+        : generateWhichHouseRounds(pool, rounds, allHouses(pool)),
     [pool, rounds, isDescription],
   );
 

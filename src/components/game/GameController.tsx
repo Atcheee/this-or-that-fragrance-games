@@ -1,46 +1,82 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useState } from "react";
 import Link from "next/link";
 import { GameIcon } from "@/components/GameIcon";
 import type { Fragrance, GameModeMeta } from "@/lib/types";
-import { getPoolForMode, seedFragrances } from "@/lib/data-source";
+import { startGameSession } from "@/lib/data-source";
 import { useAppStore } from "@/lib/store";
 import { dailyStreak, utcDateKey } from "@/lib/daily";
 import { BRACKET_SIZES, type BracketSize } from "@/lib/engines/bracket";
-import {
-  generateFragranceGrid,
-  type PreparedFragranceGrid,
-} from "@/lib/engines/fragrance-grid";
-import {
-  createOddOneOutPracticeSeed,
-  dailyOddOneOutSeed,
-  generateOddOneOutRounds,
-  type OddOneOutRound,
-} from "@/lib/engines/odd-one-out";
-import {
-  dailyConnectionPuzzle,
-  generateConnectionPuzzle,
-  randomConnectionPuzzle,
-  type PreparedConnectionPuzzle,
-} from "@/lib/engines/connections";
-import { CONNECTION_PUZZLES } from "@/data/connections-puzzles";
-import { ThisOrThatGame } from "./ThisOrThatGame";
-import { YesNoGame } from "./YesNoGame";
-import { MultipleChoiceGame } from "./MultipleChoiceGame";
-import { BracketGame } from "./BracketGame";
-import { NamingGame } from "./NamingGame";
-import { DiscoveryGame } from "./DiscoveryGame";
-import {
-  ConnectionsGame,
-  type ConnectionsVariant,
-} from "./ConnectionsGame";
-import { NotePyramidGame } from "./NotePyramidGame";
-import { FragranceGridGame } from "./FragranceGridGame";
-import { OddOneOutGame } from "./OddOneOutGame";
-import { BuildAnAccordGame } from "./BuildAnAccordGame";
-import { FragranceTimelineGame } from "./FragranceTimelineGame";
-import { BottleSilhouetteGame } from "./BottleSilhouetteGame";
+import type { PreparedFragranceGrid } from "@/lib/engines/fragrance-grid";
+import type { OddOneOutRound } from "@/lib/engines/odd-one-out";
+import type { PreparedConnectionPuzzle } from "@/lib/engines/connections";
+import type { NamingChallenge } from "@/lib/engines/naming";
+import type { ConnectionsVariant } from "./ConnectionsGame";
+
+const ThisOrThatGame = dynamic(
+  () => import("./ThisOrThatGame").then((m) => m.ThisOrThatGame),
+  { loading: GameChunkFallback },
+);
+const YesNoGame = dynamic(
+  () => import("./YesNoGame").then((m) => m.YesNoGame),
+  { loading: GameChunkFallback },
+);
+const MultipleChoiceGame = dynamic(
+  () => import("./MultipleChoiceGame").then((m) => m.MultipleChoiceGame),
+  { loading: GameChunkFallback },
+);
+const BracketGame = dynamic(
+  () => import("./BracketGame").then((m) => m.BracketGame),
+  { loading: GameChunkFallback },
+);
+const NamingGame = dynamic(
+  () => import("./NamingGame").then((m) => m.NamingGame),
+  { loading: GameChunkFallback },
+);
+const DiscoveryGame = dynamic(
+  () => import("./DiscoveryGame").then((m) => m.DiscoveryGame),
+  { loading: GameChunkFallback },
+);
+const ConnectionsGame = dynamic(
+  () => import("./ConnectionsGame").then((m) => m.ConnectionsGame),
+  { loading: GameChunkFallback },
+);
+const NotePyramidGame = dynamic(
+  () => import("./NotePyramidGame").then((m) => m.NotePyramidGame),
+  { loading: GameChunkFallback },
+);
+const FragranceGridGame = dynamic(
+  () => import("./FragranceGridGame").then((m) => m.FragranceGridGame),
+  { loading: GameChunkFallback },
+);
+const OddOneOutGame = dynamic(
+  () => import("./OddOneOutGame").then((m) => m.OddOneOutGame),
+  { loading: GameChunkFallback },
+);
+const BuildAnAccordGame = dynamic(
+  () => import("./BuildAnAccordGame").then((m) => m.BuildAnAccordGame),
+  { loading: GameChunkFallback },
+);
+const FragranceTimelineGame = dynamic(
+  () =>
+    import("./FragranceTimelineGame").then((m) => m.FragranceTimelineGame),
+  { loading: GameChunkFallback },
+);
+const BottleSilhouetteGame = dynamic(
+  () =>
+    import("./BottleSilhouetteGame").then((m) => m.BottleSilhouetteGame),
+  { loading: GameChunkFallback },
+);
+
+function GameChunkFallback() {
+  return (
+    <div className="flex flex-1 items-center justify-center text-muted">
+      Loading game…
+    </div>
+  );
+}
 
 const ROUND_CHOICES = [10, 15, 20];
 const CHALLENGE_ROUND_CHOICES = [5, 7, 10];
@@ -59,7 +95,10 @@ interface GameControllerProps {
 export function GameController({ meta }: GameControllerProps) {
   const apiKey = useAppStore((s) => s.apiKey);
   const history = useAppStore((s) => s.history);
-  const [phase, setPhase] = useState<"setup" | "loading" | "playing">("setup");
+  const [phase, setPhase] = useState<"setup" | "loading" | "playing" | "error">(
+    "setup",
+  );
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [rounds, setRounds] = useState(10);
   const [challengeVariant, setChallengeVariant] =
     useState<ChallengeVariant>("daily");
@@ -78,6 +117,8 @@ export function GameController({ meta }: GameControllerProps) {
   const [oddOneOutRounds, setOddOneOutRounds] =
     useState<OddOneOutRound[] | null>(null);
   const [oddOneOutSeed, setOddOneOutSeed] = useState<string>();
+  const [namingChallenge, setNamingChallenge] =
+    useState<NamingChallenge | null>(null);
   const [challengeDateKey, setChallengeDateKey] = useState(utcDateKey);
   const [gameKey, setGameKey] = useState(0);
   const isDailyConnections = meta.id === "connections-daily";
@@ -95,69 +136,59 @@ export function GameController({ meta }: GameControllerProps) {
 
   const start = useCallback(async () => {
     setPhase("loading");
+    setLoadError(null);
     const nextDateKey = utcDateKey();
     setChallengeDateKey(nextDateKey);
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-    if (meta.kind === "connections") {
-      const fallback = CONNECTION_PUZZLES[0];
-      if (!fallback) throw new Error("No Connections puzzles are configured.");
-      const puzzle =
-        connectionsVariant === "daily"
-          ? dailyConnectionPuzzle(CONNECTION_PUZZLES, seedFragrances)
-          : connectionsVariant === "generated"
-            ? generateConnectionPuzzle(seedFragrances, fallback)
-            : randomConnectionPuzzle(CONNECTION_PUZZLES, seedFragrances);
-      setConnectionsPuzzle(puzzle);
-      setSource("seed");
-    } else if (meta.kind === "fragrance-grid") {
-      const seed =
-        challengeVariant === "daily"
-          ? `fragrance-grid:${nextDateKey}`
-          : `fragrance-grid:practice:${Date.now()}:${Math.random()}`;
-      setFragranceGridPuzzle(generateFragranceGrid(seedFragrances, { seed }));
-      setPool(seedFragrances);
-      setSource("seed");
-    } else if (meta.kind === "odd-one-out") {
-      const seed =
-        challengeVariant === "daily"
-          ? dailyOddOneOutSeed(nextDateKey)
-          : createOddOneOutPracticeSeed();
-      setOddOneOutSeed(seed);
-      setOddOneOutRounds(
-        generateOddOneOutRounds(seedFragrances, rounds, { seed }),
-      );
-      setPool(seedFragrances);
-      setSource("seed");
-    } else if (meta.kind === "naming" || isChallengeGame) {
-      setPool(seedFragrances);
-      setSource("seed");
-    } else {
+
+    try {
       const poolCount =
         meta.kind === "discovery"
           ? DISCOVERY_POOL_SIZE
           : meta.kind === "bracket"
             ? bracketSize
             : meta.kind === "this-or-that"
-              ? // King of the hill: 2 openers + 1 new challenger per later round, with spare options.
-                rounds + 16
-              : Math.max(rounds, 16);
-      const result = await getPoolForMode(meta.id, poolCount, apiKey);
+              ? rounds + 16
+              : meta.kind === "yes-no" || meta.kind === "multiple-choice"
+                ? Math.max(rounds, 16)
+                : undefined;
+
+      const result = await startGameSession({
+        modeId: meta.id,
+        kind: meta.kind,
+        rounds,
+        bracketSize,
+        challengeVariant,
+        connectionsVariant,
+        dateKey: nextDateKey,
+        apiKey,
+        poolCount,
+      });
+
       setPool(result.pool);
       setSource(result.source);
+      setConnectionsPuzzle(result.connectionsPuzzle ?? null);
+      setFragranceGridPuzzle(result.fragranceGridPuzzle ?? null);
+      setOddOneOutRounds(result.oddOneOutRounds ?? null);
+      setOddOneOutSeed(result.oddOneOutSeed);
+      setNamingChallenge(result.namingChallenge ?? null);
+      setGameKey((k) => k + 1);
+      setPhase("playing");
+    } catch (error) {
+      setLoadError(
+        error instanceof Error ? error.message : "Could not prepare this game.",
+      );
+      setPhase("error");
     }
-    setGameKey((k) => k + 1);
-    setPhase("playing");
   }, [
     meta,
     rounds,
     bracketSize,
     apiKey,
     connectionsVariant,
-    isChallengeGame,
     challengeVariant,
   ]);
 
-  if (phase === "setup") {
+  if (phase === "setup" || phase === "error") {
     return (
       <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center gap-6 py-4 sm:py-10 animate-card-in">
         <Link
@@ -275,6 +306,12 @@ export function GameController({ meta }: GameControllerProps) {
           />
           )}
 
+            {loadError && (
+              <p className="mt-4 text-center text-sm text-red-600 dark:text-red-400">
+                {loadError}
+              </p>
+            )}
+
             <button
               onClick={start}
               className="mx-auto mt-8 block min-h-12 rounded-full bg-accent px-10 py-3 text-lg font-semibold text-[#17120a] transition-[opacity,transform] hover:-translate-y-0.5 hover:opacity-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
@@ -283,7 +320,9 @@ export function GameController({ meta }: GameControllerProps) {
                 ? "Begin"
                 : isDailyConnections
                   ? "Play today’s puzzle"
-                  : "Start"}
+                  : phase === "error"
+                    ? "Try again"
+                    : "Start"}
             </button>
           </div>
         </section>
@@ -323,8 +362,13 @@ export function GameController({ meta }: GameControllerProps) {
       {meta.kind === "discovery" && (
         <DiscoveryGame key={gameKey} {...common} pool={pool} />
       )}
-      {meta.kind === "naming" && (
-        <NamingGame key={gameKey} {...common} duration={duration} />
+      {meta.kind === "naming" && namingChallenge && (
+        <NamingGame
+          key={gameKey}
+          {...common}
+          duration={duration}
+          challenge={namingChallenge}
+        />
       )}
       {meta.kind === "connections" && connectionsPuzzle && (
         <ConnectionsGame
