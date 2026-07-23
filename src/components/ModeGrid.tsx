@@ -83,6 +83,7 @@ export function ModeGrid() {
                   <Link
                     key={mode.id}
                     href={`/play/${mode.id}`}
+                    prefetch={false}
                     className="group flex min-h-32 items-center gap-5 rounded-2xl border border-border bg-card px-5 py-5 transition-transform hover:-translate-y-0.5 hover:border-accent hover:bg-card-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                   >
                     <span className="flex size-16 shrink-0 items-center justify-center rounded-full border border-accent/70 text-accent group-hover:bg-accent-soft sm:size-20">

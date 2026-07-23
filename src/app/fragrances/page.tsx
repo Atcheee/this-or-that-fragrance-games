@@ -3,12 +3,12 @@ import Link from "next/link";
 import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import { FragranceBottleIcon } from "@/components/FragranceBottleIcon";
 import { CatalogFragranceCard } from "@/components/CatalogFragranceCard";
-import { expandBrandSearchTerms } from "@/lib/brand-aliases";
 import {
-  getAllCatalogFragrances,
-  getAllHouseSummaries,
-} from "@/lib/catalog";
-import { allNotes } from "@/lib/types";
+  browseFragrances,
+  getBrowseAccords,
+  getBrowseFragranceMeta,
+  getFeaturedBrowseHouses,
+} from "@/lib/catalog-browse-fragrances";
 
 export const metadata: Metadata = {
   title: "Browse fragrances — This or That",
@@ -17,20 +17,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/fragrances" },
 };
 
+/** CDN/ISR cache — browse indexes are generated at build time. */
+export const revalidate = 3600;
+
 const PAGE_SIZE = 24;
-const COLLATOR = new Intl.Collator("en", { sensitivity: "base", numeric: true });
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
-
-function normalizeBrowseQuery(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim()
-    .replace(/\s+/g, " ");
-}
 
 export default async function FragrancesPage({
   searchParams,
@@ -43,59 +35,40 @@ export default async function FragrancesPage({
   const accord = getParam(params, "accord");
   const sort = getParam(params, "sort") || "popular";
   const page = positiveInteger(getParam(params, "page"));
-  const queryTerms = expandBrandSearchTerms(
-    normalizeBrowseQuery(query).split(" ").filter(Boolean),
-    normalizeBrowseQuery,
+
+  const meta = getBrowseFragranceMeta();
+  const featuredHouses = getFeaturedBrowseHouses();
+  const accords = getBrowseAccords();
+  const result = await browseFragrances(
+    query,
+    house,
+    accord,
+    sort,
+    page,
+    PAGE_SIZE,
   );
 
-  const fragrances = getAllCatalogFragrances();
-  const houses = getAllHouseSummaries();
-  const accords = [
-    ...new Set(
-      fragrances
-        .flatMap((fragrance) => fragrance.accords)
-        .filter((item) => item.trim().length > 0),
-    ),
-  ].sort(COLLATOR.compare);
-
-  const filtered = fragrances
-    .filter((fragrance) => {
-      if (house && fragrance.houseSlug !== house) return false;
-      if (accord && !fragrance.accords.includes(accord)) return false;
-      if (queryTerms.length === 0) return true;
-
-      const searchable = normalizeBrowseQuery(
-        [
-          fragrance.name,
-          fragrance.house,
-          ...fragrance.accords,
-          ...allNotes(fragrance),
-        ].join(" "),
+  let activeHouseName: string | undefined;
+  if (house) {
+    activeHouseName = featuredHouses.find((item) => item.slug === house)?.name;
+    if (!activeHouseName) {
+      const { getBrowseHouseSummaries } = await import(
+        "@/lib/catalog-browse-houses"
       );
-      return queryTerms.every((term) => searchable.includes(term));
-    })
-    .sort((a, b) => {
-      if (sort === "rating") {
-        return b.rating - a.rating || (b.votes ?? 0) - (a.votes ?? 0);
-      }
-      if (sort === "newest") {
-        return b.year - a.year || COLLATOR.compare(a.name, b.name);
-      }
-      if (sort === "name") return COLLATOR.compare(a.name, b.name);
-      return (
-        (b.votes ?? 0) - (a.votes ?? 0) ||
-        b.rating - a.rating ||
-        COLLATOR.compare(a.name, b.name)
-      );
-    });
+      activeHouseName = getBrowseHouseSummaries().find(
+        (item) => item.slug === house,
+      )?.name;
+    }
+  }
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
-  const visible = filtered.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE,
-  );
-  const activeHouse = houses.find((item) => item.slug === house);
+  const houseOptions = [...featuredHouses];
+  if (
+    house &&
+    activeHouseName &&
+    !houseOptions.some((item) => item.slug === house)
+  ) {
+    houseOptions.unshift({ slug: house, name: activeHouseName });
+  }
 
   return (
     <div className="flex flex-col gap-8 pb-8">
@@ -108,8 +81,8 @@ export default async function FragrancesPage({
             Browse fragrances
           </h1>
           <p className="mt-4 max-w-2xl leading-7 text-muted">
-            Explore {formatNumber(fragrances.length)} scents across{" "}
-            {formatNumber(houses.length)} designer houses. Filter by house,
+            Explore {formatNumber(meta.fragranceCount)} scents across{" "}
+            {formatNumber(meta.houseCount)} designer houses. Filter by house,
             accord, or search every name and note.
           </p>
         </div>
@@ -140,14 +113,14 @@ export default async function FragrancesPage({
                 type="search"
                 name="q"
                 defaultValue={query}
-                placeholder="Name, house, note, or accord"
+                placeholder="Name, house, or accord"
                 className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-3 text-sm outline-none focus:border-accent focus:ring-2 focus:ring-accent-soft"
               />
             </span>
           </label>
           <FilterSelect name="house" label="House" defaultValue={house}>
             <option value="">All houses</option>
-            {houses.map((item) => (
+            {houseOptions.map((item) => (
               <option key={item.slug} value={item.slug}>
                 {item.name}
               </option>
@@ -174,17 +147,24 @@ export default async function FragrancesPage({
             Browse
           </button>
         </div>
+        <p className="mt-3 text-xs text-muted">
+          House list shows the largest collections.{" "}
+          <Link href="/houses" className="font-semibold text-accent hover:underline">
+            Browse all houses
+          </Link>{" "}
+          for the full directory.
+        </p>
       </form>
 
       <section aria-labelledby="results-heading">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 id="results-heading" className="text-2xl font-semibold tracking-tight">
-              {activeHouse ? activeHouse.name : accord || query || "All fragrances"}
+              {activeHouseName || accord || query || "All fragrances"}
             </h2>
             <p className="mt-1 text-sm text-muted">
-              {formatNumber(filtered.length)}{" "}
-              {filtered.length === 1 ? "fragrance" : "fragrances"}
+              {formatNumber(result.total)}{" "}
+              {result.total === 1 ? "fragrance" : "fragrances"}
             </p>
           </div>
           {query || house || accord || sort !== "popular" ? (
@@ -194,10 +174,14 @@ export default async function FragrancesPage({
           ) : null}
         </div>
 
-        {visible.length > 0 ? (
+        {result.fragrances.length > 0 ? (
           <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-            {visible.map((fragrance) => (
-              <CatalogFragranceCard key={fragrance.id} fragrance={fragrance} />
+            {result.fragrances.map((fragrance, index) => (
+              <CatalogFragranceCard
+                key={fragrance.id}
+                fragrance={fragrance}
+                priority={index < 6}
+              />
             ))}
           </div>
         ) : (
@@ -219,10 +203,10 @@ export default async function FragrancesPage({
           </div>
         )}
 
-        {filtered.length > PAGE_SIZE ? (
+        {result.total > PAGE_SIZE ? (
           <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
+            currentPage={result.page}
+            totalPages={result.totalPages}
             params={{ q: query, house, accord, sort }}
           />
         ) : null}

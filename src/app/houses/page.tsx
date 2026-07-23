@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Buildings, MagnifyingGlass, Star } from "@phosphor-icons/react/dist/ssr";
 import { HouseMark } from "@/components/game/HouseMark";
-import { expandBrandSearchTerms } from "@/lib/brand-aliases";
-import { getAllCatalogFragrances, getAllHouseSummaries } from "@/lib/catalog";
+import {
+  browseHouses,
+  getBrowseMeta,
+} from "@/lib/catalog-browse-houses";
 
 export const metadata: Metadata = {
   title: "Designer houses — This or That",
@@ -12,57 +14,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/houses" },
 };
 
-const PAGE_SIZE = 24;
-const COLLATOR = new Intl.Collator("en", { sensitivity: "base", numeric: true });
-type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+export const revalidate = 3600;
 
-function normalizeBrowseQuery(value: string): string {
-  return value
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")
-    .trim()
-    .replace(/\s+/g, " ");
-}
+const PAGE_SIZE = 24;
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 export default async function HousesPage({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams;
   const query = getParam(params, "q").trim();
   const sort = getParam(params, "sort") || "collection";
   const page = positiveInteger(getParam(params, "page"));
-  const queryTerms = expandBrandSearchTerms(
-    normalizeBrowseQuery(query).split(" ").filter(Boolean),
-    normalizeBrowseQuery,
-  );
-  const houses = getAllHouseSummaries();
-  const fragranceCount = getAllCatalogFragrances().length;
-
-  const filtered = houses
-    .filter((house) => {
-      if (queryTerms.length === 0) return true;
-      const haystack = normalizeBrowseQuery(
-        `${house.name} ${house.topAccords.map((accord) => accord.name).join(" ")}`,
-      );
-      return queryTerms.every((term) => haystack.includes(term));
-    })
-    .sort((a, b) => {
-      if (sort === "name") return COLLATOR.compare(a.name, b.name);
-      if (sort === "rating") {
-        return b.averageRating - a.averageRating || b.fragranceCount - a.fragranceCount;
-      }
-      if (sort === "newest") {
-        return (b.latestYear ?? 0) - (a.latestYear ?? 0) || COLLATOR.compare(a.name, b.name);
-      }
-      return b.fragranceCount - a.fragranceCount || COLLATOR.compare(a.name, b.name);
-    });
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
-  const visible = filtered.slice(
-    (currentPage - 1) * PAGE_SIZE,
-    currentPage * PAGE_SIZE,
-  );
+  const meta = getBrowseMeta();
+  const result = await browseHouses(query, sort, page, PAGE_SIZE);
 
   return (
     <div className="flex flex-col gap-8 pb-8">
@@ -75,8 +38,8 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
             Designer houses
           </h1>
           <p className="mt-4 max-w-2xl leading-7 text-muted">
-            Explore {formatNumber(houses.length)} houses behind{" "}
-            {formatNumber(fragranceCount)} fragrances. Compare collections,
+            Explore {formatNumber(meta.houseCount)} houses behind{" "}
+            {formatNumber(meta.fragranceCount)} fragrances. Compare collections,
             signature accords, ratings, and eras.
           </p>
         </div>
@@ -140,7 +103,7 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
               {query ? `Results for “${query}”` : "All houses"}
             </h2>
             <p className="mt-1 text-sm text-muted">
-              {formatNumber(filtered.length)} {filtered.length === 1 ? "house" : "houses"}
+              {formatNumber(result.total)} {result.total === 1 ? "house" : "houses"}
             </p>
           </div>
           {query || sort !== "collection" ? (
@@ -150,9 +113,9 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
           ) : null}
         </div>
 
-        {visible.length > 0 ? (
+        {result.houses.length > 0 ? (
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {visible.map((house) => {
+            {result.houses.map((house) => {
               const years = yearRange(house.firstYear, house.latestYear);
               const hasRating = house.averageRating > 0;
 
@@ -175,12 +138,12 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
                   </div>
 
                   <div className="flex min-h-7 flex-wrap gap-1.5">
-                    {house.topAccords.slice(0, 3).map((accord) => (
+                    {house.topAccords.slice(0, 3).map((item) => (
                       <span
-                        key={accord.name}
+                        key={item.name}
                         className="inline-flex items-center justify-center rounded-full bg-accent-soft px-2.5 py-1 text-xs font-medium leading-none text-accent"
                       >
-                        {accord.name}
+                        {item.name}
                       </span>
                     ))}
                   </div>
@@ -218,10 +181,10 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
           </div>
         )}
 
-        {filtered.length > PAGE_SIZE ? (
+        {result.total > PAGE_SIZE ? (
           <nav aria-label="House directory pages" className="mt-8 flex items-center justify-center gap-4">
-            {currentPage > 1 ? (
-              <Link href={pageHref(query, sort, currentPage - 1)} className="rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-accent hover:bg-card">
+            {result.page > 1 ? (
+              <Link href={pageHref(query, sort, result.page - 1)} className="rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-accent hover:bg-card">
                 Previous
               </Link>
             ) : (
@@ -233,10 +196,10 @@ export default async function HousesPage({ searchParams }: { searchParams: Searc
               </span>
             )}
             <span className="text-sm tabular-nums text-muted">
-              Page <strong className="text-foreground">{currentPage}</strong> of {totalPages}
+              Page <strong className="text-foreground">{result.page}</strong> of {result.totalPages}
             </span>
-            {currentPage < totalPages ? (
-              <Link href={pageHref(query, sort, currentPage + 1)} className="rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-accent hover:bg-card">
+            {result.page < result.totalPages ? (
+              <Link href={pageHref(query, sort, result.page + 1)} className="rounded-full border border-border px-4 py-2 text-sm font-semibold hover:border-accent hover:bg-card">
                 Next
               </Link>
             ) : (

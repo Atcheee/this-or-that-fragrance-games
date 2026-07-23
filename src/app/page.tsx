@@ -20,6 +20,7 @@ export default function Home() {
 
       <Link
         href="/play/connections-daily"
+        prefetch={false}
         className="group flex flex-col gap-5 rounded-2xl border border-accent/30 bg-card px-6 py-5 hover:border-accent sm:flex-row sm:items-center sm:px-8"
       >
         <span className="flex size-16 shrink-0 items-center justify-center text-accent sm:size-20">

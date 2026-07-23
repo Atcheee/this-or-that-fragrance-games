@@ -50,6 +50,7 @@ export function PrimaryNav() {
             <Link
               key={href}
               href={href}
+              prefetch={false}
               aria-current={active ? "page" : undefined}
               className={`flex min-h-11 flex-col items-center justify-center gap-0.5 rounded-xl px-1 py-1.5 text-center transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:min-h-0 md:flex-row md:gap-1.5 md:rounded-full md:px-3 md:py-1.5 ${
                 active
