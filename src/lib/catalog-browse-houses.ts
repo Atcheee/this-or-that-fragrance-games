@@ -104,6 +104,7 @@ function browseHousesUncached(
 export const browseHouses = unstable_cache(
   async (query: string, sort: string, page: number, pageSize: number) =>
     browseHousesUncached(query, sort, page, pageSize),
-  ["browse-houses-v1"],
+  // Bust when generate-catalog-indexes.ts rewrites browse-meta.json
+  ["browse-houses-v2", meta.generatedAt],
   { revalidate: 3600 },
 );

@@ -174,6 +174,8 @@ export const browseFragrances = unstable_cache(
     page: number,
     pageSize: number,
   ) => browseFragrancesUncached(query, house, accord, sort, page, pageSize),
-  ["browse-fragrances-v2"],
+  // Include generatedAt so a new catalog index deploy cannot keep serving
+  // stale totals (hero reads browse-meta live; this cache used to lag behind).
+  ["browse-fragrances-v3", meta.generatedAt],
   { revalidate: 3600 },
 );
