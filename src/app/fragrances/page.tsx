@@ -86,12 +86,20 @@ export default async function FragrancesPage({
             accord, or search every name and note.
           </p>
         </div>
-        <Link
-          href="/houses"
-          className="inline-flex min-h-11 items-center justify-center rounded-full border border-border px-5 text-sm font-semibold transition-colors hover:border-accent hover:bg-card-hover"
-        >
-          View designer houses
-        </Link>
+        <div className="flex flex-wrap gap-2 md:flex-col">
+          <Link
+            href="/families"
+            className="inline-flex min-h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-[#17120a] transition-transform hover:-translate-y-0.5"
+          >
+            Explore family trees
+          </Link>
+          <Link
+            href="/houses"
+            className="inline-flex min-h-11 items-center justify-center rounded-full border border-border px-5 text-sm font-semibold transition-colors hover:border-accent hover:bg-card-hover"
+          >
+            View designer houses
+          </Link>
+        </div>
       </section>
 
       <form

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { TreeStructure } from "@phosphor-icons/react/dist/ssr";
 import { AccordBars } from "@/components/AccordBars";
 import { CatalogFragranceCard } from "@/components/CatalogFragranceCard";
 import { FavoriteButton } from "@/components/FavoriteButton";
@@ -14,6 +15,7 @@ import {
   getPopularFragranceSlugs,
   getRelatedFragrances,
 } from "@/lib/catalog";
+import { getFragranceFamilyForFragrance } from "@/lib/fragrance-families";
 
 interface FragrancePageProps {
   params: Promise<{ slug: string }>;
@@ -60,6 +62,7 @@ export default async function FragrancePage({ params }: FragrancePageProps) {
   if (!fragrance) notFound();
 
   const related = getRelatedFragrances(fragrance);
+  const family = getFragranceFamilyForFragrance(fragrance.id);
   const heroSrc = primaryBottleSrc(fragrance.imageUrl);
 
   return (
@@ -135,20 +138,37 @@ export default async function FragrancePage({ params }: FragrancePageProps) {
                 {fragrance.year > 0 ? (
                   <p className="mt-2 text-muted">Released in {fragrance.year}</p>
                 ) : null}
+                {family ? (
+                  <Link
+                    href={`/family/${family.slug}`}
+                    className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-full border border-border bg-background px-4 text-sm font-semibold transition-colors hover:border-accent hover:bg-card-hover"
+                  >
+                    <TreeStructure aria-hidden size={17} />
+                    View {family.name} family tree
+                  </Link>
+                ) : null}
               </div>
-              <FavoriteButton
-                tasteFragrance={fragranceToTasteFragrance(fragrance)}
-                fragrance={{
-                  id: fragrance.id,
-                  name: fragrance.name,
-                  house: fragrance.house,
-                  year: fragrance.year,
-                  slug: fragrance.slug,
-                  imageUrl: fragrance.imageUrl,
-                  rating: fragrance.rating,
-                  votes: fragrance.votes,
-                }}
-              />
+              <div className="flex shrink-0 items-center gap-2">
+                <Link
+                  href={`/compare?first=${encodeURIComponent(fragrance.slug)}`}
+                  className="rounded-full border border-border px-3 py-2 text-xs font-semibold text-muted transition-colors hover:border-accent hover:text-foreground"
+                >
+                  Compare
+                </Link>
+                <FavoriteButton
+                  tasteFragrance={fragranceToTasteFragrance(fragrance)}
+                  fragrance={{
+                    id: fragrance.id,
+                    name: fragrance.name,
+                    house: fragrance.house,
+                    year: fragrance.year,
+                    slug: fragrance.slug,
+                    imageUrl: fragrance.imageUrl,
+                    rating: fragrance.rating,
+                    votes: fragrance.votes,
+                  }}
+                />
+              </div>
             </div>
 
             <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">

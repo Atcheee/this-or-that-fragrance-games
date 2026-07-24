@@ -1,13 +1,17 @@
 import "server-only";
 
 import { CONNECTION_PUZZLES } from "@/data/connections-puzzles";
-import { getAllCatalogFragrances } from "@/lib/catalog";
+import {
+  getAllCatalogFragrances,
+  type CatalogFragrance,
+} from "@/lib/catalog";
 import {
   dailyConnectionPuzzle,
   generateConnectionPuzzle,
   randomConnectionPuzzle,
 } from "@/lib/engines/connections";
 import { generateFragranceGrid } from "@/lib/engines/fragrance-grid";
+import { isReliablePriceCandidate } from "@/lib/engines/price-ladder";
 import {
   createOddOneOutPracticeSeed,
   dailyOddOneOutSeed,
@@ -17,6 +21,7 @@ import {
   createHouseChallenge,
   createNoteChallenge,
 } from "@/lib/engines/naming";
+import { generateFakeOrRealRounds } from "@/lib/engines/fake-or-real";
 import { sample } from "@/lib/random";
 import type { GameStartResponse } from "@/lib/data-source";
 import type { Fragrance, GameKind, GameModeId } from "@/lib/types";
@@ -91,7 +96,7 @@ function slimForClient(f: Fragrance): Fragrance {
   return { ...next, description: "" };
 }
 
-function allSeedFragrances(): readonly Fragrance[] {
+function allSeedFragrances(): readonly CatalogFragrance[] {
   return getAllCatalogFragrances();
 }
 
@@ -309,11 +314,45 @@ export async function prepareGameStart(
     return { source: "seed", pool: [], namingChallenge };
   }
 
+  if (kind === "fake-or-real") {
+    return {
+      source: "seed",
+      pool: [],
+      fakeOrRealRounds: generateFakeOrRealRounds(catalog, rounds),
+    };
+  }
+
   if (
     kind === "note-pyramid" ||
+    kind === "crime-scene" ||
     kind === "bottle-silhouette" ||
     kind === "fragrance-timeline"
   ) {
+    return { source: "seed", pool: playCatalog };
+  }
+
+  if (kind === "price-ladder") {
+    const priceCatalog = catalog
+      .filter(isReliablePriceCandidate)
+      .sort(
+        (a, b) =>
+          (b.votes ?? 0) - (a.votes ?? 0) ||
+          b.rating - a.rating ||
+          a.name.localeCompare(b.name),
+      )
+      .map(slimForClient);
+    return { source: "seed", pool: priceCatalog };
+  }
+
+  if (kind === "twenty-questions") {
+    const questionsPool = getPlayCatalog(240);
+    return {
+      source: "seed",
+      pool: sample(questionsPool, questionsPool.length),
+    };
+  }
+
+  if (kind === "bingo") {
     return { source: "seed", pool: playCatalog };
   }
 

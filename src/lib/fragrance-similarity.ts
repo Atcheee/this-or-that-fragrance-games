@@ -19,7 +19,7 @@ const NOTE_TIER_WEIGHTS = {
   base: 1.5,
 } as const;
 
-const SCORE_WEIGHTS = {
+export const FRAGRANCE_SIMILARITY_WEIGHTS = {
   notes: 0.36,
   accords: 0.24,
   year: 0.14,
@@ -52,6 +52,23 @@ export interface FragranceSimilarity {
   sameHouse: boolean;
   ratingDistance: number | null;
   popularitySimilarity: number | null;
+  scoreComponents: SimilarityScoreComponent[];
+  noteComparison: SimilarityValueComparison;
+  accordComparison: SimilarityValueComparison;
+}
+
+export interface SimilarityScoreComponent {
+  key: keyof typeof FRAGRANCE_SIMILARITY_WEIGHTS;
+  label: string;
+  score: number | null;
+  weight: number;
+  contribution: number;
+}
+
+export interface SimilarityValueComparison {
+  shared: string[];
+  firstOnly: string[];
+  secondOnly: string[];
 }
 
 function normalized(value: string): string {
@@ -105,15 +122,49 @@ function proximity(distance: number, scale: number): number {
   return Math.exp(-Math.max(0, distance) / scale);
 }
 
-function sharedValues(source: string[], target: string[]): string[] {
-  const targetKeys = new Set(target.map(normalized));
+function uniqueValues(source: string[]): string[] {
   const seen = new Set<string>();
   return source.filter((value) => {
     const key = normalized(value);
-    if (!targetKeys.has(key) || seen.has(key)) return false;
+    if (seen.has(key)) return false;
     seen.add(key);
     return true;
   });
+}
+
+function compareValues(
+  first: string[],
+  second: string[],
+): SimilarityValueComparison {
+  const uniqueFirst = uniqueValues(first);
+  const uniqueSecond = uniqueValues(second);
+  const firstKeys = new Set(uniqueFirst.map(normalized));
+  const secondKeys = new Set(uniqueSecond.map(normalized));
+  return {
+    shared: uniqueFirst.filter((value) => secondKeys.has(normalized(value))),
+    firstOnly: uniqueFirst.filter(
+      (value) => !secondKeys.has(normalized(value)),
+    ),
+    secondOnly: uniqueSecond.filter(
+      (value) => !firstKeys.has(normalized(value)),
+    ),
+  };
+}
+
+function scoreComponent(
+  key: SimilarityScoreComponent["key"],
+  label: string,
+  score: number | null,
+): SimilarityScoreComponent {
+  const weight = FRAGRANCE_SIMILARITY_WEIGHTS[key];
+  return {
+    key,
+    label,
+    score: score === null ? null : Math.round(score * 100),
+    weight: Math.round(weight * 100),
+    contribution:
+      score === null ? 0 : Math.round(score * weight * 1_000) / 10,
+  };
 }
 
 export function scoreFragranceSimilarity(
@@ -150,30 +201,34 @@ export function scoreFragranceSimilarity(
           0.9,
         )
       : null;
+  const noteComparison = compareValues(
+    first.topNotes.concat(first.heartNotes, first.baseNotes),
+    second.topNotes.concat(second.heartNotes, second.baseNotes),
+  );
+  const accordComparison = compareValues(first.accords, second.accords);
   const rawScore =
-    noteSimilarity * SCORE_WEIGHTS.notes +
-    accordSimilarity * SCORE_WEIGHTS.accords +
-    yearScore * SCORE_WEIGHTS.year +
-    (sameHouse ? 1 : 0) * SCORE_WEIGHTS.house +
-    ratingScore * SCORE_WEIGHTS.rating +
-    (popularitySimilarity ?? 0) * SCORE_WEIGHTS.popularity;
+    noteSimilarity * FRAGRANCE_SIMILARITY_WEIGHTS.notes +
+    accordSimilarity * FRAGRANCE_SIMILARITY_WEIGHTS.accords +
+    yearScore * FRAGRANCE_SIMILARITY_WEIGHTS.year +
+    (sameHouse ? 1 : 0) * FRAGRANCE_SIMILARITY_WEIGHTS.house +
+    ratingScore * FRAGRANCE_SIMILARITY_WEIGHTS.rating +
+    (popularitySimilarity ?? 0) *
+      FRAGRANCE_SIMILARITY_WEIGHTS.popularity;
   const isSame = first.id === second.id;
 
   return {
     overallScore: isSame ? 100 : Math.min(99, Math.round(rawScore * 100)),
     scentScore: Math.round(
-      ((noteSimilarity * SCORE_WEIGHTS.notes +
-        accordSimilarity * SCORE_WEIGHTS.accords) /
-        (SCORE_WEIGHTS.notes + SCORE_WEIGHTS.accords)) *
+      ((noteSimilarity * FRAGRANCE_SIMILARITY_WEIGHTS.notes +
+        accordSimilarity * FRAGRANCE_SIMILARITY_WEIGHTS.accords) /
+        (FRAGRANCE_SIMILARITY_WEIGHTS.notes +
+          FRAGRANCE_SIMILARITY_WEIGHTS.accords)) *
         100,
     ),
     noteSimilarity: Math.round(noteSimilarity * 100),
     accordSimilarity: Math.round(accordSimilarity * 100),
-    sharedNotes: sharedValues(
-      first.topNotes.concat(first.heartNotes, first.baseNotes),
-      second.topNotes.concat(second.heartNotes, second.baseNotes),
-    ).slice(0, 8),
-    sharedAccords: sharedValues(first.accords, second.accords).slice(0, 6),
+    sharedNotes: noteComparison.shared.slice(0, 8),
+    sharedAccords: accordComparison.shared.slice(0, 6),
     yearDistance,
     sameHouse,
     ratingDistance:
@@ -182,6 +237,24 @@ export function scoreFragranceSimilarity(
       popularitySimilarity === null
         ? null
         : Math.round(popularitySimilarity * 100),
+    scoreComponents: [
+      scoreComponent("notes", "Notes", noteSimilarity),
+      scoreComponent("accords", "Accords", accordSimilarity),
+      scoreComponent(
+        "year",
+        "Release year",
+        first.year > 0 && second.year > 0 ? yearScore : null,
+      ),
+      scoreComponent("house", "House", sameHouse ? 1 : 0),
+      scoreComponent(
+        "rating",
+        "Rating",
+        ratingDistance === null ? null : ratingScore,
+      ),
+      scoreComponent("popularity", "Popularity", popularitySimilarity),
+    ],
+    noteComparison,
+    accordComparison,
   };
 }
 

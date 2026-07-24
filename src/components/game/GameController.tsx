@@ -13,6 +13,8 @@ import type { PreparedFragranceGrid } from "@/lib/engines/fragrance-grid";
 import type { OddOneOutRound } from "@/lib/engines/odd-one-out";
 import type { PreparedConnectionPuzzle } from "@/lib/engines/connections";
 import type { NamingChallenge } from "@/lib/engines/naming";
+import type { FakeOrRealRound } from "@/lib/engines/fake-or-real";
+import type { PriceLadderDifficulty } from "@/lib/engines/price-ladder";
 import type { ConnectionsVariant } from "./ConnectionsGame";
 
 const ThisOrThatGame = dynamic(
@@ -25,6 +27,10 @@ const YesNoGame = dynamic(
 );
 const MultipleChoiceGame = dynamic(
   () => import("./MultipleChoiceGame").then((m) => m.MultipleChoiceGame),
+  { loading: GameChunkFallback },
+);
+const FakeOrRealGame = dynamic(
+  () => import("./FakeOrRealGame").then((m) => m.FakeOrRealGame),
   { loading: GameChunkFallback },
 );
 const BracketGame = dynamic(
@@ -47,6 +53,13 @@ const NotePyramidGame = dynamic(
   () => import("./NotePyramidGame").then((m) => m.NotePyramidGame),
   { loading: GameChunkFallback },
 );
+const FragranceCrimeSceneGame = dynamic(
+  () =>
+    import("./FragranceCrimeSceneGame").then(
+      (m) => m.FragranceCrimeSceneGame,
+    ),
+  { loading: GameChunkFallback },
+);
 const FragranceGridGame = dynamic(
   () => import("./FragranceGridGame").then((m) => m.FragranceGridGame),
   { loading: GameChunkFallback },
@@ -64,9 +77,24 @@ const FragranceTimelineGame = dynamic(
     import("./FragranceTimelineGame").then((m) => m.FragranceTimelineGame),
   { loading: GameChunkFallback },
 );
+const PriceLadderGame = dynamic(
+  () => import("./PriceLadderGame").then((m) => m.PriceLadderGame),
+  { loading: GameChunkFallback },
+);
 const BottleSilhouetteGame = dynamic(
   () =>
     import("./BottleSilhouetteGame").then((m) => m.BottleSilhouetteGame),
+  { loading: GameChunkFallback },
+);
+const Fragrance20QuestionsGame = dynamic(
+  () =>
+    import("./Fragrance20QuestionsGame").then(
+      (m) => m.Fragrance20QuestionsGame,
+    ),
+  { loading: GameChunkFallback },
+);
+const FragranceBingoGame = dynamic(
+  () => import("./FragranceBingoGame").then((m) => m.FragranceBingoGame),
   { loading: GameChunkFallback },
 );
 
@@ -83,6 +111,7 @@ const CHALLENGE_ROUND_CHOICES = [5, 7, 10];
 const DURATION_CHOICES = [60, 90, 120];
 const CHALLENGE_VARIANTS = ["daily", "practice"] as const;
 type ChallengeVariant = (typeof CHALLENGE_VARIANTS)[number];
+const PRICE_DIFFICULTIES: PriceLadderDifficulty[] = ["easy", "medium", "hard"];
 const CONNECTIONS_MODE_CHOICES = ["curated", "generated"] as const;
 type ConnectionsPuzzleMode = (typeof CONNECTIONS_MODE_CHOICES)[number];
 /** Broad catalog window for preference scoring */
@@ -102,6 +131,8 @@ export function GameController({ meta }: GameControllerProps) {
   const [rounds, setRounds] = useState(10);
   const [challengeVariant, setChallengeVariant] =
     useState<ChallengeVariant>("daily");
+  const [priceDifficulty, setPriceDifficulty] =
+    useState<PriceLadderDifficulty>("medium");
   const [bracketSize, setBracketSize] = useState<BracketSize>(16);
   const [duration, setDuration] = useState(60);
   const [connectionsMode, setConnectionsMode] = useState<ConnectionsPuzzleMode>(
@@ -119,6 +150,9 @@ export function GameController({ meta }: GameControllerProps) {
   const [oddOneOutSeed, setOddOneOutSeed] = useState<string>();
   const [namingChallenge, setNamingChallenge] =
     useState<NamingChallenge | null>(null);
+  const [fakeOrRealRounds, setFakeOrRealRounds] = useState<
+    FakeOrRealRound[] | null
+  >(null);
   const [challengeDateKey, setChallengeDateKey] = useState(utcDateKey);
   const [gameKey, setGameKey] = useState(0);
   const isDailyConnections = meta.id === "connections-daily";
@@ -128,7 +162,9 @@ export function GameController({ meta }: GameControllerProps) {
     meta.kind === "odd-one-out" ||
     meta.kind === "build-an-accord" ||
     meta.kind === "fragrance-timeline" ||
-    meta.kind === "bottle-silhouette";
+    meta.kind === "price-ladder" ||
+    meta.kind === "bottle-silhouette" ||
+    meta.kind === "bingo";
   const connectionsVariant: ConnectionsVariant = isDailyConnections
     ? "daily"
     : connectionsMode;
@@ -171,6 +207,7 @@ export function GameController({ meta }: GameControllerProps) {
       setOddOneOutRounds(result.oddOneOutRounds ?? null);
       setOddOneOutSeed(result.oddOneOutSeed);
       setNamingChallenge(result.namingChallenge ?? null);
+      setFakeOrRealRounds(result.fakeOrRealRounds ?? null);
       setGameKey((k) => k + 1);
       setPhase("playing");
     } catch (error) {
@@ -223,9 +260,28 @@ export function GameController({ meta }: GameControllerProps) {
               value={challengeVariant}
               onChange={setChallengeVariant}
               format={(value) =>
-                value === "daily" ? "Daily puzzle" : "Random practice"
+                value === "daily"
+                  ? "Daily puzzle"
+                  : meta.kind === "price-ladder"
+                    ? "Endless mode"
+                    : "Random practice"
               }
             />
+            {meta.kind === "price-ladder" && (
+              <OptionPicker
+                label="Difficulty"
+                choices={PRICE_DIFFICULTIES}
+                value={priceDifficulty}
+                onChange={setPriceDifficulty}
+                format={(value) =>
+                  value === "easy"
+                    ? "Easy · 4"
+                    : value === "medium"
+                      ? "Medium · 4"
+                      : "Hard · 5"
+                }
+              />
+            )}
             {(meta.kind === "odd-one-out" ||
               meta.kind === "build-an-accord") && (
               <OptionPicker
@@ -239,7 +295,9 @@ export function GameController({ meta }: GameControllerProps) {
             <p className="text-center text-sm text-muted">
               {challengeVariant === "daily"
                 ? "Same UTC puzzle for everyone today."
-                : "A fresh puzzle is generated each time."}
+                : meta.kind === "price-ladder"
+                  ? "Keep playing fresh ladders for as long as you like."
+                  : "A fresh puzzle is generated each time."}
               {currentDailyStreak > 0
                 ? ` Current streak: ${currentDailyStreak} ${currentDailyStreak === 1 ? "day" : "days"}.`
                 : ""}
@@ -266,6 +324,30 @@ export function GameController({ meta }: GameControllerProps) {
             You&apos;ll pick a goal, set limits, then answer a short preference
             quiz. Results come from the fragrance catalog — not a scored test.
           </p>
+        ) : meta.kind === "crime-scene" ? (
+          <div className="space-y-3 text-center text-sm text-muted">
+            <p>
+              Five evidence cards translate real notes and accords into a
+              fictional scene. Wrong guesses reveal the next clue.
+            </p>
+            <p>
+              Solve from the first trace for 100 points. Each extra clue lowers
+              the available score.
+            </p>
+          </div>
+        ) : meta.kind === "twenty-questions" ? (
+          <div className="space-y-3 text-center text-sm text-muted">
+            <p>
+              Your mystery scent is selected from 240 recognizable fragrances.
+              Only questions that still split the candidate pool are shown.
+            </p>
+            <p>
+              Answers may be <strong className="text-foreground">yes</strong>,{" "}
+              <strong className="text-foreground">no</strong>, or{" "}
+              <strong className="text-foreground">unknown</strong> when the
+              catalog has no value.
+            </p>
+          </div>
         ) : meta.kind === "connections" ? (
           <div className="space-y-4">
             <p className="text-center text-sm text-muted">
@@ -356,6 +438,13 @@ export function GameController({ meta }: GameControllerProps) {
       {meta.kind === "multiple-choice" && (
         <MultipleChoiceGame key={gameKey} {...common} pool={pool} rounds={rounds} />
       )}
+      {meta.kind === "fake-or-real" && fakeOrRealRounds && (
+        <FakeOrRealGame
+          key={gameKey}
+          {...common}
+          gameRounds={fakeOrRealRounds}
+        />
+      )}
       {meta.kind === "bracket" && (
         <BracketGame key={gameKey} {...common} pool={pool} size={bracketSize} />
       )}
@@ -385,6 +474,13 @@ export function GameController({ meta }: GameControllerProps) {
           {...common}
           pool={pool}
           variant={challengeVariant}
+        />
+      )}
+      {meta.kind === "crime-scene" && (
+        <FragranceCrimeSceneGame
+          key={gameKey}
+          pool={pool}
+          onPlayAgain={start}
         />
       )}
       {meta.kind === "fragrance-grid" && (
@@ -430,12 +526,33 @@ export function GameController({ meta }: GameControllerProps) {
           variant={challengeVariant}
         />
       )}
+      {meta.kind === "price-ladder" && (
+        <PriceLadderGame
+          key={gameKey}
+          {...common}
+          pool={pool}
+          variant={challengeVariant}
+          difficulty={priceDifficulty}
+        />
+      )}
       {meta.kind === "bottle-silhouette" && (
         <BottleSilhouetteGame
           key={gameKey}
           {...common}
           pool={pool}
           variant={challengeVariant}
+        />
+      )}
+      {meta.kind === "twenty-questions" && (
+        <Fragrance20QuestionsGame key={gameKey} {...common} pool={pool} />
+      )}
+      {meta.kind === "bingo" && (
+        <FragranceBingoGame
+          key={gameKey}
+          {...common}
+          pool={pool}
+          variant={challengeVariant}
+          dateKey={challengeDateKey}
         />
       )}
     </div>

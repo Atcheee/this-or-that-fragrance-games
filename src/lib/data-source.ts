@@ -4,6 +4,7 @@ import type {
 import type { PreparedFragranceGrid } from "@/lib/engines/fragrance-grid";
 import type { OddOneOutRound } from "@/lib/engines/odd-one-out";
 import type { NamingChallenge } from "@/lib/engines/naming";
+import type { FakeOrRealRound } from "@/lib/engines/fake-or-real";
 import type { Fragrance, GameKind, GameModeId } from "./types";
 import { allNotes } from "./types";
 
@@ -34,6 +35,7 @@ export type GameStartResponse = {
   oddOneOutRounds?: OddOneOutRound[];
   oddOneOutSeed?: string;
   namingChallenge?: NamingChallenge;
+  fakeOrRealRounds?: FakeOrRealRound[];
 };
 
 export type StartGameOptions = {

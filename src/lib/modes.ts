@@ -63,6 +63,14 @@ export const MODES: GameModeMeta[] = [
     howTo: "Read a description with the fragrance name and house blacked out, then pick the right fragrance from four options.",
   },
   {
+    id: "fake-or-real",
+    kind: "fake-or-real",
+    title: "Fake or Real?",
+    tagline: "One fragrance exists. One sounds like it should.",
+    howTo:
+      "Study the name, house, description, and note pyramid. Decide whether the concept comes from the real fragrance catalog or was invented to fool you.",
+  },
+  {
     id: "find-favorite",
     kind: "bracket",
     title: "Find Your Favorite",
@@ -100,12 +108,36 @@ export const MODES: GameModeMeta[] = [
       "Guess the exact fragrance from progressively revealed base, heart, top, accord, year, and house clues. Earlier answers score more.",
   },
   {
+    id: "fragrance-crime-scene",
+    kind: "crime-scene",
+    title: "Fragrance Crime Scene",
+    tagline: "Follow the scent trail. Identify the fragrance.",
+    howTo:
+      "Read a fictional case file built from a real fragrance’s notes. Search the catalog, submit suspects, and unlock up to five scent clues. Close the case early for a higher score.",
+  },
+  {
+    id: "fragrance-20-questions",
+    kind: "twenty-questions",
+    title: "Fragrance 20 Questions",
+    tagline: "Ask smart questions. Name the hidden scent.",
+    howTo:
+      "Ask up to 20 structured yes-or-no questions to narrow the catalog, then guess the hidden fragrance. Questions cost 3 points and incorrect guesses cost 12.",
+  },
+  {
     id: "fragrance-grid",
     kind: "fragrance-grid",
     title: "Fragrance Grid",
     tagline: "Find nine fragrances at the intersections.",
     howTo:
       "Fill every cell with a unique fragrance matching both its row and column criteria. Wrong answers consume an attempt.",
+  },
+  {
+    id: "fragrance-bingo",
+    kind: "bingo",
+    title: "Fragrance Bingo",
+    tagline: "Spot scent traits and complete a line.",
+    howTo:
+      "Search fragrances as you browse or play. Every matching condition is marked automatically, or tap a square to mark it manually. Complete a row, column, or diagonal for Bingo — then chase a full card.",
   },
   {
     id: "odd-one-out",
@@ -130,6 +162,14 @@ export const MODES: GameModeMeta[] = [
     tagline: "Put fragrance history in the right order.",
     howTo:
       "Reorder the cards from oldest to newest. Drag them or use the accessible move buttons, then submit your timeline.",
+  },
+  {
+    id: "price-ladder",
+    kind: "price-ladder",
+    title: "Price Ladder",
+    tagline: "Rank the bottles from affordable to extravagant.",
+    howTo:
+      "Arrange four or five fragrances from lowest to highest normalized retail price. Choose a daily or endless ladder and set the difficulty before you start.",
   },
   {
     id: "bottle-silhouette",

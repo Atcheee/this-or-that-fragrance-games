@@ -27,6 +27,9 @@
 .DS_Store
 *.pem
 
+# local temp / scratch
+/tmp/
+
 # local scrape/build tooling + caches (not part of the app)
 /scripts/*
 !/scripts/scrape-scentbase.ts

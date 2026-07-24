@@ -20,6 +20,7 @@ const GROUPS = [
       "has-accord",
       "which-house",
       "guess-description",
+      "fake-or-real",
     ],
   },
   {
@@ -28,10 +29,14 @@ const GROUPS = [
     Icon: PuzzlePiece,
     ids: [
       "fragrance-grid",
+      "fragrance-bingo",
       "note-pyramid",
+      "fragrance-crime-scene",
+      "fragrance-20-questions",
       "odd-one-out",
       "bottle-silhouette",
       "fragrance-timeline",
+      "price-ladder",
       "connections-curated",
       "connections-daily",
     ],

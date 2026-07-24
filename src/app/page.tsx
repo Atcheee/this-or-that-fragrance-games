@@ -12,7 +12,7 @@ export default function Home() {
           Trust <span className="text-accent">your</span> nose.
         </h1>
         <p className="mt-6 max-w-md text-base leading-7 text-muted sm:text-lg">
-          Nineteen games. Different ways to play.
+          Twenty-two games. Different ways to play.
           <br />
           One thing in common: your taste.
         </p>

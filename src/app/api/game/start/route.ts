@@ -6,16 +6,21 @@ const KINDS = new Set<GameKind>([
   "this-or-that",
   "yes-no",
   "multiple-choice",
+  "fake-or-real",
   "bracket",
   "discovery",
   "naming",
   "connections",
   "note-pyramid",
+  "crime-scene",
   "fragrance-grid",
   "odd-one-out",
   "build-an-accord",
   "fragrance-timeline",
+  "price-ladder",
   "bottle-silhouette",
+  "twenty-questions",
+  "bingo",
 ]);
 
 export async function POST(request: Request) {
