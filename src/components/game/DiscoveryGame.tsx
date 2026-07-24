@@ -24,6 +24,8 @@ import { FragranceCard } from "@/components/FragranceCard";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { RoundStage } from "./RoundStage";
 import { useSaveRecord } from "./useSaveRecord";
+import { useAppStore } from "@/lib/store";
+import type { WearOccasion } from "@/lib/types";
 
 type Phase = "goal" | "limits" | "questions" | "results";
 
@@ -52,6 +54,7 @@ export function DiscoveryGame({ meta, pool, onPlayAgain }: DiscoveryGameProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [ranked, setRanked] = useState<ScoredFragrance[]>([]);
   const saveRecord = useSaveRecord();
+  const recordTasteEvent = useAppStore((state) => state.recordTasteEvent);
 
   const candidates = useMemo(() => filteredCount(pool, limits), [pool, limits]);
   const step = QUESTION_STEPS[stepIndex];
@@ -64,6 +67,23 @@ export function DiscoveryGame({ meta, pool, onPlayAgain }: DiscoveryGameProps) {
     const top = rankMatches(pool, limits, answers, 10);
     setRanked(top);
     setPhase("results");
+    const seasons: WearOccasion[] =
+      answers.climate === "fresh"
+        ? ["spring", "summer", "day"]
+        : answers.climate === "warm"
+          ? ["fall", "winter", "night"]
+          : [];
+    recordTasteEvent({
+      type: "profile_answer",
+      gameMode: meta.id,
+      signals: {
+        likedNotes: answers.likedNotes,
+        likedAccords: answers.likedAccords,
+        avoidedNotes: answers.avoid,
+        avoidedAccords: answers.avoid,
+        seasons,
+      },
+    });
 
     const label =
       goal === "notes"

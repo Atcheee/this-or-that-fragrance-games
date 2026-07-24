@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Heart } from "@phosphor-icons/react";
 import {
   isFavoriteFragranceId,
@@ -8,23 +8,25 @@ import {
   type FavoriteFragrance,
 } from "@/lib/favorite-fragrances";
 import { useHydrated } from "@/lib/useHydrated";
+import { useAppStore } from "@/lib/store";
+import type { TasteFragrance } from "@/lib/taste-passport";
 
 type FavoriteTarget = Omit<FavoriteFragrance, "savedAt">;
 
 export function FavoriteButton({
   fragrance,
+  tasteFragrance,
   className = "",
 }: {
   fragrance: FavoriteTarget;
+  tasteFragrance?: TasteFragrance;
   className?: string;
 }) {
   const hydrated = useHydrated();
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    setActive(isFavoriteFragranceId(fragrance.id));
-  }, [fragrance.id, hydrated]);
+  const [active, setActive] = useState(() =>
+    isFavoriteFragranceId(fragrance.id),
+  );
+  const recordTasteEvent = useAppStore((state) => state.recordTasteEvent);
 
   if (!hydrated) {
     return (
@@ -43,6 +45,12 @@ export function FavoriteButton({
       onClick={() => {
         const next = toggleFavoriteFragrance(fragrance);
         setActive(next);
+        if (tasteFragrance) {
+          recordTasteEvent({
+            type: next ? "fragrance_liked" : "fragrance_unliked",
+            primary: tasteFragrance,
+          });
+        }
       }}
       className={`inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors ${
         active

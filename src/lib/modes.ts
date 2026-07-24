@@ -11,6 +11,14 @@ const CONNECTIONS_MODE: GameModeMeta = {
 
 export const MODES: GameModeMeta[] = [
   {
+    id: "scentle",
+    kind: "scentle",
+    title: "Scentle",
+    tagline: "Find today’s fragrance through scent similarity.",
+    howTo:
+      "Search the catalog and make up to eight guesses. Each guess shows note, accord, year, house, rating, and popularity clues. One shared fragrance appears every UTC day.",
+  },
+  {
     id: "higher-rating",
     kind: "this-or-that",
     title: "Higher Rating",

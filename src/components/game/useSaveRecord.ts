@@ -9,6 +9,7 @@ import type { GameRecord } from "@/lib/types";
  */
 export function useSaveRecord() {
   const addRecord = useAppStore((s) => s.addRecord);
+  const recordTasteEvent = useAppStore((s) => s.recordTasteEvent);
 
   return useCallback(
     (record: Omit<GameRecord, "playedAt">): boolean => {
@@ -44,8 +45,13 @@ export function useSaveRecord() {
           : 0;
       const isNewBest = value > (best[record.mode] ?? -1);
       addRecord({ ...record, playedAt: new Date().toISOString() });
+      recordTasteEvent({
+        type: "game_completed",
+        gameMode: record.mode,
+        result: { score: record.score, total: record.total },
+      });
       return isNewBest;
     },
-    [addRecord],
+    [addRecord, recordTasteEvent],
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   clearFavoriteFragrances,
   getFavoriteFragrances,
@@ -13,13 +13,10 @@ export default function SettingsPage() {
   const { apiKey, setApiKey, history, best, clearHistory } = useAppStore();
   const [keyInput, setKeyInput] = useState(() => useAppStore.getState().apiKey);
   const [saved, setSaved] = useState(false);
-  const [favoriteCount, setFavoriteCount] = useState(0);
+  const [favoriteCount, setFavoriteCount] = useState(
+    () => getFavoriteFragrances().length,
+  );
   const hydrated = useHydrated();
-
-  useEffect(() => {
-    if (!hydrated) return;
-    setFavoriteCount(getFavoriteFragrances().length);
-  }, [hydrated]);
 
   if (!hydrated) return null;
 
@@ -86,6 +83,8 @@ export default function SettingsPage() {
                     ? `${best[mode.id]} named`
                     : mode.kind === "connections"
                       ? `${Math.round(best[mode.id]! / 25)}/4 groups`
+                    : mode.kind === "scentle"
+                      ? `${9 - Math.round((best[mode.id]! / 100) * 8)} guesses best`
                     : mode.kind === "bracket" || mode.kind === "discovery"
                       ? "played"
                       : `${best[mode.id]}%`}

@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "tsx scripts/generate-catalog-indexes.ts",
+    "prebuild": "tsx scripts/generate-catalog-indexes.ts && tsx scripts/generate-fragrance-atlas.ts",
     "generate:catalog-indexes": "tsx scripts/generate-catalog-indexes.ts",
+    "generate:atlas": "tsx scripts/generate-fragrance-atlas.ts",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

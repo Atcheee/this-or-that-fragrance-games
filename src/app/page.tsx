@@ -1,5 +1,5 @@
-import { CalendarDots } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { GameIcon } from "@/components/GameIcon";
 import { ModeGrid } from "@/components/ModeGrid";
 
 export default function Home() {
@@ -12,29 +12,29 @@ export default function Home() {
           Trust <span className="text-accent">your</span> nose.
         </h1>
         <p className="mt-6 max-w-md text-base leading-7 text-muted sm:text-lg">
-          Eighteen games. Different ways to play.
+          Nineteen games. Different ways to play.
           <br />
           One thing in common: your taste.
         </p>
       </section>
 
       <Link
-        href="/play/connections-daily"
+        href="/play/scentle"
         prefetch={false}
         className="group flex flex-col gap-5 rounded-2xl border border-accent/30 bg-card px-6 py-5 hover:border-accent sm:flex-row sm:items-center sm:px-8"
       >
         <span className="flex size-16 shrink-0 items-center justify-center text-accent sm:size-20">
-          <CalendarDots aria-hidden size={52} weight="light" />
+          <GameIcon modeId="scentle" size={52} />
         </span>
         <span className="min-w-0 flex-1">
           <span className="inline-flex rounded-full bg-accent-soft px-3 py-1 text-xs font-semibold text-accent">
             Daily
           </span>
           <span className="mt-2 block text-xl font-semibold tracking-tight sm:text-2xl">
-            Daily Connections
+            Scentle
           </span>
           <span className="mt-1 block text-sm text-muted sm:text-base">
-            One shared fragrance puzzle every UTC day.
+            Find today’s hidden fragrance through scent similarity.
           </span>
         </span>
         <span className="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-9 font-semibold text-[#17120a] transition-transform group-hover:-translate-y-0.5 sm:ml-5">

@@ -16,6 +16,8 @@ import {
   continueLabel,
 } from "./AnswerReveal";
 import { useSaveRecord } from "./useSaveRecord";
+import { useAppStore } from "@/lib/store";
+import { fragranceToTasteFragrance } from "@/lib/taste-passport";
 
 interface YesNoGameProps {
   meta: GameModeMeta;
@@ -41,6 +43,7 @@ export function YesNoGame({ meta, pool, rounds, onPlayAgain }: YesNoGameProps) {
   const [done, setDone] = useState(false);
   const [isNewBest, setIsNewBest] = useState(false);
   const saveRecord = useSaveRecord();
+  const recordTasteEvent = useAppStore((state) => state.recordTasteEvent);
 
   const current = gameRounds[index];
 
@@ -48,6 +51,16 @@ export function YesNoGame({ meta, pool, rounds, onPlayAgain }: YesNoGameProps) {
     if (answered !== null || !current) return;
     setAnswered(guess);
     const correct = guess === current.answer;
+    recordTasteEvent({
+      type: "guess",
+      gameMode: meta.id,
+      primary: fragranceToTasteFragrance(current.fragrance),
+      correct,
+      feature: {
+        kind: isNote ? "note" : "accord",
+        value: current.subject,
+      },
+    });
     if (correct) {
       setScore((s) => s + 1);
       setStreak((s) => s + 1);

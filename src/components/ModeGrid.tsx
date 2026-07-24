@@ -33,6 +33,7 @@ const GROUPS = [
       "bottle-silhouette",
       "fragrance-timeline",
       "connections-curated",
+      "connections-daily",
     ],
   },
   {

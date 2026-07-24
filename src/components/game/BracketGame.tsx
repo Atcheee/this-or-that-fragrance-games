@@ -7,6 +7,8 @@ import { FragranceCard, type CardState } from "@/components/FragranceCard";
 import { ResultsSummary } from "@/components/ResultsSummary";
 import { RoundStage } from "./RoundStage";
 import { useSaveRecord } from "./useSaveRecord";
+import { useAppStore } from "@/lib/store";
+import { fragranceToTasteFragrance } from "@/lib/taste-passport";
 
 const PICK_HOLD_MS = 380;
 
@@ -25,6 +27,7 @@ export function BracketGame({ meta, pool, size, onPlayAgain }: BracketGameProps)
   const [champion, setChampion] = useState<Fragrance | null>(null);
   const [pickedId, setPickedId] = useState<string | null>(null);
   const saveRecord = useSaveRecord();
+  const recordTasteEvent = useAppStore((state) => state.recordTasteEvent);
   const busyRef = useRef(false);
 
   const a = currentRound[pairIndex * 2];
@@ -60,6 +63,13 @@ export function BracketGame({ meta, pool, size, onPlayAgain }: BracketGameProps)
 
   function handlePick(winner: Fragrance) {
     if (busyRef.current || pickedId) return;
+    const loser = winner.id === a?.id ? b : a;
+    recordTasteEvent({
+      type: "fragrance_selected",
+      gameMode: meta.id,
+      primary: fragranceToTasteFragrance(winner),
+      secondary: loser ? fragranceToTasteFragrance(loser) : undefined,
+    });
     busyRef.current = true;
     setPickedId(winner.id);
     setTimeout(() => advance(winner), PICK_HOLD_MS);

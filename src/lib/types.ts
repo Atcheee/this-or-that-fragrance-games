@@ -54,7 +54,8 @@ export type GameModeId =
   | "odd-one-out"
   | "build-an-accord"
   | "fragrance-timeline"
-  | "bottle-silhouette";
+  | "bottle-silhouette"
+  | "scentle";
 
 export type GameKind =
   | "this-or-that"
@@ -69,7 +70,8 @@ export type GameKind =
   | "odd-one-out"
   | "build-an-accord"
   | "fragrance-timeline"
-  | "bottle-silhouette";
+  | "bottle-silhouette"
+  | "scentle";
 
 export interface GameModeMeta {
   id: GameModeId;

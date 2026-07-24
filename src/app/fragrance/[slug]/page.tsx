@@ -8,6 +8,7 @@ import { FragranceBottleImage } from "@/components/FragranceBottleImage";
 import { PerfumePyramid } from "@/components/PerfumePyramid";
 import { UserRatings } from "@/components/UserRatings";
 import { primaryBottleSrc } from "@/lib/bottle-images";
+import { fragranceToTasteFragrance } from "@/lib/taste-passport";
 import {
   getFragranceBySlug,
   getPopularFragranceSlugs,
@@ -136,6 +137,7 @@ export default async function FragrancePage({ params }: FragrancePageProps) {
                 ) : null}
               </div>
               <FavoriteButton
+                tasteFragrance={fragranceToTasteFragrance(fragrance)}
                 fragrance={{
                   id: fragrance.id,
                   name: fragrance.name,

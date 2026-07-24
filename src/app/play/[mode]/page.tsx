@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { getMode } from "@/lib/modes";
 import { GameController } from "@/components/game/GameController";
+import { ScentleGame } from "@/components/game/ScentleGame";
 
 export default function PlayPage() {
   const params = useParams<{ mode: string }>();
@@ -18,6 +19,10 @@ export default function PlayPage() {
         </Link>
       </div>
     );
+  }
+
+  if (meta.kind === "scentle") {
+    return <ScentleGame meta={meta} />;
   }
 
   return <GameController meta={meta} />;

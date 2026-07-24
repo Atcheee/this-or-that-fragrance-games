@@ -11,6 +11,7 @@ import {
   LinkSimple,
   ListBullets,
   MagnifyingGlass,
+  FlowerLotus,
   PencilSimpleLine,
   PuzzlePiece,
   Question,
@@ -22,6 +23,7 @@ import {
 import type { Icon } from "@phosphor-icons/react";
 
 const MODE_ICONS: Record<string, Icon> = {
+  scentle: FlowerLotus,
   "higher-rating": Lightning,
   "cost-more": CurrencyCircleDollar,
   "contains-note": Flask,

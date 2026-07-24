@@ -4,6 +4,7 @@ import rawData from "@/data/fragrances.json";
 import { expandBrandSearchTerms } from "@/lib/brand-aliases";
 import type { Fragrance } from "@/lib/types";
 import { allNotes } from "@/lib/types";
+import { scoreFragranceSimilarity } from "@/lib/fragrance-similarity";
 
 export interface CatalogFragrance extends Fragrance {
   slug: string;
@@ -31,6 +32,14 @@ export interface HouseSummary {
 
 export interface HouseCatalog extends HouseSummary {
   fragrances: CatalogFragrance[];
+}
+
+export interface CatalogSimilarity {
+  score: number;
+  rankScore: number;
+  sharedAccords: string[];
+  sharedNotes: string[];
+  sameHouse: boolean;
 }
 
 const fragrances = rawData as Fragrance[];
@@ -285,20 +294,10 @@ export function getRelatedFragrances(
   }
   candidates.delete(fragrance.id);
 
-  const accordKeys = new Set(fragrance.accords.map(searchKey));
-  const noteKeys = new Set(allNotes(fragrance).map(searchKey));
-
   return [...candidates.values()]
     .map((candidate) => {
-      let score = candidate.houseSlug === fragrance.houseSlug ? 18 : 0;
-      score += candidate.accords.filter((accord) =>
-        accordKeys.has(searchKey(accord)),
-      ).length * 7;
-      score += allNotes(candidate).filter((note) =>
-        noteKeys.has(searchKey(note)),
-      ).length * 2;
-      score += Math.min(Math.log10((candidate.votes ?? 0) + 1), 4);
-      return { candidate, score };
+      const similarity = getCatalogSimilarity(fragrance, candidate);
+      return { candidate, score: similarity.rankScore };
     })
     .sort(
       (a, b) =>
@@ -308,6 +307,46 @@ export function getRelatedFragrances(
     )
     .slice(0, Math.max(1, limit))
     .map(({ candidate }) => candidate);
+}
+
+export function getCatalogSimilarity(
+  first: CatalogFragrance,
+  second: CatalogFragrance,
+): CatalogSimilarity {
+  const similarity = scoreFragranceSimilarity(first, second);
+
+  return {
+    score: similarity.scentScore,
+    rankScore: similarity.overallScore,
+    sharedAccords: similarity.sharedAccords,
+    sharedNotes: similarity.sharedNotes,
+    sameHouse: similarity.sameHouse,
+  };
+}
+
+let recommendationCandidates: CatalogFragrance[] | undefined;
+
+export function getRecommendationCandidates(
+  limit = 2500,
+): readonly CatalogFragrance[] {
+  recommendationCandidates ??= [...catalogFragrances]
+    .filter(
+      (fragrance) =>
+        fragrance.rating >= 3.6 &&
+        (fragrance.votes ?? 0) >= 25 &&
+        fragrance.accords.length > 0,
+    )
+    .sort(
+      (a, b) =>
+        Math.log10((b.votes ?? 0) + 1) * b.rating -
+          Math.log10((a.votes ?? 0) + 1) * a.rating ||
+        a.name.localeCompare(b.name),
+    )
+    .slice(0, 5000);
+  return recommendationCandidates.slice(
+    0,
+    Math.max(1, Math.min(limit, recommendationCandidates.length)),
+  );
 }
 
 export function getPopularFragranceSlugs(limit = 250): string[] {

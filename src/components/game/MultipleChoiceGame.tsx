@@ -19,6 +19,8 @@ import {
   continueLabel,
 } from "./AnswerReveal";
 import { useSaveRecord } from "./useSaveRecord";
+import { useAppStore } from "@/lib/store";
+import { fragranceToTasteFragrance } from "@/lib/taste-passport";
 
 interface MultipleChoiceGameProps {
   meta: GameModeMeta;
@@ -49,6 +51,7 @@ export function MultipleChoiceGame({
   const [done, setDone] = useState(false);
   const [isNewBest, setIsNewBest] = useState(false);
   const saveRecord = useSaveRecord();
+  const recordTasteEvent = useAppStore((state) => state.recordTasteEvent);
   const optionRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const revealTlRef = useRef<ReturnType<typeof gsap.timeline> | null>(null);
 
@@ -65,6 +68,15 @@ export function MultipleChoiceGame({
     if (picked !== null || !current) return;
     setPicked(optionIndex);
     const correct = optionIndex === current.answerIndex;
+    recordTasteEvent({
+      type: "guess",
+      gameMode: meta.id,
+      primary: fragranceToTasteFragrance(current.fragrance),
+      correct,
+      feature: isDescription
+        ? undefined
+        : { kind: "house", value: current.options[current.answerIndex] },
+    });
     if (correct) {
       setScore((s) => s + 1);
       setStreak((s) => s + 1);

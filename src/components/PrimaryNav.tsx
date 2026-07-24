@@ -4,7 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ComponentType } from "react";
 import type { IconProps } from "@phosphor-icons/react";
-import { Buildings, Heart } from "@phosphor-icons/react";
+import {
+  Buildings,
+  ChartBar,
+  Heart,
+  IdentificationCard,
+  MapTrifold,
+} from "@phosphor-icons/react";
 import { FragranceBottleIcon } from "@/components/FragranceBottleIcon";
 
 const LINKS: {
@@ -28,10 +34,28 @@ const LINKS: {
       pathname.startsWith("/houses") || pathname.startsWith("/house/"),
   },
   {
+    href: "/atlas",
+    label: "Atlas",
+    icon: MapTrifold,
+    isActive: (pathname) => pathname.startsWith("/atlas"),
+  },
+  {
     href: "/favorites",
     label: "Favorites",
     icon: Heart,
     isActive: (pathname) => pathname.startsWith("/favorites"),
+  },
+  {
+    href: "/collection",
+    label: "Collection",
+    icon: ChartBar,
+    isActive: (pathname) => pathname.startsWith("/collection"),
+  },
+  {
+    href: "/passport",
+    label: "Passport",
+    icon: IdentificationCard,
+    isActive: (pathname) => pathname.startsWith("/passport"),
   },
 ];
 
@@ -43,7 +67,7 @@ export function PrimaryNav() {
       aria-label="Primary navigation"
       className="col-span-3 row-start-3 md:col-span-1 md:col-start-2 md:row-start-1"
     >
-      <div className="grid grid-cols-3 gap-1 rounded-2xl border border-border bg-card p-1 md:flex md:w-auto md:grid-cols-none md:items-center md:gap-0.5 md:rounded-full md:px-1 md:py-1">
+      <div className="grid grid-cols-3 gap-1 rounded-2xl border border-border bg-card p-1 sm:grid-cols-6 md:flex md:w-auto md:grid-cols-none md:items-center md:gap-0.5 md:rounded-full md:px-1 md:py-1">
         {LINKS.map(({ href, label, icon: Icon, isActive }) => {
           const active = isActive(pathname);
           return (

@@ -1,11 +1,12 @@
 # This or That — Fragrance Games
 
-A fragrance knowledge and discovery app with twelve game modes, built with Next.js (App Router), TypeScript and Tailwind CSS.
+A fragrance knowledge and discovery app with nineteen game modes, built with Next.js (App Router), TypeScript and Tailwind CSS.
 
 ## Game modes
 
 | Mode | Type | Description |
 | --- | --- | --- |
+| Scentle | Daily guessing | Find one shared daily fragrance from weighted similarity feedback |
 | Higher Rating | This or that | Pick the fragrance the community rates higher |
 | Does It Cost More? | This or that | Pick the more expensive bottle |
 | Contains This Note? | Yes / no | Is the note in the fragrance's pyramid? |
@@ -48,6 +49,8 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Fraganty API** (optional): request a free key at api@fraganty.ai (docs: [fraganty.ai/api-docs](https://fraganty.ai/api-docs)) and paste it on the Settings page. Compatible modes (Higher Rating, Contains This Note, Has This Main Accord, Find Your Favorite) then draw random pools from Fraganty's 100k+ perfume database via a server-side proxy (`src/app/api/fraganty/pool/route.ts`), falling back to the built-in catalog on any error. Modes that need prices, descriptions or the full local catalog (naming games, house decoys) always use the built-in data.
 
 No database: game history, personal bests and the API key are persisted in `localStorage` (zustand `persist`).
+
+Scentle answers are selected deterministically from a recognizable catalog subset using the UTC date. Guess scoring stays server-side so the answer is not included in the initial browser payload. Its normalized score weights notes (36%), accords (24%), year (14%), house (10%), rating (8%), and vote-count popularity (8%).
 
 ## Security
 

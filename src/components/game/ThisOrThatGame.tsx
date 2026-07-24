@@ -13,6 +13,8 @@ import {
   continueLabel,
 } from "./AnswerReveal";
 import { useSaveRecord } from "./useSaveRecord";
+import { useAppStore } from "@/lib/store";
+import { fragranceToTasteFragrance } from "@/lib/taste-passport";
 
 interface ThisOrThatGameProps {
   meta: GameModeMeta;
@@ -39,6 +41,7 @@ export function ThisOrThatGame({ meta, pool, rounds, onPlayAgain }: ThisOrThatGa
   const [done, setDone] = useState(false);
   const [isNewBest, setIsNewBest] = useState(false);
   const saveRecord = useSaveRecord();
+  const recordTasteEvent = useAppStore((state) => state.recordTasteEvent);
 
   const current = gameRounds[index];
 
@@ -46,6 +49,15 @@ export function ThisOrThatGame({ meta, pool, rounds, onPlayAgain }: ThisOrThatGa
     if (pickedId || !current) return;
     setPickedId(id);
     const correct = id === current.correctId;
+    const picked = current.a.id === id ? current.a : current.b;
+    const other = current.a.id === id ? current.b : current.a;
+    recordTasteEvent({
+      type: "guess",
+      gameMode: meta.id,
+      primary: fragranceToTasteFragrance(picked),
+      secondary: fragranceToTasteFragrance(other),
+      correct,
+    });
     if (correct) {
       setScore((s) => s + 1);
       setStreak((s) => s + 1);
