@@ -29,6 +29,7 @@
 
 # local temp / scratch
 /tmp/
+/qa-artifacts/
 
 # local scrape/build tooling + caches (not part of the app)
 /scripts/*
