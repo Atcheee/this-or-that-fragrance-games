@@ -9,9 +9,16 @@ import path from "node:path";
 const DEFAULT_ATLAS_PATH = "data/fragrance-atlas.json";
 
 const CACHE_HEADERS = {
-  "Content-Type": "application/json",
-  "Cache-Control":
-    "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800",
+  "Content-Type": "application/json; charset=utf-8",
+  // Browsers may recheck hourly. Vercel's CDN keeps the immutable, manually
+  // uploaded atlas for a year so a cold request does not repeatedly invoke
+  // this function and pull the private Blob.
+  "Cache-Control": "public, max-age=3600, stale-while-revalidate=86400",
+  "Vercel-CDN-Cache-Control":
+    "public, s-maxage=31536000, stale-while-revalidate=31536000",
+  // Keep the 44 MB source below Vercel's 20 MB streaming-response cache limit;
+  // otherwise every atlas visit misses CDN cache and retransmits the full Blob.
+  "Content-Encoding": "gzip",
   "X-Content-Type-Options": "nosniff",
 } as const;
 
@@ -93,13 +100,9 @@ async function readAtlasFromBlob(urlOrPathname: string) {
     return null;
   }
 
-  return new NextResponse(result.stream, {
+  return new NextResponse(gzipStream(result.stream), {
     status: 200,
-    headers: {
-      ...CACHE_HEADERS,
-      "Content-Type": result.blob.contentType ?? CACHE_HEADERS["Content-Type"],
-      ...(result.blob.etag ? { ETag: result.blob.etag } : {}),
-    },
+    headers: CACHE_HEADERS,
   });
 }
 
@@ -111,12 +114,25 @@ async function readAtlasFromDisk() {
     "fragrance-atlas.json",
   );
   const body = await readFile(filePath);
-  return new NextResponse(body, {
+  return new NextResponse(gzipStream(new Uint8Array(body)), {
     status: 200,
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
+      ...CACHE_HEADERS,
       "Cache-Control": "public, max-age=60",
-      "X-Content-Type-Options": "nosniff",
     },
   });
+}
+
+function gzipStream(
+  source: ReadableStream<Uint8Array> | Uint8Array,
+): ReadableStream<Uint8Array> {
+  let stream: ReadableStream;
+  if (source instanceof Uint8Array) {
+    const copy = new Uint8Array(source.byteLength);
+    copy.set(source);
+    stream = new Blob([copy.buffer]).stream();
+  } else {
+    stream = source;
+  }
+  return stream.pipeThrough(new CompressionStream("gzip"));
 }

@@ -26,6 +26,14 @@ export async function proxy(request: NextRequest) {
   const config = getSupabasePublicConfig();
   if (!config) return NextResponse.next({ request });
 
+  // Anonymous traffic has no session to refresh. Skipping Supabase here keeps
+  // public pages, APIs, crawlers, and CDN fills from making an auth request on
+  // every hit while preserving refresh behavior for signed-in visitors.
+  const hasSupabaseSession = request.cookies
+    .getAll()
+    .some(({ name }) => /^sb-.+-auth-token(?:\.\d+)?$/.test(name));
+  if (!hasSupabaseSession) return NextResponse.next({ request });
+
   let response = NextResponse.next({ request });
   const supabase = createServerClient(config.url, config.key, {
     cookies: {
@@ -49,6 +57,8 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    // Atlas is public, explicitly CDN-cached, and needs no auth or crawler
+    // middleware. Excluding it also avoids a needless Middleware invocation.
+    "/((?!api/atlas(?:/|$)|_next/|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

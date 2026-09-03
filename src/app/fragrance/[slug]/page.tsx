@@ -31,7 +31,14 @@ interface FragrancePageProps {
   params: Promise<{ slug: string }>;
 }
 
-export const dynamic = "force-dynamic";
+// Catalog data changes only when a new database artifact is deployed. Render
+// each long-tail page once on demand, then let ISR/CDN serve repeat traffic.
+export const dynamicParams = true;
+export const revalidate = 86400;
+
+export function generateStaticParams() {
+  return [];
+}
 
 const getCachedFragranceBySlug = cache(getFragranceBySlug);
 
