@@ -17,10 +17,10 @@ interface HousePageProps {
   params: Promise<{ slug: string }>;
 }
 
-// House collections are public catalog data. Cache each path after its first
-// request instead of serializing the full collection for every crawler hit.
+// Catalog data changes only with a new deployment. Render each selected house
+// once on demand, then keep it cached for that deployment's lifetime.
 export const dynamicParams = true;
-export const revalidate = 86400;
+export const revalidate = false;
 
 export function generateStaticParams() {
   return [];

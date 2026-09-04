@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "Fragrance rankings — Scenthub",
   description:
     "Create reusable ranking templates and arrange fragrances into ordered tiers.",
+  alternates: { canonical: "/rankings" },
 };
 
 export default async function RankingsPage() {

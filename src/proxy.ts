@@ -69,7 +69,8 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     // Atlas is public, explicitly CDN-cached, and needs no auth or crawler
-    // middleware. Excluding it also avoids a needless Middleware invocation.
-    "/((?!api/atlas(?:/|$)|_next/|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    // middleware. Static metadata and image requests also bypass Middleware,
+    // avoiding an invocation for every robots or sitemap fetch.
+    "/((?!api/atlas(?:/|$)|_next/|favicon.ico|robots.txt|sitemap.xml|fragrance/sitemap/|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

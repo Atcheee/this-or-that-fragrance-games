@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   title: "Create a ranking template — Scenthub",
   description:
     "Build a reusable fragrance ranking template with custom images and tiers.",
+  alternates: { canonical: "/rankings/create" },
+  robots: { index: false, follow: true },
 };
 
 export default function CreateRankingTemplatePage() {

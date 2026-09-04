@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  GoogleAnalytics,
+  GoogleTagManager,
+} from "@next/third-parties/google";
 import "./globals.css";
 import { JsonLd } from "@/components/JsonLd";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -15,6 +19,10 @@ import {
 } from "@/lib/site";
 
 const title = "Scenthub — Fragrance Catalog, Comparisons & Games";
+const googleSiteVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
+const googleTagManagerId =
+  process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID?.trim();
+const googleAnalyticsId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID?.trim();
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -72,6 +80,9 @@ export const metadata: Metadata = {
     title,
     description: SITE_DESCRIPTION,
   },
+  verification: googleSiteVerification
+    ? { google: googleSiteVerification }
+    : undefined,
 };
 
 const siteSchema = {
@@ -96,17 +107,10 @@ const siteSchema = {
       "@id": absoluteUrl("/#website"),
       url: SITE_URL,
       name: SITE_NAME,
+      alternateName: "scenthub.se",
       description: SITE_DESCRIPTION,
       inLanguage: "en",
       publisher: { "@id": absoluteUrl("/#organization") },
-      potentialAction: {
-        "@type": "SearchAction",
-        target: {
-          "@type": "EntryPoint",
-          urlTemplate: `${absoluteUrl("/fragrances")}?q={search_term_string}`,
-        },
-        "query-input": "required name=search_term_string",
-      },
     },
   ],
 };
@@ -122,6 +126,9 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${plusJakarta.variable} ${fraunces.variable} ${ibmPlexMono.variable} dark h-full antialiased`}
     >
+      {googleTagManagerId ? (
+        <GoogleTagManager gtmId={googleTagManagerId} />
+      ) : null}
       <body className="flex min-h-full flex-col font-sans font-medium">
         <a
           href="#main-content"
@@ -164,6 +171,9 @@ export default function RootLayout({
           </nav>
         </footer>
       </body>
+      {!googleTagManagerId && googleAnalyticsId ? (
+        <GoogleAnalytics gaId={googleAnalyticsId} />
+      ) : null}
     </html>
   );
 }

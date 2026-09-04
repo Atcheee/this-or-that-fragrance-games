@@ -28,7 +28,5 @@ export default async function sitemap({
 
   return slugs.map((slug) => ({
     url: absoluteUrl(`/fragrance/${slug}`),
-    changeFrequency: "monthly",
-    priority: 0.6,
   }));
 }

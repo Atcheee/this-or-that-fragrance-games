@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   title: "Rank fragrances — Scenthub",
   description:
     "Drag fragrances into ordered tiers, customize the board, and export your ranking.",
+  alternates: { canonical: "/rankings/board" },
+  robots: { index: false, follow: true },
 };
 
 export default async function RankingBoardPage({

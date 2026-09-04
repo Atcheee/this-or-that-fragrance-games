@@ -43,7 +43,9 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/"],
+        // Search/filter/pagination state already canonicalizes to its clean
+        // route. Blocking query URLs prevents combinatorial crawler traffic.
+        disallow: ["/api/", "/*?*"],
       },
     ],
     sitemap: [absoluteUrl("/sitemap.xml"), ...fragranceSitemaps],

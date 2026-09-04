@@ -8,6 +8,7 @@ import { all } from "@/lib/catalog-db";
 // of on-demand pages in a few hours.
 export const FRAGRANCE_SITEMAP_LIMIT = 5_000;
 export const FRAGRANCE_SITEMAP_SIZE = 5_000;
+export const HOUSE_SITEMAP_LIMIT = 1_000;
 
 export async function getFragranceSlugPage(
   page: number,
@@ -28,10 +29,13 @@ export async function getFragranceSlugPage(
   ).map((row) => row.slug);
 }
 
-export async function getAllHouseSlugs(): Promise<string[]> {
+export async function getSitemapHouseSlugs(): Promise<string[]> {
   return (
     await all<{ slug: string }>(
-      "SELECT slug FROM house ORDER BY fragrance_count DESC, name",
+      `SELECT slug FROM house
+       ORDER BY fragrance_count DESC, name
+       LIMIT ?`,
+      HOUSE_SITEMAP_LIMIT,
     )
   ).map((row) => row.slug);
 }
