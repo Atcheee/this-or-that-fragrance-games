@@ -32,9 +32,11 @@ interface FragrancePageProps {
 }
 
 // Catalog data changes only when a new database artifact is deployed. Render
-// each long-tail page once on demand, then let ISR/CDN serve repeat traffic.
+// each long-tail page once on demand, then keep it cached for the lifetime of
+// the deployment. A timed revalidation makes crawlers rewrite thousands of
+// otherwise immutable pages every day.
 export const dynamicParams = true;
-export const revalidate = 86400;
+export const revalidate = false;
 
 export function generateStaticParams() {
   return [];

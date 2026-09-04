@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getCatalogSize } from "@/lib/catalog";
 import {
+  FRAGRANCE_SITEMAP_LIMIT,
   FRAGRANCE_SITEMAP_SIZE,
   getFragranceSlugPage,
 } from "@/lib/catalog-sitemap";
@@ -10,7 +11,7 @@ export async function generateSitemaps() {
   const count = await getCatalogSize();
   const sitemapCount = Math.max(
     1,
-    Math.ceil(count / FRAGRANCE_SITEMAP_SIZE),
+    Math.ceil(Math.min(count, FRAGRANCE_SITEMAP_LIMIT) / FRAGRANCE_SITEMAP_SIZE),
   );
 
   return Array.from({ length: sitemapCount }, (_, id) => ({ id }));

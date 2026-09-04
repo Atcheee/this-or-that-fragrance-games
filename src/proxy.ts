@@ -6,6 +6,17 @@ const BLOCKED_CRAWLER_USER_AGENTS = [
   "claudebot",
   "claude-searchbot",
   "gptbot",
+  "oai-searchbot",
+  "chatgpt-user",
+  "baiduspider",
+  "bytespider",
+  "meta-externalagent",
+  "ahrefsbot",
+  "semrushbot",
+  "mj12bot",
+  "dotbot",
+  "petalbot",
+  "yandexbot",
 ];
 
 export async function proxy(request: NextRequest) {
